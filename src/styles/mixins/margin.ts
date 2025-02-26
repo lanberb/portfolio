@@ -1,4 +1,6 @@
-import { css, type RuleSet, type CSSProperties } from "styled-components";
+import { type SerializedStyles, css } from "@emotion/react";
+import type { CSSProperties } from "react";
+import { px } from "../helpers";
 
 export interface MarginProps {
   m?: CSSProperties["margin"];
@@ -6,6 +8,8 @@ export interface MarginProps {
   ml?: CSSProperties["marginLeft"];
   mr?: CSSProperties["marginRight"];
   mb?: CSSProperties["marginBottom"];
+  my?: CSSProperties["marginBlock"];
+  mx?: CSSProperties["marginInline"];
 }
 
 export const margins = ({
@@ -14,10 +18,14 @@ export const margins = ({
   ml = 0,
   mr = 0,
   mt = 0,
-}: MarginProps): RuleSet => css`
-  margin: ${m};
-  margin-top: ${mt};
-  margin-left: ${ml};
-  margin-right: ${mr};
-  margin-bottom: ${mb};
+  my = 0,
+  mx = 0,
+}: MarginProps): SerializedStyles => css`
+  ${m && `margin: ${px(m)}`};
+  ${mt && `margin-top: ${px(mt)}`};
+  ${ml && `margin-left: ${px(ml)}`};
+  ${mr && `margin-right: ${px(mr)}`};
+  ${mb && `margin-bottom: ${px(mb)}`};
+  ${mx && `margin-inline: ${px(mx)}`};
+  ${my && `margin-block: ${px(my)}`};
 `;

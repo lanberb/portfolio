@@ -1,26 +1,30 @@
-import { css, type CSSProperties, type RuleSet } from "styled-components";
+import { type SerializedStyles, css } from "@emotion/react";
+import type { CSSProperties } from "react";
 
 export interface StackProps {
   direction?: CSSProperties["flexDirection"];
   wrap?: CSSProperties["flexWrap"];
   gap?: number;
+  alignContent?: CSSProperties["alignContent"];
   alignItems?: CSSProperties["alignItems"];
   justifyContent?: CSSProperties["justifyContent"];
 }
 
 export const stack = ({
-  direction = "row",
-  wrap = "nowrap",
-  gap = 0,
-  alignItems = "start",
-  justifyContent = "start",
-}: StackProps): RuleSet => css`
+  direction,
+  wrap,
+  gap,
+  alignContent,
+  alignItems,
+  justifyContent,
+}: StackProps): SerializedStyles => css`
   display: flex;
-  flex-direction: ${direction};
-  flex-wrap: ${wrap};
-  gap: ${gap}px;
-  align-items: ${alignItems};
-  justify-content: ${justifyContent};
+  ${direction && `flex-direction: ${direction}`};
+  ${wrap && `flex-wrap: ${wrap}`};
+  ${gap && `gap: ${gap}px`};
+  ${alignContent && `align-content: ${alignContent}`};
+  ${alignItems && `align-items: ${alignItems}`};
+  ${justifyContent && `justify-content: ${justifyContent}`};
 `;
 
 export interface StackItemProps {
@@ -33,18 +37,17 @@ export interface StackItemProps {
 }
 
 export const stackItem = ({
-  alignSelf = "inherit",
-  basis = "auto",
-  shrink = 1,
-  grow = 0,
-  justifySelf = "inherit",
+  alignSelf,
+  basis,
+  shrink,
+  grow,
+  justifySelf,
   order,
-}: StackItemProps): RuleSet => css`
-  flex-basis: ${basis};
-  flex-grow: ${grow};
-  flex-shrink: ${shrink};
-  align-self: ${alignSelf};
-  justify-content: ${justifySelf};
-
-  ${order ? `order: ${order};` : ""}
+}: StackItemProps): SerializedStyles => css`
+  ${basis && `flex-basis: ${basis}`};
+  ${grow && `flex-grow: ${grow}`};
+  ${shrink && `flex-shrink: ${shrink}`};
+  ${alignSelf && `align-self: ${alignSelf}`};
+  ${justifySelf && `justify-content: ${justifySelf}`};
+  ${order && `order: ${order}`};
 `;
