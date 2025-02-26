@@ -8,10 +8,10 @@ import {
   paddings,
   stack,
 } from "@/styles/mixins";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 interface Props extends BaseProps, MarginProps, PaddingProps, StackProps {
-  as?: JSX.IntrinsicElements;
+  as?: keyof JSX.IntrinsicElements;
 }
 
 export const Stack = styled.div<Props>`
