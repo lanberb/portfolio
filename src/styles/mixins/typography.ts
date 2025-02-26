@@ -1,29 +1,28 @@
-import { css, type CSSProperties, type RuleSet } from "styled-components";
+import { type SerializedStyles, css } from "@emotion/react";
+import type { CSSProperties } from "react";
+import type { FontFamily, LineHeight } from "../theme";
 
 export interface TypographyProps {
-  color?: CSSProperties["color"];
-  fz?: number;
+  fz?: CSSProperties["fontSize"];
   fw?: CSSProperties["fontWeight"];
-  ff?: CSSProperties["fontFamily"];
+  ff?: FontFamily;
   ta?: CSSProperties["textAlign"];
   va?: CSSProperties["verticalAlign"];
   ws?: CSSProperties["whiteSpace"];
-  lh?: `${number}%`;
-  ls?: number;
+  lh?: LineHeight;
+  ls?: CSSProperties["letterSpacing"];
 }
 
 export const typography = ({
-  color = "inherit",
   fz,
   fw,
   ff,
   ta,
   va,
   ws,
-  lh,
+  lh = "100%",
   ls,
-}: TypographyProps): RuleSet => css`
-  color: ${color};
+}: TypographyProps): SerializedStyles => css`
   ${fz && `font-size: ${fz}`};
   ${fw && `font-weight: ${fw}`};
   ${ff && `font-family: ${ff}`};
