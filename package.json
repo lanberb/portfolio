@@ -10,20 +10,21 @@
     "scaffold": "scaffdog generate"
   },
   "dependencies": {
-    "next": "14.2.4",
-    "react": "^18",
-    "react-dom": "^18",
-    "scaffdog": "^4.0.0",
-    "styled-reset": "^4.5.2"
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "three": "^0.173.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/styled-components": "^5.1.34",
-    "babel-plugin-styled-components": "^2.1.4",
-    "styled-components": "^6.1.11",
+    "@types/three": "^0.173.0",
+    "scaffdog": "^4.0.0",
     "typescript": "^5"
   }
 }
