@@ -1,5 +1,4 @@
 import { protocol } from "@/lib/router/routes";
-import { createGlobalStyles } from "@/styles/globalStyles";
 import {
   type BaseProps,
   type MarginProps,
@@ -10,7 +9,6 @@ import {
   paddings,
   typography,
 } from "@/styles/mixins";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import InternalLink from "next/link";
 import type { FC, PropsWithChildren } from "react";

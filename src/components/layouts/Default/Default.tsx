@@ -1,5 +1,5 @@
-import { Box } from "@/components/unit/Box";
 import { HeaderNav } from "@/components/sections/HeaderNav";
+import { Box } from "@/components/unit/Box";
 import { createGlobalStyles } from "@/styles/globalStyles";
 import { Global } from "@emotion/react";
 import Head from "next/head";

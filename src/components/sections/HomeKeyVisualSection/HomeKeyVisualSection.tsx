@@ -1,36 +1,26 @@
-import { Canvas } from "@/components/unit/Canvas";
-import {
-  type FC,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
-import {
-  Group,
-  Scene,
-  PointLight,
-  AmbientLight,
-  Vector3,
-  HemisphereLight,
-  Box3,
-  MeshBasicMaterial,
-  type Object3DEventMap,
-  type Mesh,
-  type BufferGeometry,
-  type Object3D,
-  AxesHelper,
-  Color,
-  Vector2,
-  Raycaster,
-} from "three";
+import { useCanvas } from "@/components/hooks/useCanvas";
+import { useInterval } from "@/components/hooks/useInterval";
 import { useRenderer } from "@/components/hooks/useRenderer";
 import { useResize } from "@/components/hooks/useResize";
-import { GLTFLoader, OrbitControls } from "three/examples/jsm/Addons.js";
-import { useCamera } from "../../hooks/useCamera";
-import { useWindow } from "@/components/hooks/useWindow";
-import { useCanvas } from "@/components/hooks/useCanvas";
 import { useTheme } from "@/components/hooks/useTheme";
-import { useInterval } from "@/components/hooks/useInterval";
+import { useWindow } from "@/components/hooks/useWindow";
+import { type FC, useCallback, useEffect, useRef } from "react";
+import {
+  Box3,
+  type BufferGeometry,
+  Color,
+  Group,
+  type Mesh,
+  MeshBasicMaterial,
+  type Object3D,
+  type Object3DEventMap,
+  Raycaster,
+  Scene,
+  Vector2,
+  Vector3,
+} from "three";
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { useCamera } from "../../hooks/useCamera";
 
 const scene = new Scene();
 const gltfLoader = new GLTFLoader();
@@ -46,7 +36,7 @@ const darkModeWireColor = new Color(0xbdbdbd);
 const wireMeshMaterial = new MeshBasicMaterial({
   wireframe: true,
   transparent: true,
-  opacity: 1
+  opacity: 1,
 });
 
 const flushWireMaterial = () => {
@@ -55,10 +45,9 @@ const flushWireMaterial = () => {
   } else {
     wireMeshMaterial.opacity = 0.8;
   }
-}
+};
 
 export const HomeKeyVisualSection: FC = () => {
-  console.log(scene);
   const cielRef = useRef<Object3D | null>(null);
 
   const theme = useTheme();
@@ -71,7 +60,8 @@ export const HomeKeyVisualSection: FC = () => {
     position: new Vector3(0, 0, 32),
   });
 
-  const wireColor = theme?.mode === "light" ? lightModeWireColor : darkModeWireColor;
+  const wireColor =
+    theme?.mode === "light" ? lightModeWireColor : darkModeWireColor;
 
   const rendering = useCallback(() => {
     if (renderer == null) {
@@ -84,7 +74,7 @@ export const HomeKeyVisualSection: FC = () => {
 
   const handleOnLoad = useCallback(async () => {
     wireMeshMaterial.color = wireColor;
-    flushWireMaterial();
+    // flushWireMaterial();
     renderer?.setSize(innerWidth, innerHeight);
 
     const GLTFModel = await gltfLoader.loadAsync("/assets/hand.gltf");
@@ -92,15 +82,19 @@ export const HomeKeyVisualSection: FC = () => {
 
     /**
      * @see https://discourse.threejs.org/t/gltf-scene-traverse-property-ismesh-does-not-exist-on-type-object3d/27212
-    */
+     */
     model.traverse((object) => {
-      const obj = object as Mesh<BufferGeometry, MeshBasicMaterial, Object3DEventMap>;
+      const obj = object as Mesh<
+        BufferGeometry,
+        MeshBasicMaterial,
+        Object3DEventMap
+      >;
       if (obj.isMesh) {
         obj.material = wireMeshMaterial;
       }
     });
 
-    box.setFromObject(model)
+    box.setFromObject(model);
 
     box.getSize(size);
 
@@ -128,7 +122,7 @@ export const HomeKeyVisualSection: FC = () => {
     camera.updateProjectionMatrix();
   }, [renderer, innerWidth, innerHeight, camera]);
 
-  useInterval({ fn: flushWireMaterial, delay: 30 });
+  // useInterval({ fn: flushWireMaterial, delay: 30 });
   useEffect(() => {
     if (renderer == null) {
       return;
@@ -139,8 +133,8 @@ export const HomeKeyVisualSection: FC = () => {
 
     return () => {
       renderer.dispose(); // レンダラーのメモリ解放
-    }
+    };
   }, [renderer, handleOnLoad, setResizeFn, handleOnResize]);
 
   return null;
-}
+};
