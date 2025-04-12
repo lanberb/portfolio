@@ -1,11 +1,11 @@
-import { Link } from "@/components/unit/Link";
-import { Stack } from "@/components/unit/Stack";
-import { Text } from "@/components/unit/Text";
 import { useI18n } from "@/components/hooks/useI18n";
 import { useTheme } from "@/components/hooks/useTheme";
 import { DarkModeIcon } from "@/components/icons/darkMode";
 import { LightModeIcon } from "@/components/icons/lightMode";
 import { SegmentControl } from "@/components/molecules/SegmentControl";
+import { Link } from "@/components/unit/Link";
+import { Stack } from "@/components/unit/Stack";
+import { Text } from "@/components/unit/Text";
 import type { LocaleKey } from "@/lib/i18n/localize";
 import { MAIL_ADDRESS } from "@/lib/mail/address";
 import { routes } from "@/lib/router/routes";
@@ -17,7 +17,7 @@ import { type FC, useCallback } from "react";
 
 const navRoutes: (keyof typeof routes)[] = [
   "about",
-  "works",
+  "blog",
   "gallery",
   "contact",
 ];

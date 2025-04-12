@@ -1,10 +1,6 @@
-import { base, type BaseProps } from "@/styles/mixins";
+import { type BaseProps, base } from "@/styles/mixins";
 import styled from "@emotion/styled";
-import {
-  forwardRef,
-  useEffect,
-  useRef
-} from "react";
+import { forwardRef, useEffect, useRef } from "react";
 
 type Props = BaseProps;
 
