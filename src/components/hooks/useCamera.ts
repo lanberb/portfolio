@@ -22,7 +22,7 @@ const defaultCamera = new PerspectiveCamera(
   defaultCameraOptions.fov,
   defaultCameraOptions.aspect,
   defaultCameraOptions.near,
-  defaultCameraOptions.far,
+  defaultCameraOptions.far
 );
 
 export const useCamera = (props: UseCameraProps) => {
@@ -38,7 +38,7 @@ export const useCamera = (props: UseCameraProps) => {
       camera.current.position.set(
         props.position.x ?? defaultCameraOptions.position.x,
         props.position.y ?? defaultCameraOptions.position.y,
-        props.position.z ?? defaultCameraOptions.position.z,
+        props.position.z ?? defaultCameraOptions.position.z
       );
     }
 
@@ -46,7 +46,7 @@ export const useCamera = (props: UseCameraProps) => {
       camera.current.lookAt(
         props.lookAt.x ?? defaultCameraOptions.lookAt.x,
         props.lookAt.y ?? defaultCameraOptions.lookAt.y,
-        props.lookAt.z ?? defaultCameraOptions.lookAt.z,
+        props.lookAt.z ?? defaultCameraOptions.lookAt.z
       );
     }
 
