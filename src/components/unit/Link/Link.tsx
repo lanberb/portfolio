@@ -10,8 +10,8 @@ import {
   typography,
 } from "@/styles/mixins";
 import styled from "@emotion/styled";
-import InternalLink from "next/link";
 import type { FC, PropsWithChildren } from "react";
+import { Link as InternalLink } from "react-router-dom";
 import { Text } from "../Text";
 
 interface Props extends TypographyProps, BaseProps, MarginProps, PaddingProps {
@@ -19,10 +19,10 @@ interface Props extends TypographyProps, BaseProps, MarginProps, PaddingProps {
 }
 
 const ExternalLink = styled.a<Props>`
-${base};
-${typography};
-${margins};
-${paddings};
+  ${base};
+  ${typography};
+  ${margins};
+  ${paddings};
 `;
 
 export const Link: FC<PropsWithChildren<Props>> = ({
@@ -48,7 +48,7 @@ export const Link: FC<PropsWithChildren<Props>> = ({
   }
 
   return (
-    <InternalLink href={href} prefetch>
+    <InternalLink to={href}>
       <Text as="span" {...rest}>
         {children}
       </Text>

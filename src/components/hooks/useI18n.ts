@@ -1,13 +1,12 @@
 import { type LocaleKey, localeKeyMap } from "@/lib/i18n/localize";
-import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
 const getLang = (locale: string | undefined): LocaleKey => {
   switch (locale) {
-    case "ja":
-      return "ja";
-    default:
+    case "en":
       return "en";
+    default:
+      return "ja";
   }
 };
 
@@ -18,7 +17,8 @@ interface I18nState {
 }
 
 export const useI18n = (): I18nState => {
-  const router = useRouter();
+  // TODO: useRouter()の代替を用意する
+  const router = { locale: "ja" };
   const lang = getLang(router.locale);
 
   const [currentLang, setCurrentLang] = useState<LocaleKey>(lang);
