@@ -1,8 +1,7 @@
-import { Box } from "@/components/unit/Box";
 import { Stack } from "@/components/unit/Stack";
-import { themeKeyMap } from "@/styles/theme";
+import { Text } from "@/components/unit/Text";
 import styled from "@emotion/styled";
-import { type FC, type FormEvent, useCallback } from "react";
+import { type FC, type FormEvent, type ReactElement, useCallback } from "react";
 
 const Item = styled(Stack)`
   &:not(:last-of-type)::after {
@@ -11,7 +10,6 @@ const Item = styled(Stack)`
     margin-left: 12px;
     height: 12px;
     width: 1px;
-    background-color: var(${themeKeyMap.dark.surface.primaryDisabled});
   }
 `;
 
@@ -21,10 +19,12 @@ const _HiddenInput = styled.input`
   opacity: 0;
 `;
 
-const Label = styled.label<{ selected: boolean }>`
-  color: var(${({ theme, selected }) => {
-    return selected ? theme.text.primary : theme.text.primaryDisabled;
-  }});
+const Label = styled(Text)<{ selected: boolean }>`
+  color: var(
+    ${({ theme, selected }) => {
+      return selected ? theme.text.primary : theme.text.primaryDisabled;
+    }}
+  );
   display: inline-flex;
   align-items: center;
 
@@ -34,7 +34,7 @@ const Label = styled.label<{ selected: boolean }>`
 `;
 
 interface Props {
-  items: [JSX.Element, JSX.Element];
+  items: [ReactElement, ReactElement];
   name: string;
   defaultKey: string | undefined;
   onSelect: (key: string) => void;
@@ -67,7 +67,12 @@ export const SegmentControl: FC<Props> = ({
               id={value}
               onInput={handleOnInput}
             />
-            <Label selected={value === defaultKey} htmlFor={value}>
+            <Label
+              as="label"
+              selected={value === defaultKey}
+              htmlFor={value}
+              fz={14}
+            >
               {item}
             </Label>
           </Item>

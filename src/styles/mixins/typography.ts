@@ -1,7 +1,7 @@
 import { type SerializedStyles, css } from "@emotion/react";
 import type { CSSProperties } from "react";
-import type { FontFamily, LineHeight } from "../theme";
 import { px } from "../helpers";
+import type { FontFamily, LineHeight } from "../theme";
 
 export interface TypographyProps {
   fz?: CSSProperties["fontSize"];
@@ -17,7 +17,7 @@ export interface TypographyProps {
 export const typography = ({
   fz,
   fw,
-  ff,
+  ff = "Roboto Flex",
   ta,
   va,
   ws,
