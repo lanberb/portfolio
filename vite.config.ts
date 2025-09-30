@@ -7,19 +7,19 @@ export default defineConfig({
   plugins: [
     react({
       jsxImportSource: "@emotion/react",
-      babel: {
-        plugins: ["@emotion/babel-plugin"],
-      },
     }),
   ],
-  ssgOptions: {
-    script: "async",
-    formatting: "minify",
-  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
       "@/components": path.resolve(__dirname, "src/components"),
     },
+  },
+  build: {
+    outDir: "dist/client",
+  },
+  ssr: {
+    // SSRビルド時の外部化設定
+    noExternal: ["@emotion/react", "@emotion/styled"],
   },
 });
