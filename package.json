@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite-ssg build",
+    "build:spa": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "biome check --write ./src",
     "scaffold": "scaffdog generate"
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
+    "@emotion/babel-plugin": "^11.13.5",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^19.1.13",
@@ -28,6 +30,7 @@
     "@types/three": "^0.173.0",
     "@vitejs/plugin-react": "^5.0.3",
     "globals": "^16.4.0",
+    "puppeteer": "^24.22.3",
     "scaffdog": "^4.0.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.44.0",

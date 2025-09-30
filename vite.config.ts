@@ -4,11 +4,17 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  build: {
-    rollupOptions: {
-      input: path.resolve(__dirname, "src/components/app/main.tsx"),
-    },
+  plugins: [
+    react({
+      jsxImportSource: "@emotion/react",
+      babel: {
+        plugins: ["@emotion/babel-plugin"],
+      },
+    }),
+  ],
+  ssgOptions: {
+    script: "async",
+    formatting: "minify",
   },
   resolve: {
     alias: {
