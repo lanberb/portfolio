@@ -1,4 +1,4 @@
-import { type RefObject, useCallback, useEffect, useState } from "react";
+import type { RefObject } from "react";
 import { WebGLRenderer } from "three";
 
 interface Props {
