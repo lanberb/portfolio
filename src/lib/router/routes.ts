@@ -9,4 +9,5 @@ export const routes = {
   blog: "/blog",
   gallery: "/gallery",
   contact: "/contact",
+  vote: "/vote",
 };
