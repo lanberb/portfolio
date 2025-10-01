@@ -2,6 +2,35 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## 🚀 本番環境デプロイ (Production POC)
+
+本番環境でViteアプリケーションを動かすためのPOCが実装されています。
+
+### クイックスタート
+
+```bash
+# 開発環境
+pnpm install
+pnpm dev
+
+# 本番環境テスト
+./test-production.sh
+
+# ローカルで本番ビルド起動
+pnpm run build
+pnpm start
+
+# Docker で起動
+pnpm run docker:up:build
+
+# Docker + Nginx で起動
+pnpm run docker:nginx:up
+```
+
+詳細は [PRODUCTION_SETUP.md](./PRODUCTION_SETUP.md) を参照してください。
+
+---
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh

@@ -1,20 +1,24 @@
 version: '3.8'
 
 services:
-  vite-app:
+  vote-app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: vite-production
+    container_name: vote-production
     ports:
-      - "3000:3000"
+      - "8080:80"
+    restart: unless-stopped
     environment:
       - NODE_ENV=production
-      - PORT=3000
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+    networks:
+      - vote-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  vote-network:
+    driver: bridge
