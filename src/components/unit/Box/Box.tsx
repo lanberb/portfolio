@@ -7,10 +7,9 @@ import {
   paddings,
 } from "@/styles/mixins";
 import styled from "@emotion/styled";
-import type { ElementType } from "react";
 
 interface Props extends BaseProps, MarginProps, PaddingProps {
-  as?: ElementType;
+  as?: keyof JSX.IntrinsicElements;
 }
 
 export const Box = styled.div<Props>`
