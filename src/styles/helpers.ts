@@ -7,3 +7,13 @@ export const px = (value: number | string): string => {
 
   return token;
 };
+
+export const deg = (value: number): string => {
+  let token = value.toString();
+
+  if (typeof value === "number") {
+    token = `${value}deg`;
+  }
+
+  return token;
+};

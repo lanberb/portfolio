@@ -46,5 +46,6 @@ export const themeKeyMap: Record<ThemeMode, Theme> = {
 
 export type Color = keyof Theme["text"];
 export type BackgroundColor = keyof Theme["surface"];
+export type BorderColor = keyof Theme["surface"];
 export type FontFamily = "Roboto Flex" | "Zen Old Mincho";
 export type LineHeight = "100%" | "140%" | "180%";

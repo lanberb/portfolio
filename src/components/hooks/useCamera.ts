@@ -18,12 +18,7 @@ const defaultCameraOptions: Required<UseCameraProps> = {
   position: new Vector3(0, 0, 0),
   lookAt: new Vector3(0, 0, 0),
 };
-const defaultCamera = new PerspectiveCamera(
-  defaultCameraOptions.fov,
-  defaultCameraOptions.aspect,
-  defaultCameraOptions.near,
-  defaultCameraOptions.far,
-);
+const defaultCamera = new PerspectiveCamera(defaultCameraOptions.fov, defaultCameraOptions.aspect, defaultCameraOptions.near, defaultCameraOptions.far);
 
 export const useCamera = (props: UseCameraProps) => {
   const camera = useRef(defaultCamera);

@@ -19,8 +19,10 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
   const onChange = useCallback((mode: ThemeMode) => {
     setThemeMode(mode);
 
-    // FOUC防止目的でGlobalStyleで定義されたbodyの背景色を切り替える
+    // Flash of Unstyled Content防止目的でGlobalStyleで定義されたbodyの背景色を切り替える
     document.body.style.backgroundColor = `var(--theme-${mode}-color-surface-primary)`;
+    // bodyのスタイルを動的に切り替えられるようにdatasetに設定する
+    document.body.dataset.themeMode = mode;
   }, []);
 
   const onChangeSystemThemeColor = useCallback(
@@ -29,7 +31,7 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
         onChange(mode);
       }
     },
-    [onChange],
+    [onChange]
   );
 
   const themeState: ThemeState = {
@@ -37,6 +39,13 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
     mode: themeMode,
     onChange,
   };
+
+  const handleOnChangeSystemThemeColorLight = useCallback(() => {
+    setThemeMode("light");
+  }, []);
+  const handleOnChangeSystemThemeColorDark = useCallback(() => {
+    setThemeMode("dark");
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -51,25 +60,19 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
       // デバイスのtheme切り替えを検知して同期する
       window
         .matchMedia(PrefersColorScheme.light)
-        .addEventListener("change", (e) =>
-          onChangeSystemThemeColor(e, "light"),
-        );
+        .addEventListener("change", handleOnChangeSystemThemeColorLight);
       window
         .matchMedia(PrefersColorScheme.dark)
-        .addEventListener("change", (e) => onChangeSystemThemeColor(e, "dark"));
+        .addEventListener("change", handleOnChangeSystemThemeColorDark);
     }
 
     return () => {
       window
         .matchMedia(PrefersColorScheme.light)
-        .removeEventListener("change", (e) =>
-          onChangeSystemThemeColor(e, "light"),
-        );
+        .removeEventListener("change", handleOnChangeSystemThemeColorLight);
       window
         .matchMedia(PrefersColorScheme.dark)
-        .removeEventListener("change", (e) =>
-          onChangeSystemThemeColor(e, "dark"),
-        );
+        .removeEventListener("change", handleOnChangeSystemThemeColorDark);
     };
   }, [onChangeSystemThemeColor]);
 

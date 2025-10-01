@@ -39,18 +39,20 @@ export const base = ({
   zIndex,
 }: BaseProps): SerializedStyles => {
   return css`
-    ${color && `color: var(${theme?.text?.[color]})`};
-    ${backgroundColor && `background-color: var(${theme?.surface?.[backgroundColor]})`};
-    ${width && `width: ${px(width)}`};
-    ${height && `height: ${px(height)}`};
-    ${maxWidth && `max-width: ${px(maxWidth)}`};
-    ${maxHeight && `max-height: ${px(maxHeight)}`};
-    ${radius && `border-radius: ${radius === "full" ? 9999 : px(radius)}`};
-    ${position && `position: ${position}`};
-    ${top && `top: ${px(top)}`};
-    ${left && `left: ${px(left)}`};
-    ${right && `right: ${px(right)}`};
-    ${bottom && `bottom: ${px(bottom)}`};
-    ${zIndex && `zIndex: ${px(zIndex)}`};
+    ${color && `color: var(${theme?.text?.[color]});`}
+    ${backgroundColor &&
+    `background-color: var(${theme?.surface?.[backgroundColor]});`}
+    ${width && `width: ${px(width)};`}
+    ${height && `height: ${px(height)};`}
+    ${maxWidth && `max-width: ${px(maxWidth)};`}
+    ${maxHeight && `max-height: ${px(maxHeight)};`}
+    ${radius && `border-radius: ${px(radius === "full" ? 9999 : radius)};`}
+    ${position && `position: ${position};`}
+    ${top && `top: ${px(top)};`}
+    ${left && `left: ${px(left)};`}
+    ${right && `right: ${px(right)};`}
+    ${bottom && `bottom: ${px(bottom)};`}
+    ${inset && `bottom: ${px(inset)};`}
+    ${zIndex && `zIndex: ${px(zIndex)};`}
   `;
 };
