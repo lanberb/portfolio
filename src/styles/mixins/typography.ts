@@ -8,6 +8,7 @@ export interface TypographyProps {
   fw?: CSSProperties["fontWeight"];
   ff?: FontFamily;
   ta?: CSSProperties["textAlign"];
+  tt?: CSSProperties["textTransform"];
   va?: CSSProperties["verticalAlign"];
   ws?: CSSProperties["whiteSpace"];
   lh?: LineHeight;
@@ -17,17 +18,19 @@ export interface TypographyProps {
 export const typography = ({
   fz,
   fw,
-  ff = "Roboto Flex",
+  ff,
   ta,
+  tt,
   va,
   ws,
   lh = "100%",
-  ls,
+  ls = "0.08rem",
 }: TypographyProps): SerializedStyles => css`
   ${fz && `font-size: ${px(fz)}`};
   ${fw && `font-weight: ${fw}`};
   ${ff && `font-family: ${ff}`};
   ${ta && `text-align: ${ta}`};
+  ${tt && `text-transform: ${tt}`};
   ${va && `vertical-align: ${va}`};
   ${ws && `white-space: ${ws}`}
   ${lh && `line-height: ${lh}`};

@@ -3,3 +3,7 @@ export * from "./padding";
 export * from "./margin";
 export * from "./stack";
 export * from "./typography";
+export * from "./button";
+export * from "./transform";
+export * from "./border";
+export * from "./transition";

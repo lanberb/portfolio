@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import bgNoise from "@/assets/images/common/bg_noise.png";
 import { PrefersColorScheme, PrefersReducedMotion } from "./media";
 import { GLOBAL_TRANSITION_DURATION } from "./mixins/transition";
 import { type Theme, themeKeyMap } from "./theme";
@@ -6,7 +7,7 @@ import { type Theme, themeKeyMap } from "./theme";
 export const createGlobalStyles = (_: Theme) => {
   return css`
     :root {
-      ${themeKeyMap.light.surface.primary}: #BDBEC1;
+      ${themeKeyMap.light.surface.primary}: #E4E4E4;
       ${themeKeyMap.light.surface.primaryDisabled}: #969696;
       ${themeKeyMap.light.text.primary}: #0A0A0A;
       ${themeKeyMap.light.text.primaryDisabled}: #969696;
@@ -52,21 +53,60 @@ export const createGlobalStyles = (_: Theme) => {
     html,
     body {
       font-family: "Roboto Flex", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
       font-weight: 400;
       font-size: 16px;
       font-style: normal;
-      letter-spacing: 0.08rem;
+      letter-spacing: 0.04rem;
       -webkit-font-smoothing: antialiased;
     }
 
     body {
+      position: relative;
       background-color: var(--color-surcface-primary);
+      background-size: 80px 80px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      background-image: url(${bgNoise});
+      background-size: 80px 80px;
+      background-repeat: repeat;
+      opacity: 0.04;
     }
 
     a {
       color: inherit;
       text-decoration: none;
       height: fit-content;
+    }
+
+    button {
+      appearance: none;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    dialog {
+      background-color: transparent;
+      border: none;
+      max-width: none;
+      max-height: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    :root:has(dialog[open]) {
+      overflow: hidden;
+      scrollbar-gutter: stable;
     }
   `;
 };

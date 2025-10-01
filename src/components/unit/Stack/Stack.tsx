@@ -1,5 +1,6 @@
 import {
   type BaseProps,
+  type BorderProps,
   type MarginProps,
   type PaddingProps,
   type StackProps,
@@ -7,10 +8,17 @@ import {
   margins,
   paddings,
   stack,
+  borders,
 } from "@/styles/mixins";
 import styled from "@emotion/styled";
+import { type JSX } from "react";
 
-interface Props extends BaseProps, MarginProps, PaddingProps, StackProps {
+interface Props
+  extends BaseProps,
+    MarginProps,
+    PaddingProps,
+    BorderProps,
+    StackProps {
   as?: keyof JSX.IntrinsicElements;
 }
 
@@ -19,4 +27,5 @@ export const Stack = styled.div<Props>`
   ${stack}
   ${margins}
   ${paddings}
+  ${borders}
 `;

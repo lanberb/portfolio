@@ -10,14 +10,7 @@ export interface StackProps {
   justifyContent?: CSSProperties["justifyContent"];
 }
 
-export const stack = ({
-  direction,
-  wrap,
-  gap,
-  alignContent,
-  alignItems,
-  justifyContent,
-}: StackProps): SerializedStyles => css`
+export const stack = ({ direction, wrap, gap, alignContent, alignItems, justifyContent }: StackProps): SerializedStyles => css`
   display: flex;
   ${direction && `flex-direction: ${direction}`};
   ${wrap && `flex-wrap: ${wrap}`};
@@ -36,14 +29,7 @@ export interface StackItemProps {
   order?: CSSProperties["order"];
 }
 
-export const stackItem = ({
-  alignSelf,
-  basis,
-  shrink,
-  grow,
-  justifySelf,
-  order,
-}: StackItemProps): SerializedStyles => css`
+export const stackItem = ({ alignSelf, basis, shrink, grow, justifySelf, order }: StackItemProps): SerializedStyles => css`
   ${basis && `flex-basis: ${basis}`};
   ${grow && `flex-grow: ${grow}`};
   ${shrink && `flex-shrink: ${shrink}`};

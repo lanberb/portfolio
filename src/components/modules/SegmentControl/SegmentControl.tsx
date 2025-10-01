@@ -7,9 +7,10 @@ const Item = styled(Stack)`
   &:not(:last-of-type)::after {
     content: "";
     display: block;
-    margin-left: 12px;
+    margin-inline: 12px;
     height: 12px;
     width: 1px;
+    background-color: var(${({ theme }) => theme.text.primaryDisabled});
   }
 `;
 
@@ -22,9 +23,10 @@ const _HiddenInput = styled.input`
 const Label = styled(Text)<{ selected: boolean }>`
   color: var(
     ${({ theme, selected }) => {
-      return selected ? theme.text.primary : theme.text.primaryDisabled;
+      return selected ? theme.text.primaryInversed : theme.text.primaryDisabled;
     }}
   );
+  opacity: ${({ selected }) => (selected ? 1 : 0.4)};
   display: inline-flex;
   align-items: center;
 
@@ -40,12 +42,7 @@ interface Props {
   onSelect: (key: string) => void;
 }
 
-export const SegmentControl: FC<Props> = ({
-  items,
-  name,
-  defaultKey,
-  onSelect,
-}) => {
+export const SegmentControl: FC<Props> = ({ items, name, defaultKey, onSelect }) => {
   const handleOnInput = useCallback(
     (e: FormEvent<HTMLInputElement>) => {
       onSelect(e.currentTarget.value);
@@ -54,25 +51,14 @@ export const SegmentControl: FC<Props> = ({
   );
 
   return (
-    <Stack gap={12} alignItems="center" height="fit-content">
+    <Stack alignItems="center" height="fit-content">
       {items.map((item) => {
         const value = item.key?.toString();
 
         return (
           <Item key={item.key} alignItems="center">
-            <_HiddenInput
-              type="radio"
-              name={name}
-              value={value}
-              id={value}
-              onInput={handleOnInput}
-            />
-            <Label
-              as="label"
-              selected={value === defaultKey}
-              htmlFor={value}
-              fz={14}
-            >
+            <_HiddenInput type="radio" name={name} value={value} id={value} onInput={handleOnInput} />
+            <Label as="label" selected={value === defaultKey} htmlFor={value} fz={14}>
               {item}
             </Label>
           </Item>
