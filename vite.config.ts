@@ -6,9 +6,8 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: "dist",
     rollupOptions: {
-      input: path.resolve(__dirname, "index.html"),
+      input: path.resolve(__dirname, "src/components/app/main.tsx"),
     },
   },
   resolve: {
