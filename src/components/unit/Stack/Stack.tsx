@@ -5,10 +5,10 @@ import {
   type PaddingProps,
   type StackProps,
   base,
+  borders,
   margins,
   paddings,
   stack,
-  borders,
 } from "@/styles/mixins";
 import styled from "@emotion/styled";
 import { type JSX } from "react";

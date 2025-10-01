@@ -4,9 +4,9 @@ import {
   type MarginProps,
   type PaddingProps,
   base,
+  borders,
   margins,
   paddings,
-  borders,
 } from "@/styles/mixins";
 import styled from "@emotion/styled";
 import { type JSX } from "react";

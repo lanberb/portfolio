@@ -1,7 +1,5 @@
-import { Box } from "@/components/unit/Box";
 import { Stack } from "@/components/unit/Stack";
 import { Text } from "@/components/unit/Text";
-import { typography } from "@/styles/mixins";
 import type { FC } from "react";
 import Markdown from "react-markdown";
 

@@ -1,4 +1,40 @@
-# React + TypeScript + Vite
+# Portfolio - Cloudflare Pages Ready 🚀
+
+React + TypeScript + Vite ポートフォリオアプリケーション。Cloudflare Pages での本番稼働に完全対応。
+
+## 🚀 クイックスタート
+
+```bash
+# 依存関係のインストール
+pnpm install
+
+# ローカル開発サーバー起動
+pnpm dev
+
+# ビルド
+pnpm build
+
+# Cloudflareにデプロイ
+pnpm run deploy
+```
+
+**詳細なデプロイ手順は [QUICKSTART.md](./QUICKSTART.md) を参照してください。**
+
+## 📚 ドキュメント
+
+- [QUICKSTART.md](./QUICKSTART.md) - 即座にデプロイする方法
+- [DEPLOYMENT.md](./DEPLOYMENT.md) - 詳細なデプロイメントガイド
+
+## 🛠️ 技術スタック
+
+- **React 19** + TypeScript
+- **Vite** - 高速ビルドツール
+- **React Router** - SPAルーティング
+- **Emotion** - CSS-in-JS
+- **Three.js** - 3Dグラフィックス
+- **Cloudflare Pages** - ホスティング
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
