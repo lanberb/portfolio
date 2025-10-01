@@ -9,10 +9,10 @@ import {
   typography,
 } from "@/styles/mixins";
 import styled from "@emotion/styled";
-import type { LabelHTMLAttributes } from "react";
+import type { ElementType, LabelHTMLAttributes } from "react";
 
 interface Props extends TypographyProps, BaseProps, MarginProps, PaddingProps {
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   htmlFor?: LabelHTMLAttributes<HTMLLabelElement>["htmlFor"];
 }
 
