@@ -6,14 +6,31 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   build: {
+    outDir: "dist",
     rollupOptions: {
-      input: path.resolve(__dirname, "src/components/app/main.tsx"),
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          three: ['three'],
+        },
+      },
     },
+    sourcemap: false,
+    minify: 'esbuild',
+    chunkSizeWarningLimit: 1000,
   },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
       "@/components": path.resolve(__dirname, "src/components"),
     },
+  },
+  server: {
+    port: 5173,
+    host: true,
+  },
+  preview: {
+    port: 4173,
+    host: true,
   },
 });

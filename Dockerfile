@@ -1,42 +1,38 @@
-# ビルドステージ
+# マルチステージビルド
+# ステージ1: ビルド環境
 FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# pnpmのインストール
+# pnpmをインストール
 RUN npm install -g pnpm
 
 # 依存関係のインストール
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-# ソースコードのコピーとビルド
+# ソースコードをコピー
 COPY . .
+
+# プロダクションビルド
 RUN pnpm run build
 
-# 本番ステージ
-FROM node:20-alpine AS production
+# ステージ2: 本番環境
+FROM nginx:alpine
 
-WORKDIR /app
+# Nginxの設定ファイルをコピー
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
 
-# pnpmのインストール
-RUN npm install -g pnpm
-
-# 本番用の依存関係のみインストール
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --prod --frozen-lockfile && \
-    pnpm add express
-
-# ビルド成果物とサーバーファイルのコピー
-COPY --from=builder /app/dist ./dist
-COPY server.js ./
-
-# ポート公開
-EXPOSE 3000
+# ビルドされたファイルをNginxのドキュメントルートにコピー
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # ヘルスチェック
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1); })"
+  CMD wget --quiet --tries=1 --spider http://localhost:80/ || exit 1
 
-# アプリケーション起動
-CMD ["node", "server.js"]
+# ポート80を公開
+EXPOSE 80
+
+# Nginxを起動
+CMD ["nginx", "-g", "daemon off;"]

@@ -7,8 +7,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "start": "node server.js",
     "lint": "biome check --write ./src",
-    "scaffold": "scaffdog generate"
+    "scaffold": "scaffdog generate",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up",
+    "docker:up:build": "docker-compose up --build",
+    "docker:down": "docker-compose down",
+    "docker:nginx:build": "docker-compose -f docker-compose.nginx.yml build",
+    "docker:nginx:up": "docker-compose -f docker-compose.nginx.yml up -d --build",
+    "docker:nginx:down": "docker-compose -f docker-compose.nginx.yml down"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
