@@ -35,6 +35,7 @@ export const base = ({
   left,
   right,
   bottom,
+  inset,
   zIndex,
 }: BaseProps): SerializedStyles => {
   return css`
