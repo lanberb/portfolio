@@ -2,13 +2,14 @@ import { routes } from "@/lib/router/routes";
 import { createGlobalStyles } from "@/styles/globalStyles";
 import { Global } from "@emotion/react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ThemeStateProvider } from "../hooks/useTheme";
 import { I18nStateProvider } from "../hooks/useI18n";
+import { ThemeStateProvider } from "../hooks/useTheme";
+import { ConnectedFootprintDialog } from "../modules/FootprintDialog";
+import { GlobalCanvas } from "../modules/GlobalCanvas";
+import { GlobalNavigation } from "../modules/GlobalNavigation";
 import { AboutPage } from "../pages/about";
 import { BlogPage } from "../pages/blog";
 import { TopPage } from "../pages/top";
-import { Navigation } from "../modules/Navigation";
-import { ConnectedFootprintDialog } from "../modules/FootprintDialog";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
       <I18nStateProvider>
         <ThemeStateProvider>
           <Global styles={createGlobalStyles} />
-          <Navigation />
+          <GlobalCanvas />
+          <GlobalNavigation />
           <ConnectedFootprintDialog />
           <Routes>
             <Route path="/" element={<TopPage />} />

@@ -1,8 +1,10 @@
 export type Theme = {
   surface: {
     primary: string;
+    primaryHover: string;
     primaryDisabled: string;
     primaryInversed: string;
+    backgroundGrid: string;
   };
   text: {
     primary: string;
@@ -14,15 +16,17 @@ export type ThemeMode = "light" | "dark";
 export type ThemeState = {
   theme: Theme;
   mode: ThemeMode;
-  onChange: (e: ThemeMode) => void;
+  change: (e: ThemeMode) => void;
 };
 
 export const themeKeyMap: Record<ThemeMode, Theme> = {
   light: {
     surface: {
       primary: "--theme-light-color-surface-primary",
+      primaryHover: "--theme-light-color-surface-primary-hover",
       primaryDisabled: "--theme-dark-color-surface-primary-disabled",
       primaryInversed: "--theme-dark-color-surface-primary",
+      backgroundGrid: "--theme-dark-color-surface-background-grid",
     },
     text: {
       primary: "--theme-light-color-text-primary",
@@ -33,8 +37,10 @@ export const themeKeyMap: Record<ThemeMode, Theme> = {
   dark: {
     surface: {
       primary: "--theme-dark-color-surface-primary",
+      primaryHover: "--theme-dark-color-surface-primary-hover",
       primaryDisabled: "--theme-dark-color-surface-primary-disabled",
       primaryInversed: "--theme-light-color-surface-primary",
+      backgroundGrid: "--theme-light-color-surface-background-grid",
     },
     text: {
       primary: "--theme-dark-color-text-primary",

@@ -1,5 +1,5 @@
-import { css } from "@emotion/react";
 import bgNoise from "@/assets/images/common/bg_noise.png";
+import { css } from "@emotion/react";
 import { PrefersColorScheme, PrefersReducedMotion } from "./media";
 import { GLOBAL_TRANSITION_DURATION } from "./mixins/transition";
 import { type Theme, themeKeyMap } from "./theme";
@@ -9,13 +9,17 @@ export const createGlobalStyles = (_: Theme) => {
     :root {
       ${themeKeyMap.light.surface.primary}: #E4E4E4;
       ${themeKeyMap.light.surface.primaryDisabled}: #969696;
+      ${themeKeyMap.light.surface.primaryHover}: #c8c8c8;
       ${themeKeyMap.light.text.primary}: #0A0A0A;
       ${themeKeyMap.light.text.primaryDisabled}: #969696;
+      ${themeKeyMap.light.surface.backgroundGrid}: #a6a6a6;
 
       ${themeKeyMap.dark.surface.primary}: #0A0A0A;
       ${themeKeyMap.dark.surface.primaryDisabled}: #323232;
+      ${themeKeyMap.dark.surface.primaryHover}: #161616;
       ${themeKeyMap.dark.text.primary}: #FFFFFF;
       ${themeKeyMap.dark.text.primaryDisabled}: #323232;
+      ${themeKeyMap.dark.surface.backgroundGrid}: #161616;
     }
 
     /**
@@ -78,7 +82,12 @@ export const createGlobalStyles = (_: Theme) => {
       background-image: url(${bgNoise});
       background-size: 80px 80px;
       background-repeat: repeat;
-      opacity: 0.04;
+    }
+    body[data-theme-mode="light"]::before {
+      opacity: 0.24;
+    }
+    body[data-theme-mode="dark"]::before {
+      opacity: 0.02;
     }
 
     a {

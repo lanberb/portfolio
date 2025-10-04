@@ -1,9 +1,31 @@
-import { type RefObject, createContext, useContext } from "react";
+import { useCallback, useState } from "react";
 
-export const CanvasContext = createContext<RefObject<HTMLCanvasElement> | null>(null);
+const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
 
-export const useCanvas = () => {
-  const context = useContext(CanvasContext);
+interface Return {
+  el: HTMLCanvasElement | null;
+  canvasApi: CanvasRenderingContext2D | null;
+  canvasRef: (element: HTMLCanvasElement | null) => void;
+}
 
-  return context;
+export const useCanvas = (): Return => {
+  const [canvasApi, setCanvasApi] = useState<CanvasRenderingContext2D | null>(null);
+  const [el, setEl] = useState<HTMLCanvasElement | null>(null);
+
+  const canvasRef = useCallback((element: HTMLCanvasElement | null) => {
+    if (element == null) {
+      return;
+    }
+    element.width = element.clientWidth * DEVICE_PIXEL_RATIO;
+    element.height = element.clientHeight * DEVICE_PIXEL_RATIO;
+
+    setCanvasApi(element.getContext("2d"));
+    setEl(element);
+  }, []);
+
+  return {
+    el,
+    canvasApi,
+    canvasRef,
+  };
 };

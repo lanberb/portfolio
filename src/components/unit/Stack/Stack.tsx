@@ -11,14 +11,9 @@ import {
   stack,
 } from "@/styles/mixins";
 import styled from "@emotion/styled";
-import { type JSX } from "react";
+import type { JSX } from "react";
 
-interface Props
-  extends BaseProps,
-    MarginProps,
-    PaddingProps,
-    BorderProps,
-    StackProps {
+interface Props extends BaseProps, MarginProps, PaddingProps, BorderProps, StackProps {
   as?: keyof JSX.IntrinsicElements;
 }
 

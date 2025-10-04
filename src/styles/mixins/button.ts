@@ -1,16 +1,13 @@
 import { type SerializedStyles, css } from "@emotion/react";
 import type { Theme } from "../theme";
-import { borders } from "./border";
 import { base } from "./base";
-import { stack } from "./stack";
+import { borders } from "./border";
 import { paddings } from "./padding";
+import { stack } from "./stack";
 
 type ButtonVariant = "filled" | "outlined";
 
-const getVariantStyles = (
-  variant: ButtonVariant,
-  theme?: Theme
-): SerializedStyles => {
+const getVariantStyles = (variant: ButtonVariant, theme?: Theme): SerializedStyles => {
   switch (variant) {
     case "outlined": {
       return css`
@@ -18,8 +15,6 @@ const getVariantStyles = (
         ${base({ theme, color: "primary", height: 30, radius: "full" })}
       `;
     }
-
-    case "filled":
     default: {
       return css`
         ${base({

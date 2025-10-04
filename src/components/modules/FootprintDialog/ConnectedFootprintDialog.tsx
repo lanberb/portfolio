@@ -1,6 +1,6 @@
-import { useCallback, type FC } from "react";
-import { FootprintDialog } from "./FootprintDialog";
 import { useDialogStore } from "@/state/dialog/store";
+import { type FC, useCallback } from "react";
+import { FootprintDialog } from "./FootprintDialog";
 
 export const ConnectedFootprintDialog: FC = () => {
   const dialogStore = useDialogStore();
@@ -9,10 +9,5 @@ export const ConnectedFootprintDialog: FC = () => {
     dialogStore.setFootprintDialogOpen(false);
   }, [dialogStore]);
 
-  return (
-    <FootprintDialog
-      open={dialogStore.footprintDialogOpen}
-      onRequestClose={handleOnRequestClose}
-    />
-  );
+  return <FootprintDialog open={dialogStore.footprintDialogOpen} onRequestClose={handleOnRequestClose} />;
 };
