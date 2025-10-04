@@ -16,7 +16,7 @@ const ThemeStateContext = createContext<ThemeState | null>(null);
 export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
   const [themeMode, setThemeMode] = useState<ThemeMode>("light");
 
-  const onChange = useCallback((mode: ThemeMode) => {
+  const change = useCallback((mode: ThemeMode) => {
     setThemeMode(mode);
 
     // Flash of Unstyled Content防止目的でGlobalStyleで定義されたbodyの背景色を切り替える
@@ -25,19 +25,10 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
     document.body.dataset.themeMode = mode;
   }, []);
 
-  const onChangeSystemThemeColor = useCallback(
-    (e: MediaQueryListEvent, mode: ThemeMode) => {
-      if (e.matches) {
-        onChange(mode);
-      }
-    },
-    [onChange]
-  );
-
   const themeState: ThemeState = {
     theme: themeKeyMap[themeMode],
     mode: themeMode,
-    onChange,
+    change,
   };
 
   const handleOnChangeSystemThemeColorLight = useCallback(() => {
@@ -52,9 +43,11 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
       // マウント時点のthemeを設定する
       if (window.matchMedia(PrefersColorScheme.light).matches) {
         setThemeMode("light");
+        document.body.dataset.themeMode = "light";
       }
       if (window.matchMedia(PrefersColorScheme.dark).matches) {
         setThemeMode("dark");
+        document.body.dataset.themeMode = "dark";
       }
 
       // デバイスのtheme切り替えを検知して同期する
@@ -74,7 +67,7 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
         .matchMedia(PrefersColorScheme.dark)
         .removeEventListener("change", handleOnChangeSystemThemeColorDark);
     };
-  }, [onChangeSystemThemeColor]);
+  }, [handleOnChangeSystemThemeColorLight, handleOnChangeSystemThemeColorDark]);
 
   return (
     <ThemeStateContext.Provider value={themeState}>

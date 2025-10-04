@@ -1,19 +1,19 @@
 import { useI18n } from "@/components/hooks/useI18n";
 import { useTheme } from "@/components/hooks/useTheme";
-import { Icon } from "@/components/unit/Icon";
 import { SegmentControl } from "@/components/modules/SegmentControl";
 import { Button } from "@/components/unit/Button";
+import { Icon } from "@/components/unit/Icon";
 import { Link } from "@/components/unit/Link";
 import { Stack } from "@/components/unit/Stack";
 import { Text } from "@/components/unit/Text";
 import type { LocaleKey } from "@/lib/i18n/localize";
 import { routes } from "@/lib/router/routes";
+import { useDialogStore } from "@/state/dialog/store";
 import { GLOBAL_TRANSITION_DURATION } from "@/styles/mixins/transition";
 import type { ThemeMode } from "@/styles/theme";
 import styled from "@emotion/styled";
 import { type CSSProperties, type FC, useCallback } from "react";
 import { useLocation } from "react-router-dom";
-import { useDialogStore } from "@/state/dialog/store";
 
 const navKeys: (keyof typeof routes)[] = ["top", "about", "blog"];
 
@@ -28,13 +28,14 @@ const _NavigationCell = styled(Link)`
   z-index: 1;
   color: var(${({ theme }) => theme.text.primary});
   transition: ${GLOBAL_TRANSITION_DURATION}ms;
+  border-radius: 32px;
 
   &[data-selected="true"] {
     color: var(${({ theme }) => theme.text.primaryInversed});
   }
 
-  &:hover {
-    opacity: 0.6;
+  &:not([data-selected="true"]):hover {
+    background-color: var(${({ theme }) => theme.surface.primaryDisabled});
   }
 `;
 
@@ -53,7 +54,7 @@ const _NavigationCellList = styled(Stack)`
   }
 `;
 
-export const Navigation: FC = () => {
+export const GlobalNavigation: FC = () => {
   const location = useLocation();
   const theme = useTheme();
   const i18n = useI18n();
@@ -63,7 +64,7 @@ export const Navigation: FC = () => {
   const handleOnSelectTheme = useCallback(
     (mode: string) => {
       if (theme != null) {
-        theme.onChange(mode as ThemeMode);
+        theme.change(mode as ThemeMode);
       }
     },
     [theme]
@@ -71,7 +72,7 @@ export const Navigation: FC = () => {
 
   const handleOnSelectLang = useCallback(
     (lang: string) => {
-      i18n.onChange(lang as LocaleKey);
+      i18n.change(lang as LocaleKey);
     },
     [i18n]
   );

@@ -1,15 +1,8 @@
-import styled from "@emotion/styled";
-import {
-  type FC,
-  type MouseEvent,
-  type PropsWithChildren,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
-import { Text } from "../Text";
 import { IconButton } from "@/components/modules/IconButton";
+import styled from "@emotion/styled";
+import { type FC, type MouseEvent, type PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import { Button } from "../Button";
+import { Text } from "../Text";
 
 const _Header = styled.header`
   display: flex;
@@ -77,20 +70,13 @@ interface _FrameProps {
   onRequestClose: () => void;
 }
 
-const Frame: FC<_FrameProps & PropsWithChildren> = ({
-  children,
-  open,
-  onRequestClose,
-}) => {
+const Frame: FC<_FrameProps & PropsWithChildren> = ({ children, open, onRequestClose }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const handleOnClickDialog = useCallback(
-    (event: MouseEvent<HTMLDialogElement>) => {
-      event.stopPropagation();
-      console.log("event.target", event.target);
-    },
-    [onRequestClose]
-  );
+  const handleOnClickDialog = useCallback((event: MouseEvent<HTMLDialogElement>) => {
+    event.stopPropagation();
+    console.log("event.target", event.target);
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -101,13 +87,7 @@ const Frame: FC<_FrameProps & PropsWithChildren> = ({
   }, [open]);
 
   return (
-    <_Frame
-      aria-modal="true"
-      role="dialog"
-      ref={dialogRef}
-      onClick={handleOnClickDialog}
-      onClose={onRequestClose}
-    >
+    <_Frame aria-modal="true" role="dialog" ref={dialogRef} onClick={handleOnClickDialog} onClose={onRequestClose}>
       {children}
     </_Frame>
   );
