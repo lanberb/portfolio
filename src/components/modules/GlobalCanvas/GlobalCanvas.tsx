@@ -34,11 +34,7 @@ const caluculateLineCount = (width: number) => {
  * @param lineCount グリッドの本数
  * @param dist ドラッグなどによる描画位置のズレ量
  */
-const caluculateFirstLineStart = (
-  width: number,
-  lineCount: number,
-  dist: number
-) => {
+const caluculateFirstLineStart = (width: number, lineCount: number, dist: number) => {
   return (width - (lineCount - 1) * BACKGROUND_GRID_GAP) / 2 + dist;
 };
 
@@ -58,12 +54,7 @@ type DrawLineAnimateOptions = {
   duration: number;
   delay: number;
 };
-const drawLine = (
-  canvasApi: CanvasRenderingContext2D,
-  startPosition: [number, number],
-  endPosition: [number, number],
-  options?: DrawLineAnimateOptions
-) => {
+const drawLine = (canvasApi: CanvasRenderingContext2D, startPosition: [number, number], endPosition: [number, number], options?: DrawLineAnimateOptions) => {
   if (options == null) {
     canvasApi.beginPath();
     canvasApi.moveTo(startPosition[0], startPosition[1]);
@@ -97,10 +88,7 @@ export const GlobalCanvas: FC = () => {
 
   const isMounted = useRef(false);
 
-  const strokeColor = useMemo(
-    () => getSurfaceColor("backgroundGrid"),
-    [getSurfaceColor]
-  );
+  const strokeColor = useMemo(() => getSurfaceColor("backgroundGrid"), [getSurfaceColor]);
 
   const xLineCount = useMemo(() => caluculateLineCount(el?.width ?? 0), [el]);
   const yLineCount = useMemo(() => caluculateLineCount(el?.height ?? 0), [el]);
@@ -116,21 +104,15 @@ export const GlobalCanvas: FC = () => {
     const xFirstLineStartX = caluculateFirstLineStart(
       el?.width ?? 0,
       xLineCount,
-      position.x % BACKGROUND_GRID_GAP // pointermoveによって生まれるズレ量
+      position.x % BACKGROUND_GRID_GAP, // pointermoveによって生まれるズレ量
     );
-    const xLineStartXArray = caluculateLineStartArray(
-      xFirstLineStartX,
-      xLineCount
-    );
+    const xLineStartXArray = caluculateLineStartArray(xFirstLineStartX, xLineCount);
     const yFirstLineStartY = caluculateFirstLineStart(
       el?.height ?? 0,
       yLineCount,
-      position.y % BACKGROUND_GRID_GAP // pointermoveによって生まれるズレ量
+      position.y % BACKGROUND_GRID_GAP, // pointermoveによって生まれるズレ量
     );
-    const yLineStartYArray = caluculateLineStartArray(
-      yFirstLineStartY,
-      yLineCount
-    );
+    const yLineStartYArray = caluculateLineStartArray(yFirstLineStartY, yLineCount);
 
     for (let i = 0; i < xLineCount; i++) {
       drawLine(
@@ -140,9 +122,9 @@ export const GlobalCanvas: FC = () => {
         isMounted.current
           ? undefined
           : {
-              duration: 500,
-              delay: 10 * i,
-            }
+              duration: 750,
+              delay: 30 * i,
+            },
       );
     }
     for (let i = 0; i < yLineCount; i++) {
@@ -154,13 +136,23 @@ export const GlobalCanvas: FC = () => {
           ? undefined
           : {
               duration: 500,
-              delay: 25 * i,
-            }
+              delay: 50 * i,
+            },
       );
     }
 
     isMounted.current = true;
-  }, [canvasApi, el, strokeColor, xLineCount, yLineCount]);
+  }, [
+    canvasApi,
+    el,
+    strokeColor,
+    xLineCount,
+    yLineCount,
+
+    // biomeがエラーを返すのでdepsに入れるがref値なので再計算はされない
+    position.x,
+    position.y,
+  ]);
 
   /**
    * Effect: themeの切り替えに応じて描画を更新
@@ -181,15 +173,5 @@ export const GlobalCanvas: FC = () => {
     };
   }, [el, drawBackgroundGrid]);
 
-  return (
-    <_Canvas
-      ref={canvasRef}
-      position="fixed"
-      inset={0}
-      zIndex={-1}
-      width="100%"
-      height="100%"
-      data-dragging={isDragging}
-    />
-  );
+  return <_Canvas ref={canvasRef} position="fixed" inset={0} zIndex={-1} width="100%" height="100%" data-dragging={isDragging} />;
 };

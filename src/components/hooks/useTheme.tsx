@@ -1,15 +1,7 @@
 import { PrefersColorScheme } from "@/styles/media";
 import { type ThemeMode, type ThemeState, themeKeyMap } from "@/styles/theme";
 import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
-import {
-  type FC,
-  type PropsWithChildren,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { type FC, type PropsWithChildren, createContext, useCallback, useContext, useEffect, useState } from "react";
 
 const ThemeStateContext = createContext<ThemeState | null>(null);
 
@@ -51,29 +43,19 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
       }
 
       // デバイスのtheme切り替えを検知して同期する
-      window
-        .matchMedia(PrefersColorScheme.light)
-        .addEventListener("change", handleOnChangeSystemThemeColorLight);
-      window
-        .matchMedia(PrefersColorScheme.dark)
-        .addEventListener("change", handleOnChangeSystemThemeColorDark);
+      window.matchMedia(PrefersColorScheme.light).addEventListener("change", handleOnChangeSystemThemeColorLight);
+      window.matchMedia(PrefersColorScheme.dark).addEventListener("change", handleOnChangeSystemThemeColorDark);
     }
 
     return () => {
-      window
-        .matchMedia(PrefersColorScheme.light)
-        .removeEventListener("change", handleOnChangeSystemThemeColorLight);
-      window
-        .matchMedia(PrefersColorScheme.dark)
-        .removeEventListener("change", handleOnChangeSystemThemeColorDark);
+      window.matchMedia(PrefersColorScheme.light).removeEventListener("change", handleOnChangeSystemThemeColorLight);
+      window.matchMedia(PrefersColorScheme.dark).removeEventListener("change", handleOnChangeSystemThemeColorDark);
     };
   }, [handleOnChangeSystemThemeColorLight, handleOnChangeSystemThemeColorDark]);
 
   return (
     <ThemeStateContext.Provider value={themeState}>
-      <EmotionThemeProvider theme={themeKeyMap[themeMode]}>
-        {children}
-      </EmotionThemeProvider>
+      <EmotionThemeProvider theme={themeKeyMap[themeMode]}>{children}</EmotionThemeProvider>
     </ThemeStateContext.Provider>
   );
 };
