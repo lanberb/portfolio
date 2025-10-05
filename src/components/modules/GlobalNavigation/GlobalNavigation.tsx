@@ -67,14 +67,14 @@ export const GlobalNavigation: FC = () => {
         theme.change(mode as ThemeMode);
       }
     },
-    [theme]
+    [theme],
   );
 
   const handleOnSelectLang = useCallback(
     (lang: string) => {
       i18n.change(lang as LocaleKey);
     },
-    [i18n]
+    [i18n],
   );
 
   const handleOnClickFootprintButton = useCallback(() => {
@@ -82,21 +82,13 @@ export const GlobalNavigation: FC = () => {
   }, [dialogStore]);
 
   const pseudoElementPositionX = (() => {
-    const index = navKeys.findIndex(
-      (route) => `/${route}` === location.pathname
-    );
+    const index = navKeys.findIndex((route) => `/${route}` === location.pathname);
     return _NavigationCellWidth * Math.max(0, index);
   })();
 
   return (
-    <Stack justifyContent="space-between" alignItems="center" mt={64} mx={64}>
-      <Stack
-        b={1}
-        bc="primaryInversed"
-        radius={80}
-        width="fit-content"
-        backgroundColor="primaryInversed"
-      >
+    <Stack justifyContent="space-between" alignItems="center" mt={64} mx={64} wrap="wrap">
+      <Stack wrap="wrap" b={1} bc="primaryInversed" radius={80} width="fit-content" backgroundColor="primaryInversed">
         <_NavigationCellList
           as="nav"
           position="relative"
@@ -113,14 +105,7 @@ export const GlobalNavigation: FC = () => {
           {navKeys.map((key) => {
             const pathname = `/${key === "top" ? "" : key}`;
             return (
-              <_NavigationCell
-                key={key}
-                href={routes[key]}
-                ta="center"
-                tt="capitalize"
-                fz={16}
-                data-selected={pathname === location.pathname}
-              >
+              <_NavigationCell key={key} href={routes[key]} ta="center" tt="capitalize" fz={16} data-selected={pathname === location.pathname}>
                 {key}
               </_NavigationCell>
             );
@@ -137,21 +122,13 @@ export const GlobalNavigation: FC = () => {
           <SegmentControl
             name="themeMode"
             defaultKey={theme?.mode}
-            items={[
-              <Icon key="light" name="light" size={16} />,
-              <Icon key="dark" name="dark" size={16} />,
-            ]}
+            items={[<Icon key="light" name="light" size={16} />, <Icon key="dark" name="dark" size={16} />]}
             onSelect={handleOnSelectTheme}
           />
         </Stack>
       </Stack>
 
-      <Button
-        endIcon={<Icon name="footprint" size={24} rotate={90} />}
-        variant="filled"
-        type="button"
-        onClick={handleOnClickFootprintButton}
-      >
+      <Button endIcon={<Icon name="footprint" size={24} rotate={90} />} variant="filled" type="button" onClick={handleOnClickFootprintButton}>
         <Text as="span" color="primaryInversed" fw={300}>
           Footprint
         </Text>
