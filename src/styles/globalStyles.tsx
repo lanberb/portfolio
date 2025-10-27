@@ -68,26 +68,33 @@ export const createGlobalStyles = (_: Theme) => {
 
     body {
       position: relative;
-      background-color: var(--color-surcface-primary);
-      background-size: 80px 80px;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
-      background-image: url(${bgNoise});
-      background-size: 80px 80px;
-      background-repeat: repeat;
-    }
-    body[data-theme-mode="light"]::before {
-      opacity: 0.24;
-    }
-    body[data-theme-mode="dark"]::before {
-      opacity: 0.02;
+
+      &::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        background-image: url(${bgNoise});
+        background-size: 80px 80px;
+        background-repeat: repeat;
+      }
+
+      &[data-theme-mode="light"] {
+        background-color: var(--theme-light-color-surface-primary);
+        &::before{
+          opacity: 0.24;
+        }
+      }
+
+      &[data-theme-mode="dark"] {
+        background-color: var(--theme-dark-color-surface-primary);
+        &::before{
+          opacity: 0.02;
+        }
+      }
     }
 
     a {

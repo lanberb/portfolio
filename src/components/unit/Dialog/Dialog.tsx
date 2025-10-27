@@ -75,7 +75,6 @@ const Frame: FC<_FrameProps & PropsWithChildren> = ({ children, open, onRequestC
 
   const handleOnClickDialog = useCallback((event: MouseEvent<HTMLDialogElement>) => {
     event.stopPropagation();
-    console.log("event.target", event.target);
   }, []);
 
   useEffect(() => {

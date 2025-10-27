@@ -13,7 +13,7 @@ type Return = {
   }>;
 };
 
-export const useCanvasPointer = ({ el }: Props): Return => {
+export const usePointerEvent = ({ el }: Props): Return => {
   const [isDragging, setIsDragging] = useState(false);
 
   const position = useRef({

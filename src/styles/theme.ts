@@ -24,9 +24,9 @@ export const themeKeyMap: Record<ThemeMode, Theme> = {
     surface: {
       primary: "--theme-light-color-surface-primary",
       primaryHover: "--theme-light-color-surface-primary-hover",
-      primaryDisabled: "--theme-dark-color-surface-primary-disabled",
+      primaryDisabled: "--theme-light-color-surface-primary-disabled",
       primaryInversed: "--theme-dark-color-surface-primary",
-      backgroundGrid: "--theme-dark-color-surface-background-grid",
+      backgroundGrid: "--theme-light-color-surface-background-grid",
     },
     text: {
       primary: "--theme-light-color-text-primary",
@@ -40,7 +40,7 @@ export const themeKeyMap: Record<ThemeMode, Theme> = {
       primaryHover: "--theme-dark-color-surface-primary-hover",
       primaryDisabled: "--theme-dark-color-surface-primary-disabled",
       primaryInversed: "--theme-light-color-surface-primary",
-      backgroundGrid: "--theme-light-color-surface-background-grid",
+      backgroundGrid: "--theme-dark-color-surface-background-grid",
     },
     text: {
       primary: "--theme-dark-color-text-primary",

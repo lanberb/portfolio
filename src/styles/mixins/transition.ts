@@ -9,7 +9,11 @@ export interface TransitionProps {
   delay?: number;
 }
 
-export const transition = ({ behavior = "allow-discrete", duration = GLOBAL_TRANSITION_DURATION, delay }: TransitionProps): SerializedStyles => {
+export const transition = ({
+  behavior = "allow-discrete",
+  duration = GLOBAL_TRANSITION_DURATION,
+  delay,
+}: TransitionProps): SerializedStyles => {
   return css`
     transition-behavior: ${behavior};
     transition-duration: ${duration}ms;

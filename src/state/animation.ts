@@ -5,7 +5,7 @@ type Store = {
   setFootprintDialogOpen: (open: boolean) => void;
 };
 
-export const useDialogStore = create<Store>((set) => ({
+export const useAnimationStore = create<Store>((set) => ({
   footprintDialogOpen: false,
   setFootprintDialogOpen: (open) => set({ footprintDialogOpen: open }),
 }));

@@ -1,4 +1,4 @@
-import { type LocaleKey, localeKeyMap } from "@/lib/i18n/localize";
+import { type LocaleKey, localeKeyMap } from "@/util/i18n/localize";
 import { type FC, type PropsWithChildren, createContext, useCallback, useContext, useEffect, useState } from "react";
 
 const getInitialLang = (): LocaleKey => {

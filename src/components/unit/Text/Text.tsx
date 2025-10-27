@@ -1,4 +1,13 @@
-import { type BaseProps, type MarginProps, type PaddingProps, type TypographyProps, base, margins, paddings, typography } from "@/styles/mixins";
+import {
+  type BaseProps,
+  type MarginProps,
+  type PaddingProps,
+  type TypographyProps,
+  base,
+  margins,
+  paddings,
+  typography,
+} from "@/styles/mixins";
 import styled from "@emotion/styled";
 import type { LabelHTMLAttributes } from "react";
 

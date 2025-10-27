@@ -1,16 +1,17 @@
 import { useI18n } from "@/components/hooks/useI18n";
 import { useTheme } from "@/components/hooks/useTheme";
 import { SegmentControl } from "@/components/modules/SegmentControl";
+import { Box } from "@/components/unit/Box";
 import { Button } from "@/components/unit/Button";
 import { Icon } from "@/components/unit/Icon";
 import { Link } from "@/components/unit/Link";
 import { Stack } from "@/components/unit/Stack";
 import { Text } from "@/components/unit/Text";
-import type { LocaleKey } from "@/lib/i18n/localize";
-import { routes } from "@/lib/router/routes";
-import { useDialogStore } from "@/state/dialog/store";
+import { useDialogStore } from "@/state/dialog";
 import { GLOBAL_TRANSITION_DURATION } from "@/styles/mixins/transition";
 import type { ThemeMode } from "@/styles/theme";
+import type { LocaleKey } from "@/util/i18n/localize";
+import { routes } from "@/util/routes";
 import styled from "@emotion/styled";
 import { type CSSProperties, type FC, useCallback } from "react";
 import { useLocation } from "react-router-dom";
@@ -87,52 +88,68 @@ export const GlobalNavigation: FC = () => {
   })();
 
   return (
-    <Stack justifyContent="space-between" alignItems="center" mt={64} mx={64} wrap="wrap">
-      <Stack wrap="wrap" b={1} bc="primaryInversed" radius={80} width="fit-content" backgroundColor="primaryInversed">
-        <_NavigationCellList
-          as="nav"
-          position="relative"
-          alignItems="center"
-          b={2}
-          radius={32}
-          backgroundColor="primary"
-          style={
-            {
-              "--pseudoElementPositionX": `${pseudoElementPositionX}px`,
-            } as CSSProperties
-          }
-        >
-          {navKeys.map((key) => {
-            const pathname = `/${key === "top" ? "" : key}`;
-            return (
-              <_NavigationCell key={key} href={routes[key]} ta="center" tt="capitalize" fz={16} data-selected={pathname === location.pathname}>
-                {key}
-              </_NavigationCell>
-            );
-          })}
-        </_NavigationCellList>
+    <>
+      <Box position="absolute" top={64} left={64}>
+        <Stack wrap="wrap" b={1} bc="primaryInversed" radius={80} width="fit-content" backgroundColor="primaryInversed">
+          <_NavigationCellList
+            as="nav"
+            position="relative"
+            alignItems="center"
+            b={2}
+            radius={32}
+            backgroundColor="primary"
+            style={
+              {
+                "--pseudoElementPositionX": `${pseudoElementPositionX}px`,
+              } as CSSProperties
+            }
+          >
+            {navKeys.map((key) => {
+              const pathname = `/${key === "top" ? "" : key}`;
+              return (
+                <_NavigationCell
+                  key={key}
+                  href={routes[key]}
+                  ta="center"
+                  tt="capitalize"
+                  fz={16}
+                  data-selected={pathname === location.pathname}
+                >
+                  {key}
+                </_NavigationCell>
+              );
+            })}
+          </_NavigationCellList>
 
-        <Stack alignItems="center" gap={24} px={32}>
-          <SegmentControl
-            name="localizeLang"
-            defaultKey={i18n.lang}
-            items={[<span key="ja">JA</span>, <span key="en">EN</span>]}
-            onSelect={handleOnSelectLang}
-          />
-          <SegmentControl
-            name="themeMode"
-            defaultKey={theme?.mode}
-            items={[<Icon key="light" name="light" size={16} />, <Icon key="dark" name="dark" size={16} />]}
-            onSelect={handleOnSelectTheme}
-          />
+          <Stack alignItems="center" gap={24} px={32}>
+            <SegmentControl
+              name="localizeLang"
+              defaultKey={i18n.lang}
+              items={[<span key="ja">JA</span>, <span key="en">EN</span>]}
+              onSelect={handleOnSelectLang}
+            />
+            <SegmentControl
+              name="themeMode"
+              defaultKey={theme?.mode}
+              items={[<Icon key="light" name="light" size={16} />, <Icon key="dark" name="dark" size={16} />]}
+              onSelect={handleOnSelectTheme}
+            />
+          </Stack>
         </Stack>
-      </Stack>
+      </Box>
 
-      <Button endIcon={<Icon name="footprint" size={24} rotate={90} />} variant="filled" type="button" onClick={handleOnClickFootprintButton}>
-        <Text as="span" color="primaryInversed" fw={300}>
-          Footprint
-        </Text>
-      </Button>
-    </Stack>
+      <Box position="absolute" top={64} right={64}>
+        <Button
+          endIcon={<Icon name="footprint" size={24} rotate={90} />}
+          variant="filled"
+          type="button"
+          onClick={handleOnClickFootprintButton}
+        >
+          <Text as="span" color="primaryInversed" fw={300}>
+            Footprint
+          </Text>
+        </Button>
+      </Box>
+    </>
   );
 };

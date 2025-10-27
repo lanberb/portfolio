@@ -1,13 +1,13 @@
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
-      input: path.resolve(__dirname, "src/components/app/main.tsx"),
+      input: path.resolve(__dirname, "src/client/main.tsx"),
     },
   },
   resolve: {

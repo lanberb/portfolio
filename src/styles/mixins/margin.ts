@@ -12,7 +12,15 @@ export interface MarginProps {
   mx?: CSSProperties["marginInline"];
 }
 
-export const margins = ({ m = 0, mb = 0, ml = 0, mr = 0, mt = 0, my = 0, mx = 0 }: MarginProps): SerializedStyles => css`
+export const margins = ({
+  m = 0,
+  mb = 0,
+  ml = 0,
+  mr = 0,
+  mt = 0,
+  my = 0,
+  mx = 0,
+}: MarginProps): SerializedStyles => css`
   ${m && `margin: ${px(m)}`};
   ${mt && `margin-top: ${px(mt)}`};
   ${ml && `margin-left: ${px(ml)}`};

@@ -15,7 +15,17 @@ export interface TypographyProps {
   ls?: CSSProperties["letterSpacing"];
 }
 
-export const typography = ({ fz, fw, ff, ta, tt, va, ws, lh = "100%", ls = "0.08rem" }: TypographyProps): SerializedStyles => css`
+export const typography = ({
+  fz,
+  fw,
+  ff,
+  ta,
+  tt,
+  va,
+  ws,
+  lh = "100%",
+  ls = "0.08rem",
+}: TypographyProps): SerializedStyles => css`
   ${fz && `font-size: ${px(fz)}`};
   ${fw && `font-weight: ${fw}`};
   ${ff && `font-family: ${ff}`};

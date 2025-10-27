@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 
 export const useMount = (fn: () => void) => {
   const isMounted = useRef(false);
+
   useEffect(() => {
     if (isMounted.current === true) {
       return;
