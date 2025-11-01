@@ -2,21 +2,40 @@ import EarthLogoStickerImage from "@/assets/images/sticker/earth_logo.png";
 import ExpandChromStickerImage from "@/assets/images/sticker/expand_chrom.png";
 import { useCanvas } from "@/components/hooks/useCanvas";
 import { useLoadImages } from "@/components/hooks/useLoadImages";
-import { usePointerEvent } from "@/components/hooks/usePointerEvent";
 import { useTheme } from "@/components/hooks/useTheme";
+import { usePointerEvent } from "@/components/modules/GlobalCanvas/internals/hooks/usePointerEvent";
 import { Canvas } from "@/components/unit/Canvas";
-import styled from "@emotion/styled";
 import { type FC, useCallback, useEffect, useMemo, useState } from "react";
-import { animation } from "./internals/animation";
-import { BACKGROUND_GRID_GAP, draw } from "./internals/draw";
+import { type AnimatableImage, animation } from "./internals/animation";
+import { BACKGROUND_GRID_GAP } from "./internals/common";
+import { interaction } from "./internals/interaction";
 
-const _Canvas = styled(Canvas)`
-  cursor: grab;
-
-  &[data-dragging="true"] {
-    cursor: grabbing;
-  }
-`;
+const STICEKR_SETTING_LIST = [
+  {
+    url: ExpandChromStickerImage,
+    width: 480,
+    x: 0,
+    y: 0,
+    scale: 1,
+    opacity: 0,
+  },
+  {
+    url: EarthLogoStickerImage,
+    width: 360,
+    x: 0,
+    y: 0,
+    scale: 1,
+    opacity: 0,
+  },
+  {
+    url: ExpandChromStickerImage,
+    width: 240,
+    x: 0,
+    y: 0,
+    scale: 1,
+    opacity: 0,
+  },
+];
 
 /**
  * @summary 与えられた幅からグリッドの幅で割った値を偶数で返す
@@ -29,20 +48,22 @@ const caluculateLineCount = (width: number) => {
   return lineCount + 2; // +2することでグリッドの最大表示可能本数を返す
 };
 
-const STICEKR_SETTING_LIST = [
-  {
-    url: ExpandChromStickerImage,
-    width: 480,
-  },
-  {
-    url: EarthLogoStickerImage,
-    width: 360,
-  },
-  {
-    url: ExpandChromStickerImage,
-    width: 240,
-  },
-];
+/**
+ * @summary 非同期にfetchされたimagesを元にAnimatableImagesのリストを返す
+ */
+const createAnimatableImagesFromLoadedImages = (images: HTMLImageElement[]): AnimatableImage[] => {
+  return STICEKR_SETTING_LIST.reduce<AnimatableImage[]>((acc, setting, index) => {
+    const image = images?.[index];
+    if (image == null) {
+      return acc;
+    }
+    acc.push({
+      el: image,
+      ...setting,
+    });
+    return acc;
+  }, []);
+};
 
 export const GlobalCanvas: FC = () => {
   const { el, canvasApi, canvasRef } = useCanvas();
@@ -59,7 +80,7 @@ export const GlobalCanvas: FC = () => {
     if (canvasApi == null || el == null || themeState == null) {
       return;
     }
-    draw(canvasApi, el, themeState, rowLineCount, columnLineCount, position, loadImages.data ?? []);
+    interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, loadImages.data ?? []);
   }, [canvasApi, el, themeState, rowLineCount, columnLineCount, position, loadImages.data]);
 
   const handleOnOpeningAnimationComplete = useCallback(() => {
@@ -76,15 +97,8 @@ export const GlobalCanvas: FC = () => {
     ) {
       return;
     }
-    animation(
-      canvasApi,
-      el,
-      themeState,
-      rowLineCount,
-      columnLineCount,
-      loadImages.data,
-      handleOnOpeningAnimationComplete,
-    );
+    const images = createAnimatableImagesFromLoadedImages(loadImages.data);
+    animation(canvasApi, el, themeState, rowLineCount, columnLineCount, images, handleOnOpeningAnimationComplete);
   }, [canvasApi, el, themeState, rowLineCount, columnLineCount, loadImages.data, handleOnOpeningAnimationComplete]);
 
   /**
@@ -103,8 +117,9 @@ export const GlobalCanvas: FC = () => {
   }, [handleOnMouseMoveOrReRender, isDragging, isMounted]);
 
   return (
-    <_Canvas
+    <Canvas
       ref={canvasRef}
+      grabbable
       position="fixed"
       inset={0}
       zIndex={-1}

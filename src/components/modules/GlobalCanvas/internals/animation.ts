@@ -7,7 +7,15 @@ import {
   drawImage,
   drawLine,
   getSurfaceColor,
-} from "./draw";
+} from "./common";
+
+export type AnimatableImage = {
+  el: HTMLImageElement;
+  x: number;
+  y: number;
+  scale: number;
+  opacity: number;
+};
 
 export const animation = (
   canvasApi: CanvasRenderingContext2D,
@@ -15,7 +23,7 @@ export const animation = (
   themeState: ThemeState,
   rowLineCount: number,
   columnLineCount: number,
-  images: HTMLImageElement[],
+  images: AnimatableImage[],
   onComplete: () => void,
 ) => {
   console.log("Running openingAnimation...");
@@ -31,12 +39,18 @@ export const animation = (
 
   return new Promise<void>((resolve) => {
     const animationProperties = {
-      x: 0,
-      y: 0,
-      images: images.map(() => ({
-        scale: 1.2,
-        opacity: 0,
-      })),
+      lines: {
+        x: 0,
+        y: 0,
+      },
+      images: images.map(() => {
+        return {
+          scale: 1.2,
+          opacity: 0,
+          x: 0,
+          y: 0,
+        };
+      }),
     };
 
     let requestAnimationFrameId: number;
@@ -46,21 +60,23 @@ export const animation = (
       // 縦軸
       for (let i = 0; i < rowLineCount; i++) {
         const startPositionY = i % 2 === 0 ? 0 : canvasApi.canvas.height;
-        const endPositionY = i % 2 === 0 ? animationProperties.y : canvasApi.canvas.height - animationProperties.y;
+        const endPositionY =
+          i % 2 === 0 ? animationProperties.lines.y : canvasApi.canvas.height - animationProperties.lines.y;
         drawLine(canvasApi, [rowLineStartXArray[i], startPositionY], [rowLineStartXArray[i], endPositionY]);
       }
       // 横軸
       for (let i = 0; i < columnLineCount; i++) {
         const startPositionX = i % 2 === 0 ? 0 : canvasApi.canvas.width;
-        const endPositionX = i % 2 === 0 ? animationProperties.x : canvasApi.canvas.width - animationProperties.x;
+        const endPositionX =
+          i % 2 === 0 ? animationProperties.lines.x : canvasApi.canvas.width - animationProperties.lines.x;
         drawLine(canvasApi, [startPositionX, columnLineStartYArray[i]], [endPositionX, columnLineStartYArray[i]]);
       }
 
       for (let i = 0; i < images.length; i++) {
         drawImage(
           canvasApi,
-          images[i],
-          { x: 0, y: 0 },
+          images[i].el,
+          { x: animationProperties.images[i]?.x, y: animationProperties.images[i]?.y },
           animationProperties.images[i]?.scale,
           animationProperties.images[i]?.opacity,
         );
@@ -81,10 +97,10 @@ export const animation = (
       onComplete: handleOnComplete,
     });
     timeline
-      .add(animationProperties, {
+      .add(animationProperties.lines, {
         x: canvasApi.canvas.width,
         y: canvasApi.canvas.height,
-        duration: 2000,
+        duration: 1200,
         ease: "inOut(1.6)",
       })
       .add(
@@ -98,13 +114,11 @@ export const animation = (
         },
         0,
       )
-      .add(
-        animationProperties,
-        {
-          duration: 2000,
-          ease: "inOut(1.6)",
-        },
-        0,
-      );
+      .add(animationProperties.images, {
+        x: (index: number) => index * 100,
+        y: (index: number) => index * 100,
+        duration: 400,
+        ease: "inBack(1.6)",
+      });
   });
 };

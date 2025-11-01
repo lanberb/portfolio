@@ -1,5 +1,21 @@
-import { useUnmount } from "@/components/hooks/useRenderingEvent";
+import { useUnmount } from "@/components/hooks/useUnmount";
 import { useCallback, useEffect, useRef, useState } from "react";
+
+const MAX_INTERACTIONABLE_DISTANCE = 200;
+const MARGIN_DISTANCE = 100;
+
+const isOutOfInteractionableDistance = (x: number, y: number) => {
+  const max = MAX_INTERACTIONABLE_DISTANCE + MARGIN_DISTANCE;
+  return Math.abs(x) > max || Math.abs(y) > max;
+};
+
+type State = {
+  position: {
+    x: number;
+    y: number;
+  };
+  scale: number;
+};
 
 type Props = {
   el: HTMLCanvasElement | null;
@@ -11,16 +27,19 @@ type Return = {
     x: number;
     y: number;
   }>;
+  engine: () => State;
 };
 
 export const usePointerEvent = ({ el }: Props): Return => {
   const [isDragging, setIsDragging] = useState(false);
 
-  const position = useRef({
-    x: 0,
-    y: 0,
+  const ref = useRef<State>({
+    position: {
+      x: 0,
+      y: 0,
+    },
+    scale: 1,
   });
-  const scale = useRef(1);
 
   /**
    * マウスアップイベント
@@ -36,18 +55,23 @@ export const usePointerEvent = ({ el }: Props): Return => {
       if (isDragging === false) {
         return;
       }
-      position.current.x += e.movementX;
-      position.current.y += e.movementY;
+      const nextX = ref.current.position.x + e.movementX;
+      const nextY = ref.current.position.y + e.movementY;
+      if (isOutOfInteractionableDistance(nextX, nextY)) {
+        return;
+      }
+      ref.current.position.x = nextX;
+      ref.current.position.y = nextY;
     },
     [isDragging],
   );
 
   const handleUnMount = useCallback(() => {
-    position.current = {
+    ref.current.position = {
       x: 0,
       y: 0,
     };
-    scale.current = 1;
+    ref.current.scale = 1;
   }, []);
 
   /**
@@ -74,6 +98,7 @@ export const usePointerEvent = ({ el }: Props): Return => {
 
   return {
     isDragging,
-    position: position.current,
+    position: ref.current.position,
+    engine: () => ref.current,
   };
 };

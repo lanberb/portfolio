@@ -79,7 +79,7 @@ export const GlobalNavigation: FC = () => {
   );
 
   const handleOnClickFootprintButton = useCallback(() => {
-    dialogStore.setFootprintDialogOpen(true);
+    dialogStore.openCreateStickerDialog();
   }, [dialogStore]);
 
   const pseudoElementPositionX = (() => {

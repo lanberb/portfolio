@@ -6,8 +6,8 @@ export const ConnectedCreateStickerDialog: FC = () => {
   const dialogStore = useDialogStore();
 
   const handleOnRequestClose = useCallback(() => {
-    dialogStore.setCreateStickerDialogOpen(false);
+    dialogStore.closeCreateStickerDialog();
   }, [dialogStore]);
 
-  return <CreateStickerDialog open={dialogStore.createStickerDialogOpen} onRequestClose={handleOnRequestClose} />;
+  return <CreateStickerDialog open={dialogStore.isOpenCreateStickerDialog} onRequestClose={handleOnRequestClose} />;
 };

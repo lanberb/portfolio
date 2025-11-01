@@ -64,6 +64,7 @@ export const createGlobalStyles = (_: Theme) => {
       font-style: normal;
       letter-spacing: 0.04rem;
       -webkit-font-smoothing: antialiased;
+      touch-action: none;
     }
 
     body {
