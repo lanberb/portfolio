@@ -7,6 +7,7 @@ import {
   drawImage,
   drawLine,
   getSurfaceColor,
+  type RenderableImage,
 } from "./common";
 
 export const interaction = (
@@ -16,7 +17,7 @@ export const interaction = (
   rowLineCount: number,
   columnLineCount: number,
   position: { x: number; y: number },
-  images: HTMLImageElement[],
+  images: RenderableImage[],
 ) => {
   canvasApi.clearRect(0, 0, canvasApi.canvas.width, canvasApi.canvas.height);
   canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
@@ -42,6 +43,6 @@ export const interaction = (
     drawLine(canvasApi, [0, columnLineStartYArray[i]], [el.width, columnLineStartYArray[i]]);
   }
   for (const image of images) {
-    drawImage(canvasApi, image, position, 1, 1);
+    drawImage(canvasApi, image.el, { x: image.x + position.x, y: image.y + position.y }, 1, 1);
   }
 };

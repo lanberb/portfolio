@@ -1,17 +1,17 @@
-import {
-  type BaseProps,
-  type MarginProps,
-  type PaddingProps,
-  type TypographyProps,
-  base,
-  margins,
-  paddings,
-  typography,
-} from "@/styles/mixins";
-import { protocol } from "@/util/routes";
 import styled from "@emotion/styled";
 import type { FC, PropsWithChildren } from "react";
 import { Link as InternalLink } from "react-router-dom";
+import {
+  type BaseProps,
+  base,
+  type MarginProps,
+  margins,
+  type PaddingProps,
+  paddings,
+  type TypographyProps,
+  typography,
+} from "@/styles/mixins";
+import { protocol } from "@/util/routes";
 import { Text } from "../Text";
 
 interface Props extends TypographyProps, BaseProps, MarginProps, PaddingProps {

@@ -1,6 +1,6 @@
-import { type BaseProps, base } from "@/styles/mixins";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { type BaseProps, base } from "@/styles/mixins";
 
 type Props = BaseProps & {
   grabbable?: boolean;

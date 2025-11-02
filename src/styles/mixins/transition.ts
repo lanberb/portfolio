@@ -1,4 +1,4 @@
-import { type SerializedStyles, css } from "@emotion/react";
+import { css, type SerializedStyles } from "@emotion/react";
 import type { CSSProperties } from "react";
 
 export const GLOBAL_TRANSITION_DURATION = 350; // ms

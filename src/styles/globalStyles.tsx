@@ -1,5 +1,5 @@
-import bgNoise from "@/assets/images/common/bg_noise.png";
 import { css } from "@emotion/react";
+import bgNoise from "@/assets/images/common/bg_noise.png";
 import { PrefersColorScheme, PrefersReducedMotion } from "./media";
 import { GLOBAL_TRANSITION_DURATION } from "./mixins/transition";
 import { type Theme, themeKeyMap } from "./theme";

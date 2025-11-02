@@ -1,4 +1,4 @@
-import { type SerializedStyles, css } from "@emotion/react";
+import { css, type SerializedStyles } from "@emotion/react";
 import type { Theme } from "../theme";
 import { base } from "./base";
 import { borders } from "./border";

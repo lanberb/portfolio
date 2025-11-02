@@ -1,8 +1,8 @@
+import styled from "@emotion/styled";
+import type { FC } from "react";
 import { Icon, type IconProps } from "@/components/unit/Icon";
 import { GLOBAL_TRANSITION_DURATION } from "@/styles/mixins";
 import type { Color } from "@/styles/theme";
-import styled from "@emotion/styled";
-import type { FC } from "react";
 
 const _buttonBackgroundSize = 32;
 

@@ -1,6 +1,6 @@
-import { type ButtonProps, button } from "@/styles/mixins";
 import styled from "@emotion/styled";
 import type { ButtonHTMLAttributes, FC, ReactNode } from "react";
+import { type ButtonProps, button } from "@/styles/mixins";
 
 const _Button = styled.button<ButtonProps>`
   ${button}

@@ -1,9 +1,15 @@
+import type { Theme } from "@emotion/react";
 import type { ThemeState } from "@/styles/theme";
 import { getCenterizePosition } from "@/util/canvas";
-import type { Theme } from "@emotion/react";
 
 export const BACKGROUND_GRID_GAP = 40;
 export const BACKGROUND_GRID_STROKE_WIDTH = 1;
+
+export type RenderableImage = {
+  el: HTMLImageElement;
+  x: number;
+  y: number;
+};
 
 /**
  * @summary keyをもとにglobalStyleに登録されているRGBAを返す

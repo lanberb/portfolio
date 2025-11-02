@@ -1,7 +1,7 @@
-import { Stack } from "@/components/unit/Stack";
-import { Text } from "@/components/unit/Text";
 import styled from "@emotion/styled";
 import { type FC, type FormEvent, type ReactElement, useCallback } from "react";
+import { Stack } from "@/components/unit/Stack";
+import { Text } from "@/components/unit/Text";
 
 const Item = styled(Stack)`
   &:not(:last-of-type)::after {

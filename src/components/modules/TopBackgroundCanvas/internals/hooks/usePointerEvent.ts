@@ -1,13 +1,5 @@
-import { useUnmount } from "@/components/hooks/useUnmount";
 import { useCallback, useEffect, useRef, useState } from "react";
-
-const MAX_INTERACTIONABLE_DISTANCE = 200;
-const MARGIN_DISTANCE = 100;
-
-const isOutOfInteractionableDistance = (x: number, y: number) => {
-  const max = MAX_INTERACTIONABLE_DISTANCE + MARGIN_DISTANCE;
-  return Math.abs(x) > max || Math.abs(y) > max;
-};
+import { useUnmount } from "@/components/hooks/useUnmount";
 
 type State = {
   position: {
@@ -55,13 +47,8 @@ export const usePointerEvent = ({ el }: Props): Return => {
       if (isDragging === false) {
         return;
       }
-      const nextX = ref.current.position.x + e.movementX;
-      const nextY = ref.current.position.y + e.movementY;
-      if (isOutOfInteractionableDistance(nextX, nextY)) {
-        return;
-      }
-      ref.current.position.x = nextX;
-      ref.current.position.y = nextY;
+      ref.current.position.x += e.movementX;
+      ref.current.position.y += e.movementY;
     },
     [isDragging],
   );

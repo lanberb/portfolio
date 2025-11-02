@@ -1,14 +1,18 @@
+import { type FC, useCallback, useEffect, useMemo, useState } from "react";
 import EarthLogoStickerImage from "@/assets/images/sticker/earth_logo.png";
 import ExpandChromStickerImage from "@/assets/images/sticker/expand_chrom.png";
+import RotateTextStickerImage from "@/assets/images/sticker/rotate_text.png";
+import StarLikeStickerImage from "@/assets/images/sticker/star_like.png";
+import StreetPaintStickerImage from "@/assets/images/sticker/street_paint.png";
 import { useCanvas } from "@/components/hooks/useCanvas";
 import { useLoadImages } from "@/components/hooks/useLoadImages";
 import { useTheme } from "@/components/hooks/useTheme";
-import { usePointerEvent } from "@/components/modules/GlobalCanvas/internals/hooks/usePointerEvent";
+import { usePointerEvent } from "@/components/modules/TopBackgroundCanvas/internals/hooks/usePointerEvent";
 import { Canvas } from "@/components/unit/Canvas";
-import { type FC, useCallback, useEffect, useMemo, useState } from "react";
-import { type AnimatableImage, animation } from "./internals/animation";
-import { BACKGROUND_GRID_GAP } from "./internals/common";
-import { interaction } from "./internals/interaction";
+import { useAnimationStore } from "@/state/animation";
+import { animation } from "./internals/canvas/animation";
+import { BACKGROUND_GRID_GAP, type RenderableImage } from "./internals/canvas/common";
+import { interaction } from "./internals/canvas/interaction";
 
 const STICEKR_SETTING_LIST = [
   {
@@ -16,24 +20,30 @@ const STICEKR_SETTING_LIST = [
     width: 480,
     x: 0,
     y: 0,
-    scale: 1,
-    opacity: 0,
   },
   {
     url: EarthLogoStickerImage,
     width: 360,
-    x: 0,
-    y: 0,
-    scale: 1,
-    opacity: 0,
+    x: 800,
+    y: -360,
   },
   {
-    url: ExpandChromStickerImage,
-    width: 240,
-    x: 0,
-    y: 0,
-    scale: 1,
-    opacity: 0,
+    url: StarLikeStickerImage,
+    width: 360,
+    x: 720,
+    y: 360,
+  },
+  {
+    url: RotateTextStickerImage,
+    width: 280,
+    x: -480,
+    y: 640,
+  },
+  {
+    url: StreetPaintStickerImage,
+    width: 480,
+    x: -800,
+    y: -240,
   },
 ];
 
@@ -51,8 +61,8 @@ const caluculateLineCount = (width: number) => {
 /**
  * @summary 非同期にfetchされたimagesを元にAnimatableImagesのリストを返す
  */
-const createAnimatableImagesFromLoadedImages = (images: HTMLImageElement[]): AnimatableImage[] => {
-  return STICEKR_SETTING_LIST.reduce<AnimatableImage[]>((acc, setting, index) => {
+const createRenderableImagesFromLoadedImages = (images: HTMLImageElement[]): RenderableImage[] => {
+  return STICEKR_SETTING_LIST.reduce<RenderableImage[]>((acc, setting, index) => {
     const image = images?.[index];
     if (image == null) {
       return acc;
@@ -65,41 +75,39 @@ const createAnimatableImagesFromLoadedImages = (images: HTMLImageElement[]): Ani
   }, []);
 };
 
-export const GlobalCanvas: FC = () => {
-  const { el, canvasApi, canvasRef } = useCanvas();
-  const { position, isDragging } = usePointerEvent({ el });
+export const TopBackgroundCanvas: FC = () => {
   const themeState = useTheme();
+  const { el, canvasApi, canvasRef } = useCanvas();
+  const animationStore = useAnimationStore();
+
   const loadImages = useLoadImages(STICEKR_SETTING_LIST);
+
+  const { position, isDragging } = usePointerEvent({ el });
 
   const [isMounted, setIsMounted] = useState(false);
 
   const rowLineCount = useMemo(() => caluculateLineCount(el?.width ?? 0), [el]);
   const columnLineCount = useMemo(() => caluculateLineCount(el?.height ?? 0), [el]);
+  const images = useMemo(() => createRenderableImagesFromLoadedImages(loadImages.data ?? []), [loadImages.data]);
 
   const handleOnMouseMoveOrReRender = useCallback(() => {
     if (canvasApi == null || el == null || themeState == null) {
       return;
     }
-    interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, loadImages.data ?? []);
-  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, position, loadImages.data]);
+    interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
+  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, position, images]);
 
   const handleOnOpeningAnimationComplete = useCallback(() => {
     setIsMounted(true);
-  }, []);
+    animationStore.setIsEndedOpeningAnimation();
+  }, [animationStore.setIsEndedOpeningAnimation]);
 
   useEffect(() => {
-    if (
-      canvasApi == null ||
-      el == null ||
-      themeState == null ||
-      loadImages.data == null ||
-      loadImages.data?.length === 0
-    ) {
+    if (canvasApi == null || el == null || themeState == null || images.length === 0) {
       return;
     }
-    const images = createAnimatableImagesFromLoadedImages(loadImages.data);
     animation(canvasApi, el, themeState, rowLineCount, columnLineCount, images, handleOnOpeningAnimationComplete);
-  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, loadImages.data, handleOnOpeningAnimationComplete]);
+  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, images, handleOnOpeningAnimationComplete]);
 
   /**
    * マウスイベント登録

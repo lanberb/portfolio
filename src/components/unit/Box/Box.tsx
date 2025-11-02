@@ -1,15 +1,15 @@
+import styled from "@emotion/styled";
+import type { JSX } from "react";
 import {
   type BaseProps,
   type BorderProps,
-  type MarginProps,
-  type PaddingProps,
   base,
   borders,
+  type MarginProps,
   margins,
+  type PaddingProps,
   paddings,
 } from "@/styles/mixins";
-import styled from "@emotion/styled";
-import type { JSX } from "react";
 
 interface Props extends BaseProps, MarginProps, PaddingProps, BorderProps {
   as?: keyof JSX.IntrinsicElements;

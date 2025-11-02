@@ -1,5 +1,5 @@
-import type { ThemeState } from "@/styles/theme";
 import { createTimeline } from "animejs";
+import type { ThemeState } from "@/styles/theme";
 import {
   BACKGROUND_GRID_STROKE_WIDTH,
   caluculateFirstLineStart,
@@ -7,15 +7,8 @@ import {
   drawImage,
   drawLine,
   getSurfaceColor,
+  type RenderableImage,
 } from "./common";
-
-export type AnimatableImage = {
-  el: HTMLImageElement;
-  x: number;
-  y: number;
-  scale: number;
-  opacity: number;
-};
 
 export const animation = (
   canvasApi: CanvasRenderingContext2D,
@@ -23,7 +16,7 @@ export const animation = (
   themeState: ThemeState,
   rowLineCount: number,
   columnLineCount: number,
-  images: AnimatableImage[],
+  images: RenderableImage[],
   onComplete: () => void,
 ) => {
   console.log("Running openingAnimation...");
@@ -43,12 +36,12 @@ export const animation = (
         x: 0,
         y: 0,
       },
-      images: images.map(() => {
+      images: images.map(({ x, y }) => {
         return {
           scale: 1.2,
           opacity: 0,
-          x: 0,
-          y: 0,
+          x,
+          y,
         };
       }),
     };
@@ -97,6 +90,10 @@ export const animation = (
       onComplete: handleOnComplete,
     });
     timeline
+      .set(animationProperties.images, {
+        x: 0,
+        y: 0,
+      })
       .add(animationProperties.lines, {
         x: canvasApi.canvas.width,
         y: canvasApi.canvas.height,
@@ -109,16 +106,22 @@ export const animation = (
           scale: 1,
           opacity: 1,
           duration: 300,
-          delay: (_, index: number) => index * 300,
+          delay: (_, index: number) => index * 160,
           ease: "inOut(1.6)",
         },
         0,
       )
       .add(animationProperties.images, {
-        x: (index: number) => index * 100,
-        y: (index: number) => index * 100,
-        duration: 400,
-        ease: "inBack(1.6)",
+        scale: 0.96,
+        duration: 240,
+        ease: "inBack(0.8)",
+      })
+      .add(animationProperties.images, {
+        x: (_: unknown, index: number) => animationProperties.images[index].x,
+        y: (_: unknown, index: number) => animationProperties.images[index].y,
+        scale: 1,
+        duration: 320,
+        ease: "outBack(0.4)",
       });
   });
 };

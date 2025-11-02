@@ -1,5 +1,5 @@
-import { loadImageAsync } from "@/util/image/loader";
 import { useEffect, useState } from "react";
+import { loadImageAsync } from "@/util/image/loader";
 
 type Status = "idle" | "loading" | "success" | "error";
 

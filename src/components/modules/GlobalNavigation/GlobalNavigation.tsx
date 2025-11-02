@@ -1,3 +1,6 @@
+import styled from "@emotion/styled";
+import { type CSSProperties, type FC, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import { useI18n } from "@/components/hooks/useI18n";
 import { useTheme } from "@/components/hooks/useTheme";
 import { SegmentControl } from "@/components/modules/SegmentControl";
@@ -7,18 +10,21 @@ import { Icon } from "@/components/unit/Icon";
 import { Link } from "@/components/unit/Link";
 import { Stack } from "@/components/unit/Stack";
 import { Text } from "@/components/unit/Text";
+import { useAnimationStore } from "@/state/animation";
 import { useDialogStore } from "@/state/dialog";
-import { GLOBAL_TRANSITION_DURATION } from "@/styles/mixins/transition";
+import { GLOBAL_TRANSITION_DURATION, type TransitionProps, transition } from "@/styles/mixins/transition";
 import type { ThemeMode } from "@/styles/theme";
 import type { LocaleKey } from "@/util/i18n/localize";
 import { routes } from "@/util/routes";
-import styled from "@emotion/styled";
-import { type CSSProperties, type FC, useCallback } from "react";
-import { useLocation } from "react-router-dom";
 
 const navKeys: (keyof typeof routes)[] = ["top", "about", "blog"];
 
 const _NavigationCellWidth = 96;
+
+const _NavigationTransitionItem = styled(Box)<{ show: boolean } & TransitionProps>`
+  opacity: ${({ show }) => (show ? 1 : 0)};
+  ${transition};
+`;
 
 const _NavigationCell = styled(Link)`
   width: ${_NavigationCellWidth}px;
@@ -60,6 +66,7 @@ export const GlobalNavigation: FC = () => {
   const theme = useTheme();
   const i18n = useI18n();
 
+  const animationStore = useAnimationStore();
   const dialogStore = useDialogStore();
 
   const handleOnSelectTheme = useCallback(
@@ -89,7 +96,7 @@ export const GlobalNavigation: FC = () => {
 
   return (
     <>
-      <Box position="absolute" top={64} left={64}>
+      <_NavigationTransitionItem show={animationStore.isEndedOpeningAnimation} position="absolute" top={64} left={64}>
         <Stack wrap="wrap" b={1} bc="primaryInversed" radius={80} width="fit-content" backgroundColor="primaryInversed">
           <_NavigationCellList
             as="nav"
@@ -136,9 +143,9 @@ export const GlobalNavigation: FC = () => {
             />
           </Stack>
         </Stack>
-      </Box>
+      </_NavigationTransitionItem>
 
-      <Box position="absolute" top={64} right={64}>
+      <_NavigationTransitionItem show={animationStore.isEndedOpeningAnimation} position="absolute" top={64} right={64}>
         <Button
           endIcon={<Icon name="footprint" size={24} rotate={90} />}
           variant="filled"
@@ -149,7 +156,7 @@ export const GlobalNavigation: FC = () => {
             Footprint
           </Text>
         </Button>
-      </Box>
+      </_NavigationTransitionItem>
     </>
   );
 };
