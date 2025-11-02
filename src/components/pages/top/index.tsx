@@ -13,12 +13,10 @@ export const TopPage: FC = () => {
   return (
     <div>
       <TopBackgroundCanvas />
-      
-      <_FixedTransitionItem position="absolute" bottom={64} left={64} show={true}>
-      </_FixedTransitionItem>
 
-      <_FixedTransitionItem position="absolute" bottom={64} right={64} show={true}>
-      </_FixedTransitionItem>
+      <_FixedTransitionItem position="absolute" bottom={64} left={64} show={true}></_FixedTransitionItem>
+
+      <_FixedTransitionItem position="absolute" bottom={64} right={64} show={true}></_FixedTransitionItem>
     </div>
   );
 };
