@@ -1,6 +1,14 @@
 import type { FC, SVGProps } from "react";
 
-export type IconName = "lightMode" | "darkMode" | "footprint" | "close";
+export type IconName =
+  | "modeLight"
+  | "modeDark"
+  | "footprint"
+  | "close"
+  | "arrowRight"
+  | "arrowLeft"
+  | "arrowTop"
+  | "arrowBottom";
 
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, "color"> {
   name: IconName;
@@ -10,6 +18,7 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, "color"> {
 export const Icon: FC<IconProps> = ({ name, size = 24 }) => {
   return (
     <svg width={size} height={size}>
+      <title>{name}</title>
       <use href={`#${name}`} fill="currentColor" />
     </svg>
   );

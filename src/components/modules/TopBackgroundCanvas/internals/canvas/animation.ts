@@ -106,7 +106,7 @@ export const animation = (
           scale: 1,
           opacity: 1,
           duration: 300,
-          delay: (_, index: number) => index * 160,
+          delay: (_, index: number) => (800 / images.length) * index,
           ease: "inOut(1.6)",
         },
         0,
@@ -120,7 +120,7 @@ export const animation = (
         x: (_: unknown, index: number) => animationProperties.images[index].x,
         y: (_: unknown, index: number) => animationProperties.images[index].y,
         scale: 1,
-        duration: 320,
+        duration: 640,
         ease: "outBack(0.4)",
       });
   });

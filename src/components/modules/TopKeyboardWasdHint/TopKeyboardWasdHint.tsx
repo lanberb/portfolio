@@ -64,7 +64,7 @@ const _Container = styled(Box)`
       grid-area: 2 / 1;
     }
     &[data-key="S"] {
-      grid-area: 2 / 2;
+      grid-area: 3 / 2;
     }
     &[data-key="D"] {
       grid-area: 2 / 3;

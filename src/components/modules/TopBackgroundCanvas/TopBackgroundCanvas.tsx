@@ -4,11 +4,11 @@ import ExpandChromStickerImage from "@/assets/images/sticker/expand_chrom.png";
 import RotateTextStickerImage from "@/assets/images/sticker/rotate_text.png";
 import StarLikeStickerImage from "@/assets/images/sticker/star_like.png";
 import StreetPaintStickerImage from "@/assets/images/sticker/street_paint.png";
+import { usePointerEvent } from "@/components/modules/TopBackgroundCanvas/internals/hooks/usePointerEvent";
+import { Canvas } from "@/components/unit/Canvas";
 import { useCanvas } from "@/hooks/useCanvas";
 import { useLoadImages } from "@/hooks/useLoadImages";
 import { useTheme } from "@/hooks/useTheme";
-import { usePointerEvent } from "@/components/modules/TopBackgroundCanvas/internals/hooks/usePointerEvent";
-import { Canvas } from "@/components/unit/Canvas";
 import { useAnimationStore } from "@/state/animation";
 import { animation } from "./internals/canvas/animation";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "./internals/canvas/common";
@@ -24,26 +24,26 @@ const STICEKR_SETTING_LIST = [
   {
     url: EarthLogoStickerImage,
     width: 360,
-    x: 800,
-    y: -360,
+    x: 240,
+    y: -560,
   },
   {
     url: StarLikeStickerImage,
     width: 360,
-    x: 720,
-    y: 360,
+    x: 600,
+    y: 200,
   },
   {
     url: RotateTextStickerImage,
-    width: 280,
-    x: -320,
-    y: 640,
+    width: 320,
+    x: -240,
+    y: 560,
   },
   {
     url: StreetPaintStickerImage,
     width: 480,
-    x: -800,
-    y: -240,
+    x: -600,
+    y: -200,
   },
 ];
 
@@ -91,18 +91,33 @@ export const TopBackgroundCanvas: FC = () => {
   const images = useMemo(() => createRenderableImagesFromLoadedImages(loadImages.data ?? []), [loadImages.data]);
 
   const handleOnMouseMoveOrReRender = useCallback(() => {
+    if (animationStore.isPlayedOnce === false) {
+      animationStore.setIsPlayedOnce();
+    }
     if (canvasApi == null || el == null || themeState == null) {
       return;
     }
     interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
-  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, position, images]);
+  }, [
+    canvasApi,
+    el,
+    themeState,
+    rowLineCount,
+    columnLineCount,
+    position,
+    images,
+    animationStore.isPlayedOnce,
+    animationStore.setIsPlayedOnce,
+  ]);
 
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    console.log("keydown", e.key);
-    if (["ArrowUp", "w", "ArrowDown", "s", "ArrowLeft", "a", "ArrowRight", "d"].includes(e.key)) {
-      handleOnMouseMoveOrReRender();
-    }
-  }, [handleOnMouseMoveOrReRender]);
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (["ArrowUp", "w", "ArrowDown", "s", "ArrowLeft", "a", "ArrowRight", "d"].includes(e.key)) {
+        handleOnMouseMoveOrReRender();
+      }
+    },
+    [handleOnMouseMoveOrReRender],
+  );
 
   const handleOnOpeningAnimationComplete = useCallback(() => {
     setIsMounted(true);
@@ -131,7 +146,7 @@ export const TopBackgroundCanvas: FC = () => {
       document.body.removeEventListener("pointermove", handleOnMouseMoveOrReRender);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleOnMouseMoveOrReRender, isDragging, isMounted]);
+  }, [handleOnMouseMoveOrReRender, handleKeyDown, isDragging, isMounted]);
 
   return (
     <Canvas

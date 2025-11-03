@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import type { LabelHTMLAttributes } from "react";
+import type { JSX, LabelHTMLAttributes } from "react";
 import {
   type BaseProps,
   base,

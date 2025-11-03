@@ -32,7 +32,7 @@ export const typography = ({
   ${ta && `text-align: ${ta}`};
   ${tt && `text-transform: ${tt}`};
   ${va && `vertical-align: ${va}`};
-  ${ws && `white-space: ${ws}`}
+  ${ws && `white-space: ${ws}`};
   ${lh && `line-height: ${lh}`};
   ${ls && `letter-spacing: ${px(ls)}`};
 `;

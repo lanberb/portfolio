@@ -1,19 +1,19 @@
 import styled from "@emotion/styled";
 import { type CSSProperties, type FC, useCallback } from "react";
 import { useLocation } from "react-router-dom";
-import { useI18n } from "@/hooks/useI18n";
-import { useTheme } from "@/hooks/useTheme";
 import { SegmentControl } from "@/components/modules/SegmentControl";
+import { GLOBAL_TRANSITION_DURATION, type TransitionProps, transition } from "@/components/styles/mixins/transition";
+import type { ThemeMode } from "@/components/styles/theme";
 import { Box } from "@/components/unit/Box";
 import { Button } from "@/components/unit/Button";
 import { Icon } from "@/components/unit/Icon";
 import { Link } from "@/components/unit/Link";
 import { Stack } from "@/components/unit/Stack";
 import { Text } from "@/components/unit/Text";
+import { useI18n } from "@/hooks/useI18n";
+import { useTheme } from "@/hooks/useTheme";
 import { useAnimationStore } from "@/state/animation";
 import { useDialogStore } from "@/state/dialog";
-import { GLOBAL_TRANSITION_DURATION, type TransitionProps, transition } from "@/components/styles/mixins/transition";
-import type { ThemeMode } from "@/components/styles/theme";
 import type { LocaleKey } from "@/util/i18n/localize";
 import { routes } from "@/util/routes";
 
@@ -138,7 +138,7 @@ export const GlobalNavigation: FC = () => {
             <SegmentControl
               name="themeMode"
               defaultKey={theme?.mode}
-              items={[<Icon key="light" name="lightMode" size={16} />, <Icon key="dark" name="darkMode" size={16} />]}
+              items={[<Icon key="light" name="modeLight" size={16} />, <Icon key="dark" name="modeDark" size={16} />]}
               onSelect={handleOnSelectTheme}
             />
           </Stack>

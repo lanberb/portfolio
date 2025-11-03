@@ -1,4 +1,8 @@
 {
-  "ja": {},
-  "en": {}
+  "ja": {
+    "top.keyboardArrowHint.label": "WASD もしくは 矢印キーでカメラを移動できます。"
+  },
+  "en": {
+    "top.keyboardArrowHint.label": "You can move the camera with the arrow keys."
+  }
 }
