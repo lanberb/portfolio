@@ -1,8 +1,8 @@
 import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { createContext, type FC, type PropsWithChildren, useCallback, useContext, useEffect } from "react";
 import { useThemeStore } from "@/state/theme";
-import { PrefersColorScheme } from "@/styles/media";
-import { type ThemeMode, type ThemeState, themeKeyMap } from "@/styles/theme";
+import { PrefersColorScheme } from "@/components/styles/media";
+import { type ThemeMode, type ThemeState, themeKeyMap } from "@/components/styles/theme";
 
 const ThemeStateContext = createContext<ThemeState | null>(null);
 

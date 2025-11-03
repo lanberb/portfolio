@@ -1,5 +1,5 @@
 import { createTimeline } from "animejs";
-import type { ThemeState } from "@/styles/theme";
+import type { ThemeState } from "@/components/styles/theme";
 import {
   BACKGROUND_GRID_STROKE_WIDTH,
   caluculateFirstLineStart,

@@ -11,6 +11,8 @@ export interface BaseProps {
   height?: CSSProperties["height"];
   maxWidth?: CSSProperties["maxWidth"];
   maxHeight?: CSSProperties["maxHeight"];
+  minWidth?: CSSProperties["minWidth"];
+  minHeight?: CSSProperties["minHeight"];
   radius?: CSSProperties["borderRadius"] | "full";
   position?: CSSProperties["position"];
   top?: CSSProperties["top"];
@@ -25,10 +27,12 @@ export const base = ({
   theme,
   color,
   backgroundColor,
-  width = "auto",
-  height = "auto",
-  maxWidth = "none",
-  maxHeight = "none",
+  width,
+  height,
+  maxWidth,
+  maxHeight,
+  minWidth,
+  minHeight,
   radius = 0,
   position,
   top,
@@ -45,6 +49,8 @@ export const base = ({
     ${height != null && `height: ${px(height)};`}
     ${maxWidth != null && `max-width: ${px(maxWidth)};`}
     ${maxHeight != null && `max-height: ${px(maxHeight)};`}
+    ${minWidth != null && `min-width: ${px(minWidth)};`}
+    ${minHeight != null && `min-height: ${px(minHeight)};`}
     ${radius != null && `border-radius: ${px(radius === "full" ? 9999 : radius)};`}
     ${position != null && `position: ${position};`}
     ${top != null && `top: ${px(top)};`}

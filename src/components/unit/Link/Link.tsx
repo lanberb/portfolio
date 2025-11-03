@@ -10,7 +10,7 @@ import {
   paddings,
   type TypographyProps,
   typography,
-} from "@/styles/mixins";
+} from "@/components/styles/mixins";
 import { protocol } from "@/util/routes";
 import { Text } from "../Text";
 

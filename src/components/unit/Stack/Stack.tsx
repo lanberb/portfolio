@@ -11,7 +11,7 @@ import {
   paddings,
   type StackProps,
   stack,
-} from "@/styles/mixins";
+} from "@/components/styles/mixins";
 
 interface Props extends BaseProps, MarginProps, PaddingProps, BorderProps, StackProps {
   as?: keyof JSX.IntrinsicElements;

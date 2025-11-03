@@ -79,4 +79,3 @@ export const SmallSize: Story = {
     onClick: () => console.log("clicked"),
   },
 };
-

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { ThemeMode } from "@/styles/theme";
+import type { ThemeMode } from "@/components/styles/theme";
 
 type Store = {
   themeMode: ThemeMode | null;

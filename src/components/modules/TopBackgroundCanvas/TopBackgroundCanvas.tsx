@@ -4,9 +4,9 @@ import ExpandChromStickerImage from "@/assets/images/sticker/expand_chrom.png";
 import RotateTextStickerImage from "@/assets/images/sticker/rotate_text.png";
 import StarLikeStickerImage from "@/assets/images/sticker/star_like.png";
 import StreetPaintStickerImage from "@/assets/images/sticker/street_paint.png";
-import { useCanvas } from "@/components/hooks/useCanvas";
-import { useLoadImages } from "@/components/hooks/useLoadImages";
-import { useTheme } from "@/components/hooks/useTheme";
+import { useCanvas } from "@/hooks/useCanvas";
+import { useLoadImages } from "@/hooks/useLoadImages";
+import { useTheme } from "@/hooks/useTheme";
 import { usePointerEvent } from "@/components/modules/TopBackgroundCanvas/internals/hooks/usePointerEvent";
 import { Canvas } from "@/components/unit/Canvas";
 import { useAnimationStore } from "@/state/animation";
@@ -36,7 +36,7 @@ const STICEKR_SETTING_LIST = [
   {
     url: RotateTextStickerImage,
     width: 280,
-    x: -480,
+    x: -320,
     y: 640,
   },
   {
@@ -97,6 +97,13 @@ export const TopBackgroundCanvas: FC = () => {
     interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
   }, [canvasApi, el, themeState, rowLineCount, columnLineCount, position, images]);
 
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    console.log("keydown", e.key);
+    if (["ArrowUp", "w", "ArrowDown", "s", "ArrowLeft", "a", "ArrowRight", "d"].includes(e.key)) {
+      handleOnMouseMoveOrReRender();
+    }
+  }, [handleOnMouseMoveOrReRender]);
+
   const handleOnOpeningAnimationComplete = useCallback(() => {
     setIsMounted(true);
     animationStore.setIsEndedOpeningAnimation();
@@ -119,8 +126,10 @@ export const TopBackgroundCanvas: FC = () => {
     if (isDragging) {
       document.body.addEventListener("pointermove", handleOnMouseMoveOrReRender);
     }
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.removeEventListener("pointermove", handleOnMouseMoveOrReRender);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleOnMouseMoveOrReRender, isDragging, isMounted]);
 
@@ -130,7 +139,6 @@ export const TopBackgroundCanvas: FC = () => {
       grabbable
       position="fixed"
       inset={0}
-      zIndex={-1}
       width="100%"
       height="100%"
       data-dragging={isDragging}

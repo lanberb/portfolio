@@ -42,4 +42,3 @@ export const Closed: Story = {
     onRequestClose: () => console.log("Dialog close requested"),
   },
 };
-

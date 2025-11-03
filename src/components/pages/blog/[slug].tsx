@@ -1,9 +1,7 @@
 import type { FC } from "react";
 import Markdown from "react-markdown";
-import { Box } from "@/components/unit/Box";
 import { Stack } from "@/components/unit/Stack";
 import { Text } from "@/components/unit/Text";
-import { typography } from "@/styles/mixins";
 
 // const currentDir = path.join(process.cwd(), "public/blog-markdown");
 // const textStyle = typography({ ff: "Zen Old Mincho", fw: 400, lh: "140%" });

@@ -1,5 +1,5 @@
 import type { Theme } from "@emotion/react";
-import type { ThemeState } from "@/styles/theme";
+import type { ThemeState } from "@/components/styles/theme";
 import { getCenterizePosition } from "@/util/canvas";
 
 export const BACKGROUND_GRID_GAP = 40;
