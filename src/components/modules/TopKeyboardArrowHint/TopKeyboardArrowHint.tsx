@@ -48,6 +48,7 @@ const _Grid = styled(Box)`
   grid-template-rows: repeat(3, 1fr);
   gap: 8px;
   width: fit-content;
+  color: var(${({ theme }) => theme.surface.primaryInversed});
 
   & > div {
     width: 24px;

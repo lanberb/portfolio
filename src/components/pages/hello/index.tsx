@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import type { FC } from "react";
 import { TopBackgroundCanvas } from "@/components/modules/TopBackgroundCanvas";
 import { TopKeyboardArrowHint } from "@/components/modules/TopKeyboardArrowHint";
-// import { TopKeyboardWasdHint } from "@/components/modules/TopKeyboardWasdHint";
 import { Box } from "@/components/unit/Box";
 import { useGlobalStore } from "@/state/global";
 
@@ -16,19 +15,12 @@ const _HintItem = styled.div<{ show: boolean }>`
   pointer-events: none;
 `;
 
-export const TopPage: FC = () => {
-  const globalStore = useGlobalStore();
+export const HelloPage: FC = () => {
+  const animationStore = useGlobalStore();
 
   return (
     <Box position="relative" width="100vw" height="100vh">
       <title>EE-BBB.</title>
-
-      <TopBackgroundCanvas />
-
-      <_HintItem show={globalStore.isEndedOpeningAnimation && globalStore.isPlayedOnce === false}>
-        {/* <TopKeyboardWasdHint /> */}
-        <TopKeyboardArrowHint />
-      </_HintItem>
     </Box>
   );
 };

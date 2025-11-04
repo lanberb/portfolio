@@ -1,13 +1,13 @@
 import { type FC, useCallback } from "react";
 import { useDialogStore } from "@/state/dialog";
-import { CreateStickerDialog } from "./CreateStickerDialog";
+import { TopCreateStickerDialog } from "./TopCreateStickerDialog";
 
-export const ConnectedCreateStickerDialog: FC = () => {
+export const ConnectedTopCreateStickerDialog: FC = () => {
   const dialogStore = useDialogStore();
 
   const handleOnRequestClose = useCallback(() => {
     dialogStore.closeCreateStickerDialog();
   }, [dialogStore]);
 
-  return <CreateStickerDialog open={dialogStore.isOpenCreateStickerDialog} onRequestClose={handleOnRequestClose} />;
+  return <TopCreateStickerDialog open={dialogStore.isOpenCreateStickerDialog} onRequestClose={handleOnRequestClose} />;
 };

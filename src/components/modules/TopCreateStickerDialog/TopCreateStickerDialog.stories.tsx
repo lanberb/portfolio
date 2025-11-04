@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { Button } from "@/components/unit/Button";
-import { CreateStickerDialog } from "./CreateStickerDialog";
+import { TopCreateStickerDialog } from "./TopCreateStickerDialog";
 
 const meta = {
   title: "Modules/CreateStickerDialog",
-  component: CreateStickerDialog,
+  component: TopCreateStickerDialog,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof CreateStickerDialog>;
+} satisfies Meta<typeof TopCreateStickerDialog>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -23,7 +23,7 @@ export const Default: Story = {
         <Button onClick={() => setOpen(true)} variant="filled">
           Open Dialog
         </Button>
-        <CreateStickerDialog open={open} onRequestClose={() => setOpen(false)} />
+        <TopCreateStickerDialog open={open} onRequestClose={() => setOpen(false)} />
       </>
     );
   },

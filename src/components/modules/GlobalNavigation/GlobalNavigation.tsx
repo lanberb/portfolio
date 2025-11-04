@@ -12,8 +12,8 @@ import { Stack } from "@/components/unit/Stack";
 import { Text } from "@/components/unit/Text";
 import { useI18n } from "@/hooks/useI18n";
 import { useTheme } from "@/hooks/useTheme";
-import { useAnimationStore } from "@/state/animation";
 import { useDialogStore } from "@/state/dialog";
+import { useGlobalStore } from "@/state/global";
 import type { LocaleKey } from "@/util/i18n/localize";
 import { routes } from "@/util/routes";
 
@@ -66,7 +66,7 @@ export const GlobalNavigation: FC = () => {
   const theme = useTheme();
   const i18n = useI18n();
 
-  const animationStore = useAnimationStore();
+  const globalStore = useGlobalStore();
   const dialogStore = useDialogStore();
 
   const handleOnSelectTheme = useCallback(
@@ -96,7 +96,7 @@ export const GlobalNavigation: FC = () => {
 
   return (
     <>
-      <_NavigationTransitionItem show={animationStore.isEndedOpeningAnimation} position="absolute" top={64} left={64}>
+      <_NavigationTransitionItem show={globalStore.isEndedOpeningAnimation} position="absolute" top={64} left={64}>
         <Stack wrap="wrap" b={1} bc="primaryInversed" radius={80} width="fit-content" backgroundColor="primaryInversed">
           <_NavigationCellList
             as="nav"
@@ -145,7 +145,7 @@ export const GlobalNavigation: FC = () => {
         </Stack>
       </_NavigationTransitionItem>
 
-      <_NavigationTransitionItem show={animationStore.isEndedOpeningAnimation} position="absolute" top={64} right={64}>
+      <_NavigationTransitionItem show={globalStore.isEndedOpeningAnimation} position="absolute" top={64} right={64}>
         <Button
           endIcon={<Icon name="footprint" size={24} rotate={90} />}
           variant="filled"

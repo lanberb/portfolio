@@ -1,0 +1,28 @@
+import { create } from "zustand";
+
+export type ExpressionLevel = "low" | "high";
+
+type Store = {
+  // サイト全体のビジュアル表現強度
+  expressionLevel: ExpressionLevel | null;
+  setExpressionLevel: (expressionLevel: ExpressionLevel) => void;
+
+  // ユーザーの操作状態を管理するstate
+  isPlayedOnce: boolean;
+  setIsEndedOpeningAnimation: () => void;
+
+  // TopBackgroundCanvasのstate管理
+  isEndedOpeningAnimation: boolean;
+  setIsPlayedOnce: () => void;
+};
+
+export const useGlobalStore = create<Store>((set) => ({
+  expressionLevel: null,
+  setExpressionLevel: (expressionLevel: ExpressionLevel) => set({ expressionLevel }),
+
+  isPlayedOnce: false,
+  setIsPlayedOnce: () => set({ isPlayedOnce: true }),
+
+  isEndedOpeningAnimation: false,
+  setIsEndedOpeningAnimation: () => set({ isEndedOpeningAnimation: true }),
+}));

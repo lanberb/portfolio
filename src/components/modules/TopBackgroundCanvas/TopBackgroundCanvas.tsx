@@ -9,7 +9,7 @@ import { Canvas } from "@/components/unit/Canvas";
 import { useCanvas } from "@/hooks/useCanvas";
 import { useLoadImages } from "@/hooks/useLoadImages";
 import { useTheme } from "@/hooks/useTheme";
-import { useAnimationStore } from "@/state/animation";
+import { useGlobalStore } from "@/state/global";
 import { animation } from "./internals/canvas/animation";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "./internals/canvas/common";
 import { interaction } from "./internals/canvas/interaction";
@@ -78,7 +78,7 @@ const createRenderableImagesFromLoadedImages = (images: HTMLImageElement[]): Ren
 export const TopBackgroundCanvas: FC = () => {
   const themeState = useTheme();
   const { el, canvasApi, canvasRef } = useCanvas();
-  const animationStore = useAnimationStore();
+  const globalStore = useGlobalStore();
 
   const loadImages = useLoadImages(STICEKR_SETTING_LIST);
 
@@ -91,8 +91,8 @@ export const TopBackgroundCanvas: FC = () => {
   const images = useMemo(() => createRenderableImagesFromLoadedImages(loadImages.data ?? []), [loadImages.data]);
 
   const handleOnMouseMoveOrReRender = useCallback(() => {
-    if (animationStore.isPlayedOnce === false) {
-      animationStore.setIsPlayedOnce();
+    if (globalStore.isPlayedOnce === false) {
+      globalStore.setIsPlayedOnce();
     }
     if (canvasApi == null || el == null || themeState == null) {
       return;
@@ -106,8 +106,8 @@ export const TopBackgroundCanvas: FC = () => {
     columnLineCount,
     position,
     images,
-    animationStore.isPlayedOnce,
-    animationStore.setIsPlayedOnce,
+    globalStore.isPlayedOnce,
+    globalStore.setIsPlayedOnce,
   ]);
 
   const handleKeyDown = useCallback(
@@ -121,8 +121,8 @@ export const TopBackgroundCanvas: FC = () => {
 
   const handleOnOpeningAnimationComplete = useCallback(() => {
     setIsMounted(true);
-    animationStore.setIsEndedOpeningAnimation();
-  }, [animationStore.setIsEndedOpeningAnimation]);
+    globalStore.setIsEndedOpeningAnimation();
+  }, [globalStore.setIsEndedOpeningAnimation]);
 
   useEffect(() => {
     if (canvasApi == null || el == null || themeState == null || images.length === 0) {

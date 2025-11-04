@@ -7,7 +7,7 @@ interface Props {
   onRequestClose: () => void;
 }
 
-export const CreateStickerDialog: FC<Props> = ({ open, onRequestClose }) => {
+export const TopCreateStickerDialog: FC<Props> = ({ open, onRequestClose }) => {
   return createPortal(
     <Dialog.Frame open={open} onRequestClose={onRequestClose}>
       <Dialog.Header title="Let's get your footprint" onClose={onRequestClose} />
