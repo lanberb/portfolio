@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "compatibility_date": "2025-04-03",
+  "main": "./src/server/main.tsx",
+
+  // https://developers.cloudflare.com/workers/wrangler/configuration/#assets
+  "assets": {
+    "directory": "./src/assets",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*", // API calls go to Worker first
+      "!/api/docs/*" // EXCEPTION: For /api/docs/*, try static assets first
+    ],
+    "not_found_handling": "single-page-application"
+  }
+}
