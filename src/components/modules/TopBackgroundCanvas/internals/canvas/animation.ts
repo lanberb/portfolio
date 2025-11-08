@@ -1,5 +1,6 @@
 import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
+import { getIsBrowser } from "@/util/app";
 import {
   BACKGROUND_GRID_STROKE_WIDTH,
   caluculateFirstLineStart,
@@ -19,6 +20,10 @@ export const animation = (
   images: RenderableImage[],
   onComplete: () => void,
 ) => {
+  const isBrowser = getIsBrowser();
+  if (isBrowser === false) {
+    return;
+  }
   console.log("Running openingAnimation...");
 
   canvasApi.clearRect(0, 0, canvasApi.canvas.width, canvasApi.canvas.height);

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
+import { getIsBrowser } from "@/util/app";
 
 type Fn = () => void;
 
@@ -15,6 +16,9 @@ export const useResize = (): Return => {
   }, []);
 
   useEffect(() => {
+    if (getIsBrowser() === false) {
+      return;
+    }
     return () => {
       if (fn.current == null) {
         return;

@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
+import { getIsBrowser } from "@/util/app";
 
-const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
+const DEVICE_PIXEL_RATIO = getIsBrowser() ? window.devicePixelRatio || 1 : 1;
 
 interface Return {
   el: HTMLCanvasElement | null;

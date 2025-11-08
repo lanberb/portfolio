@@ -3,6 +3,7 @@ import { createContext, type FC, type PropsWithChildren, useCallback, useContext
 import { PrefersColorScheme } from "@/components/styles/media";
 import { type ThemeMode, type ThemeState, themeKeyMap } from "@/components/styles/theme";
 import { useThemeStore } from "@/state/theme";
+import { getIsBrowser } from "@/util/app";
 
 const ThemeStateContext = createContext<ThemeState | null>(null);
 
@@ -45,7 +46,7 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [setThemeMode]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (getIsBrowser()) {
       document.body.dataset.themeMode = themeMode;
 
       // デバイスのtheme切り替えを検知して同期する

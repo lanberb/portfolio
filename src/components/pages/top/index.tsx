@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useRef, type FC } from "react";
+import { type FC, useRef } from "react";
 import { TopBackgroundCanvas } from "@/components/modules/TopBackgroundCanvas";
 import { TopKeyboardArrowHint } from "@/components/modules/TopKeyboardArrowHint";
 // import { TopKeyboardWasdHint } from "@/components/modules/TopKeyboardWasdHint";
