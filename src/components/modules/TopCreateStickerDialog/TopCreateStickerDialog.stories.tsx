@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
-import { Button } from "@/components/unit/Button";
 import { TopCreateStickerDialog } from "./TopCreateStickerDialog";
 
 const meta = {
@@ -16,16 +14,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => {
-    const [open, setOpen] = useState(false);
-    return (
-      <>
-        <Button onClick={() => setOpen(true)} variant="filled">
-          Open Dialog
-        </Button>
-        <TopCreateStickerDialog open={open} onRequestClose={() => setOpen(false)} />
-      </>
-    );
+  args: {
+    open: false,
+    onRequestClose: () => console.log("Dialog close requested"),
   },
 };
 

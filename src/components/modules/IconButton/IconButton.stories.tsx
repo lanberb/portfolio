@@ -28,7 +28,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Light: Story = {
   args: {
-    name: "light",
+    name: "modeLight",
     size: 24,
     color: "primary",
     onClick: () => console.log("clicked"),
@@ -37,7 +37,7 @@ export const Light: Story = {
 
 export const Dark: Story = {
   args: {
-    name: "dark",
+    name: "modeDark",
     size: 24,
     color: "primary",
     onClick: () => console.log("clicked"),

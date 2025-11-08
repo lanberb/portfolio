@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import type { FC } from "react";
+import { useRef, type FC } from "react";
 import { TopBackgroundCanvas } from "@/components/modules/TopBackgroundCanvas";
 import { TopKeyboardArrowHint } from "@/components/modules/TopKeyboardArrowHint";
 // import { TopKeyboardWasdHint } from "@/components/modules/TopKeyboardWasdHint";
@@ -18,10 +18,11 @@ const _HintItem = styled.div<{ show: boolean }>`
 
 export const TopPage: FC = () => {
   const globalStore = useGlobalStore();
+  const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <Box position="relative" width="100vw" height="100vh">
-      <title>EE-BBB.</title>
+    <Box position="relative" width="100vw" height="100vh" ref={ref}>
+      <title>EE-BBB.©</title>
 
       <TopBackgroundCanvas />
 
