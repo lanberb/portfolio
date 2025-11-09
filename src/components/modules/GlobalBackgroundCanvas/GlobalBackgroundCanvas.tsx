@@ -81,8 +81,6 @@ export const GlobalBackgroundCanvas: FC = () => {
   const { el, canvasApi, canvasRef } = useCanvas();
   const globalStore = useGlobalStore();
 
-  console.log(STICEKR_SETTING_LIST);
-
   const loadImages = useLoadImages({ images: STICEKR_SETTING_LIST });
 
   const { position, isDragging } = usePointerEvent({ el });
