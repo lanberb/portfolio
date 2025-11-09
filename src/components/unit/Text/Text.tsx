@@ -18,7 +18,7 @@ interface Props extends TypographyProps, BaseProps, MarginProps, PaddingProps {
 
 export const Text = styled.p<Props>`
   ${typography}
-  ${({ color = "primary", ...resize }) => base({ color, ...resize })}
+  ${base}
   ${margins}
   ${paddings}
 `;

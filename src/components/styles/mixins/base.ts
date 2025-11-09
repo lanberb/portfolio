@@ -1,11 +1,20 @@
 import { css, type SerializedStyles } from "@emotion/react";
 import type { CSSProperties } from "react";
 import { px } from "../helpers";
-import type { BackgroundColor, Color, Theme } from "../theme";
+import { MediaQuery } from "../media";
+import type { BackgroundColor, Theme } from "../theme";
 
-export interface BaseProps {
+type MediaQueryValue<Value> = Array<{
+  key: keyof typeof MediaQuery;
+  value: Value;
+}>;
+
+type MediaQueryValues<Obj> = {
+  [Key in keyof Obj]: Obj[Key] | MediaQueryValue<Obj[Key]>;
+};
+
+interface Props {
   theme?: Theme;
-  color?: Color;
   backgroundColor?: BackgroundColor;
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
@@ -23,9 +32,10 @@ export interface BaseProps {
   zIndex?: CSSProperties["zIndex"];
 }
 
-export const base = ({
+export type BaseProps = MediaQueryValues<Omit<Props, "theme">> & { theme?: Theme };
+
+const mixin = ({
   theme,
-  color,
   backgroundColor,
   width,
   height,
@@ -33,7 +43,7 @@ export const base = ({
   maxHeight,
   minWidth,
   minHeight,
-  radius = 0,
+  radius,
   position,
   top,
   left,
@@ -41,9 +51,8 @@ export const base = ({
   bottom,
   inset,
   zIndex,
-}: BaseProps): SerializedStyles => {
+}: Props): SerializedStyles => {
   return css`
-    ${color && `color: var(${theme?.text?.[color]});`}
     ${backgroundColor && `background-color: var(${theme?.surface?.[backgroundColor]});`}
     ${width != null && `width: ${px(width)};`}
     ${height != null && `height: ${px(height)};`}
@@ -60,4 +69,34 @@ export const base = ({
     ${inset != null && `inset: ${px(inset)};`}
     ${zIndex != null && `z-index: ${zIndex};`}
   `;
+};
+
+export const base = (props: BaseProps): SerializedStyles => {
+  const propsEntries = Object.entries(props);
+  const propsByMediaQuery = propsEntries.reduce<Record<keyof typeof MediaQuery, Props>>(
+    (acc, [propKey, propValue]) => {
+      if (Array.isArray(propValue) && propKey !== "children") {
+        propValue.forEach(({ key: mediaQueryKey, value: mediaQueryValue }) => {
+          Object.assign(acc[mediaQueryKey], { [propKey]: mediaQueryValue });
+        });
+      } else {
+        Object.assign(acc.pc, { [propKey]: propValue });
+      }
+      return acc;
+    },
+    {
+      pc: {},
+      sp: {},
+    },
+  );
+
+  const styles = css`
+      ${propsByMediaQuery.pc && mixin(propsByMediaQuery.pc)}
+
+      @media ${MediaQuery.sp} {
+        ${propsByMediaQuery.sp && mixin(propsByMediaQuery.sp)}
+      }
+    `;
+
+  return styles;
 };

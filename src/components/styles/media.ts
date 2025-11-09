@@ -6,3 +6,8 @@ export const PrefersColorScheme: Record<ThemeMode, string> = {
 };
 
 export const PrefersReducedMotion = "(prefers-reduced-motion: reduce)";
+
+export const MediaQuery = {
+  pc: "(min-width: 769px)",
+  sp: "(max-width: 768px)",
+} as const;

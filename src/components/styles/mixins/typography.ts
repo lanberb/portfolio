@@ -1,9 +1,11 @@
 import { css, type SerializedStyles } from "@emotion/react";
 import type { CSSProperties } from "react";
 import { px } from "../helpers";
-import type { FontFamily, LineHeight } from "../theme";
+import type { Color, FontFamily, LineHeight, Theme } from "../theme";
 
 export interface TypographyProps {
+  theme?: Theme;
+  color?: Color;
   fz?: CSSProperties["fontSize"];
   fw?: CSSProperties["fontWeight"];
   ff?: FontFamily;
@@ -16,6 +18,8 @@ export interface TypographyProps {
 }
 
 export const typography = ({
+  theme,
+  color,
   fz,
   fw,
   ff,
@@ -26,6 +30,7 @@ export const typography = ({
   lh = "100%",
   ls = "0.08rem",
 }: TypographyProps): SerializedStyles => css`
+  ${color && `color: var(${theme?.text?.[color]});`}
   ${fz && `font-size: ${px(fz)}`};
   ${fw && `font-weight: ${fw}`};
   ${ff && `font-family: ${ff}`};

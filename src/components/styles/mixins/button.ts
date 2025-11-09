@@ -4,6 +4,7 @@ import { base } from "./base";
 import { borders } from "./border";
 import { paddings } from "./padding";
 import { stack } from "./stack";
+import { typography } from "./typography";
 
 type ButtonVariant = "filled" | "outlined";
 
@@ -12,17 +13,21 @@ const getVariantStyles = (variant: ButtonVariant, theme?: Theme): SerializedStyl
     case "outlined": {
       return css`
         ${borders({ theme, b: 1, bs: "solid", bc: "primaryInversed" })}
-        ${base({ theme, color: "primary", height: 30, radius: "full" })}
+        ${base({ theme, height: 30, radius: "full" })}
+        ${typography({ theme, color: "primary" })}
       `;
     }
     default: {
       return css`
         ${base({
           theme,
-          color: "primaryInversed",
           backgroundColor: "primaryInversed",
           height: 30,
           radius: "full",
+        })}
+        ${typography({
+          theme,
+          color: "primaryInversed",
         })}
       `;
     }
