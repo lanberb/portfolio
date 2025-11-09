@@ -7,7 +7,7 @@ app.get(
   "*",
   serveStatic({
     root: "./dist",
-    manifest: "",
+    manifest: "./dist/portfolio/.vite/manifest.json",
   }),
 );
 
