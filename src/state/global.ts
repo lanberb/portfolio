@@ -11,7 +11,7 @@ type Store = {
   isPlayedOnce: boolean;
   setIsEndedOpeningAnimation: () => void;
 
-  // TopBackgroundCanvasのstate管理
+  // GlobalBackgroundCanvasのstate管理
   isEndedOpeningAnimation: boolean;
   setIsPlayedOnce: () => void;
 };

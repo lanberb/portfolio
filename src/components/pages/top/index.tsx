@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { type FC, useRef } from "react";
-import { TopBackgroundCanvas } from "@/components/modules/TopBackgroundCanvas";
 import { TopKeyboardArrowHint } from "@/components/modules/TopKeyboardArrowHint";
 // import { TopKeyboardWasdHint } from "@/components/modules/TopKeyboardWasdHint";
 import { Box } from "@/components/unit/Box";
@@ -23,8 +22,6 @@ export const TopPage: FC = () => {
   return (
     <Box position="relative" width="100vw" height="100vh" ref={ref}>
       <title>EE-BBB.©</title>
-
-      <TopBackgroundCanvas />
 
       <_HintItem show={globalStore.isEndedOpeningAnimation && globalStore.isPlayedOnce === false}>
         {/* <TopKeyboardWasdHint /> */}

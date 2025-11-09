@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { TopCreateStickerDialog } from "./TopCreateStickerDialog";
+import { GlobalCreateStickerDialog } from "./GlobalCreateStickerDialog";
 
 const meta = {
-  title: "Modules/CreateStickerDialog",
-  component: TopCreateStickerDialog,
+  title: "Modules/GlobalCreateStickerDialog",
+  component: GlobalCreateStickerDialog,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof TopCreateStickerDialog>;
+} satisfies Meta<typeof GlobalCreateStickerDialog>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

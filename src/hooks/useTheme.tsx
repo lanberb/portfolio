@@ -39,11 +39,12 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   const handleOnChangeSystemThemeColorLight = useCallback(() => {
-    setThemeMode("light");
-  }, [setThemeMode]);
+    console.log("OK")
+    change("light");
+  }, [change]);
   const handleOnChangeSystemThemeColorDark = useCallback(() => {
-    setThemeMode("dark");
-  }, [setThemeMode]);
+    change("dark");
+  }, [change]);
 
   useEffect(() => {
     if (getIsBrowser()) {

@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { TopBackgroundCanvas } from "./TopBackgroundCanvas";
+import { GlobalBackgroundCanvas } from "./GlobalBackgroundCanvas";
 
 const meta = {
-  title: "Modules/TopBackgroundCanvas",
-  component: TopBackgroundCanvas,
+  title: "Modules/GlobalBackgroundCanvas",
+  component: GlobalBackgroundCanvas,
   parameters: {
     layout: "fullscreen",
   },
@@ -15,7 +15,7 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof TopBackgroundCanvas>;
+} satisfies Meta<typeof GlobalBackgroundCanvas>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

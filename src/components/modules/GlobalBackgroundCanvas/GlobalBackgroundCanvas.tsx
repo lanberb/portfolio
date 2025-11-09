@@ -4,7 +4,7 @@ import ExpandChromStickerImage from "@/assets/images/sticker/expand_chrom.png";
 import RotateTextStickerImage from "@/assets/images/sticker/rotate_text.png";
 import StarLikeStickerImage from "@/assets/images/sticker/star_like.png";
 import StreetPaintStickerImage from "@/assets/images/sticker/street_paint.png";
-import { usePointerEvent } from "@/components/modules/TopBackgroundCanvas/internals/hooks/usePointerEvent";
+import { usePointerEvent } from "@/components/modules/GlobalBackgroundCanvas/internals/hooks/usePointerEvent";
 import { Canvas } from "@/components/unit/Canvas";
 import { useCanvas } from "@/hooks/useCanvas";
 import { useLoadImages } from "@/hooks/useLoadImages";
@@ -75,7 +75,7 @@ const createRenderableImagesFromLoadedImages = (images: HTMLImageElement[]): Ren
   }, []);
 };
 
-export const TopBackgroundCanvas: FC = () => {
+export const GlobalBackgroundCanvas: FC = () => {
   const themeState = useTheme();
   const { el, canvasApi, canvasRef } = useCanvas();
   const globalStore = useGlobalStore();

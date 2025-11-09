@@ -95,7 +95,6 @@ export const GlobalNavigation: FC = () => {
   const pseudoElementPositionX = (() => {
     const index = navKeys.findIndex((route) => `/${route}` === location.pathname);
     const width = window.matchMedia(MediaQuery.sp).matches ? _NavigationCellWidth_SP : _NavigationCellWidth_PC;
-    console.log(width);
     return width * Math.max(0, index);
   })();
 
@@ -149,6 +148,7 @@ export const GlobalNavigation: FC = () => {
                   radius={32}
                   py={4}
                   position="relative"
+                  color="primary"
                   zIndex={1}
                   display="block"
                   data-selected={pathname === location.pathname}

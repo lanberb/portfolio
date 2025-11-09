@@ -20,7 +20,11 @@ export const useCanvas = (): Return => {
     element.width = element.clientWidth * DEVICE_PIXEL_RATIO;
     element.height = element.clientHeight * DEVICE_PIXEL_RATIO;
 
-    setCanvasApi(element.getContext("2d"));
+    const ctx = element.getContext("2d");
+    // Retinaディスプレイ対応：コンテキストをスケーリング
+    ctx?.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO);
+
+    setCanvasApi(ctx);
     setEl(element);
   }, []);
 
