@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { type CSSProperties, type FC, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { SegmentControl } from "@/components/modules/SegmentControl";
+import { MediaQuery } from "@/components/styles/media";
 import { GLOBAL_TRANSITION_DURATION, type TransitionProps, transition } from "@/components/styles/mixins/transition";
 import type { ThemeMode } from "@/components/styles/theme";
 import { Box } from "@/components/unit/Box";
@@ -19,23 +20,21 @@ import { routes } from "@/util/routes";
 
 const navKeys: (keyof typeof routes)[] = ["top", "about", "blog"];
 
-const _NavigationCellWidth = 96;
+const _NavigationCellWidth_PC = 96;
+const _NavigationCellWidth_SP = 72;
 
-const _NavigationTransitionItem = styled(Box)<{ show: boolean } & TransitionProps>`
-  opacity: ${({ show }) => (show ? 1 : 0)};
+const _NavigationTransitionItem = styled(Box)<TransitionProps>`
   ${transition};
 `;
 
 const _NavigationCell = styled(Link)`
-  width: ${_NavigationCellWidth}px;
-  display: block;
   flex-grow: 1;
-  padding-block: 4px;
-  position: relative;
-  z-index: 1;
-  color: var(${({ theme }) => theme.text.primary});
   transition: ${GLOBAL_TRANSITION_DURATION}ms;
-  border-radius: 32px;
+  font-size: 16px;
+
+  @media ${MediaQuery.sp} {
+    font-size: 14px;
+  }
 
   &[data-selected="true"] {
     color: var(${({ theme }) => theme.text.primaryInversed});
@@ -54,10 +53,14 @@ const _NavigationCellList = styled(Stack)`
     position: absolute;
     border-radius: 80px;
     left: 0;
-    width: ${_NavigationCellWidth}px;
+    width: ${_NavigationCellWidth_PC}px;
     height: 100%;
     transform: translateX(var(--pseudoElementPositionX));
     background-color: var(${({ theme }) => theme.surface.primaryInversed});
+
+    @media ${MediaQuery.sp} {
+      width: ${_NavigationCellWidth_SP}px;
+    }
   }
 `;
 
@@ -91,24 +94,33 @@ export const GlobalNavigation: FC = () => {
 
   const pseudoElementPositionX = (() => {
     const index = navKeys.findIndex((route) => `/${route}` === location.pathname);
-    return _NavigationCellWidth * Math.max(0, index);
+    const width = window.matchMedia(MediaQuery.sp).matches ? _NavigationCellWidth_SP : _NavigationCellWidth_PC;
+    console.log(width);
+    return width * Math.max(0, index);
   })();
 
   return (
     <>
       <_NavigationTransitionItem
-        show={globalStore.isEndedOpeningAnimation}
+        opacity={globalStore.isEndedOpeningAnimation ? 1 : 0}
         position="absolute"
         top={[
-          { key: "sp", value: 32 },
+          { key: "sp", value: 24 },
           { key: "pc", value: 64 },
         ]}
         left={[
-          { key: "sp", value: 32 },
+          { key: "sp", value: 16 },
           { key: "pc", value: 64 },
         ]}
       >
-        <Stack wrap="wrap" b={1} bc="primaryInversed" radius={80} width="fit-content" backgroundColor="primaryInversed">
+        <Stack
+          wrap="nowrap"
+          b={1}
+          bc="primaryInversed"
+          radius={80}
+          width="fit-content"
+          backgroundColor="primaryInversed"
+        >
           <_NavigationCellList
             as="nav"
             position="relative"
@@ -130,7 +142,15 @@ export const GlobalNavigation: FC = () => {
                   href={routes[key]}
                   ta="center"
                   tt="capitalize"
-                  fz={16}
+                  width={[
+                    { key: "sp", value: _NavigationCellWidth_SP },
+                    { key: "pc", value: _NavigationCellWidth_PC },
+                  ]}
+                  radius={32}
+                  py={4}
+                  position="relative"
+                  zIndex={1}
+                  display="block"
                   data-selected={pathname === location.pathname}
                 >
                   {key}
@@ -146,17 +166,32 @@ export const GlobalNavigation: FC = () => {
               items={[<span key="ja">JA</span>, <span key="en">EN</span>]}
               onSelect={handleOnSelectLang}
             />
-            <SegmentControl
-              name="themeMode"
-              defaultKey={theme?.mode}
-              items={[<Icon key="light" name="modeLight" size={16} />, <Icon key="dark" name="modeDark" size={16} />]}
-              onSelect={handleOnSelectTheme}
-            />
+            {/* SPだとはみ出る & 端末で切り替えればいい */}
+            <Box
+              display={[
+                { key: "sp", value: "none" },
+                { key: "pc", value: "block" },
+              ]}
+            >
+              <SegmentControl
+                name="themeMode"
+                defaultKey={theme?.mode}
+                items={[<Icon key="light" name="modeLight" size={16} />, <Icon key="dark" name="modeDark" size={16} />]}
+                onSelect={handleOnSelectTheme}
+              />
+            </Box>
           </Stack>
         </Stack>
       </_NavigationTransitionItem>
 
-      <_NavigationTransitionItem show={globalStore.isEndedOpeningAnimation} position="absolute" top={64} right={64}>
+      <_NavigationTransitionItem
+        opacity={globalStore.isEndedOpeningAnimation ? 1 : 0}
+        position="absolute"
+        inset={[
+          { key: "pc", value: "64px 64px auto auto" },
+          { key: "sp", value: "auto 16px 24px auto" },
+        ]}
+      >
         <Button
           endIcon={<Icon name="footprint" size={24} rotate={90} />}
           variant="filled"

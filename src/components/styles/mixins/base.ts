@@ -15,6 +15,7 @@ type MediaQueryValues<Obj> = {
 
 interface Props {
   theme?: Theme;
+  display?: CSSProperties["display"];
   backgroundColor?: BackgroundColor;
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
@@ -30,12 +31,14 @@ interface Props {
   bottom?: CSSProperties["bottom"];
   inset?: CSSProperties["inset"];
   zIndex?: CSSProperties["zIndex"];
+  opacity?: CSSProperties["opacity"];
 }
 
 export type BaseProps = MediaQueryValues<Omit<Props, "theme">> & { theme?: Theme };
 
 const mixin = ({
   theme,
+  display,
   backgroundColor,
   width,
   height,
@@ -51,8 +54,10 @@ const mixin = ({
   bottom,
   inset,
   zIndex,
+  opacity,
 }: Props): SerializedStyles => {
   return css`
+    ${display != null && `display: ${display};`}
     ${backgroundColor && `background-color: var(${theme?.surface?.[backgroundColor]});`}
     ${width != null && `width: ${px(width)};`}
     ${height != null && `height: ${px(height)};`}
@@ -68,6 +73,7 @@ const mixin = ({
     ${bottom != null && `bottom: ${px(bottom)};`}
     ${inset != null && `inset: ${px(inset)};`}
     ${zIndex != null && `z-index: ${zIndex};`}
+    ${opacity != null && `opacity: ${opacity};`}
   `;
 };
 

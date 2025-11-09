@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { type FC, type MouseEvent, type PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import { IconButton } from "@/components/modules/IconButton";
+import { MediaQuery } from "@/components/styles/media";
 import { Button } from "../Button";
 import { Text } from "../Text";
 
@@ -50,7 +51,7 @@ const Footer: FC<_FooterProps> = ({ onClose }) => {
 
 const _Frame = styled.dialog`
   position: fixed;
-  width: 100%;
+  width: auto;
   min-width: 320px;
   max-width: 800px;
   height: 100%;
@@ -59,6 +60,10 @@ const _Frame = styled.dialog`
   background-color: var(${({ theme }) => theme.surface.primary});
   overflow: hidden;
   border-radius: 16px;
+
+  @media ${MediaQuery.sp} {
+    margin: 16px;
+  }
 
   &::backdrop {
     background-color: rgba(0, 0, 0, 0.64);
