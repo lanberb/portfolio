@@ -26,13 +26,13 @@ export const animation = (
   }
   console.log("Running openingAnimation...");
 
-  canvasApi.clearRect(0, 0, canvasApi.canvas.width, canvasApi.canvas.height);
+  canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
   canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
   canvasApi.lineWidth = BACKGROUND_GRID_STROKE_WIDTH;
 
-  const rowFirstLineStartX = caluculateFirstLineStart(el?.width ?? 0, rowLineCount, 0);
+  const rowFirstLineStartX = caluculateFirstLineStart(el.clientWidth, rowLineCount, 0);
   const rowLineStartXArray = caluculateLineStartArray(rowFirstLineStartX, rowLineCount);
-  const columnFirstLineStartY = caluculateFirstLineStart(el?.height ?? 0, columnLineCount, 0);
+  const columnFirstLineStartY = caluculateFirstLineStart(el.clientHeight, columnLineCount, 0);
   const columnLineStartYArray = caluculateLineStartArray(columnFirstLineStartY, columnLineCount);
 
   return new Promise<void>((resolve) => {
@@ -54,25 +54,26 @@ export const animation = (
     let requestAnimationFrameId: number;
 
     const handleOnBegin = () => {
-      canvasApi.clearRect(0, 0, canvasApi.canvas.width, canvasApi.canvas.height);
+      canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
       // 縦軸
       for (let i = 0; i < rowLineCount; i++) {
-        const startPositionY = i % 2 === 0 ? 0 : canvasApi.canvas.height;
+        const startPositionY = i % 2 === 0 ? 0 : el.clientHeight;
         const endPositionY =
-          i % 2 === 0 ? animationProperties.lines.y : canvasApi.canvas.height - animationProperties.lines.y;
+          i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
         drawLine(canvasApi, [rowLineStartXArray[i], startPositionY], [rowLineStartXArray[i], endPositionY]);
       }
       // 横軸
       for (let i = 0; i < columnLineCount; i++) {
-        const startPositionX = i % 2 === 0 ? 0 : canvasApi.canvas.width;
+        const startPositionX = i % 2 === 0 ? 0 : el.clientWidth;
         const endPositionX =
-          i % 2 === 0 ? animationProperties.lines.x : canvasApi.canvas.width - animationProperties.lines.x;
+          i % 2 === 0 ? animationProperties.lines.x : el.clientWidth - animationProperties.lines.x;
         drawLine(canvasApi, [startPositionX, columnLineStartYArray[i]], [endPositionX, columnLineStartYArray[i]]);
       }
 
       for (let i = 0; i < images.length; i++) {
         drawImage(
           canvasApi,
+          el,
           images[i].el,
           { x: animationProperties.images[i]?.x, y: animationProperties.images[i]?.y },
           animationProperties.images[i]?.scale,
@@ -100,8 +101,8 @@ export const animation = (
         y: 0,
       })
       .add(animationProperties.lines, {
-        x: canvasApi.canvas.width,
-        y: canvasApi.canvas.height,
+        x: el.clientWidth,
+        y: el.clientHeight,
         duration: 1200,
         ease: "inOut(1.6)",
       })

@@ -1,12 +1,15 @@
 import styled from "@emotion/styled";
-import { type FC, useRef } from "react";
+import { type FC } from "react";
 import { TopKeyboardArrowHint } from "@/components/modules/TopKeyboardArrowHint";
-// import { TopKeyboardWasdHint } from "@/components/modules/TopKeyboardWasdHint";
 import { Box } from "@/components/unit/Box";
+// import { TopKeyboardWasdHint } from "@/components/modules/TopKeyboardWasdHint";
 import { useGlobalStore } from "@/state/global";
 
-const _HintItem = styled.div<{ show: boolean }>`
-  opacity: ${({ show }) => (show ? 1 : 0)};
+const Wrapper = styled.div`
+  pointer-events: none;
+`;
+
+const _HintItem = styled(Box)`
   position: absolute;
   width: fit-content;
   height: fit-content;
@@ -17,16 +20,22 @@ const _HintItem = styled.div<{ show: boolean }>`
 
 export const TopPage: FC = () => {
   const globalStore = useGlobalStore();
-  const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <Box position="relative" width="100vw" height="100vh" ref={ref}>
+    <Wrapper>
       <title>EE-BBB.©</title>
 
-      <_HintItem show={globalStore.isEndedOpeningAnimation && globalStore.isPlayedOnce === false}>
+      <_HintItem
+        top={0}
+        bottom={0}
+        width="fit-content"
+        height="fit-content"
+        position="absolute"
+        opacity={globalStore.isEndedOpeningAnimation && globalStore.isPlayedOnce === false ? 1 : 0}
+      >
         {/* <TopKeyboardWasdHint /> */}
         <TopKeyboardArrowHint />
       </_HintItem>
-    </Box>
+    </Wrapper>
   );
 };

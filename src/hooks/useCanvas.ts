@@ -21,8 +21,7 @@ export const useCanvas = (): Return => {
     element.height = element.clientHeight * DEVICE_PIXEL_RATIO;
 
     const ctx = element.getContext("2d");
-    // Retinaディスプレイ対応：コンテキストをスケーリング
-    ctx?.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO);
+    ctx?.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO); // I ~hate~ Retina Display... :<
 
     setCanvasApi(ctx);
     setEl(element);

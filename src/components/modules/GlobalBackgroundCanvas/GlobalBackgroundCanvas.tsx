@@ -86,8 +86,8 @@ export const GlobalBackgroundCanvas: FC = () => {
 
   const [isMounted, setIsMounted] = useState(false);
 
-  const rowLineCount = useMemo(() => caluculateLineCount(el?.width ?? 0), [el]);
-  const columnLineCount = useMemo(() => caluculateLineCount(el?.height ?? 0), [el]);
+  const rowLineCount = useMemo(() => caluculateLineCount(el?.clientWidth ?? 0), [el]);
+  const columnLineCount = useMemo(() => caluculateLineCount(el?.clientHeight ?? 0), [el]);
   const images = useMemo(() => createRenderableImagesFromLoadedImages(loadImages.data ?? []), [loadImages.data]);
 
   const handleOnMouseMoveOrReRender = useCallback(() => {

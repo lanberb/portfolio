@@ -54,13 +54,14 @@ export const drawLine = (
 
 export const drawImage = (
   canvasApi: CanvasRenderingContext2D,
+  el: HTMLCanvasElement,
   image: HTMLImageElement,
   position: { x: number; y: number },
   scale: number,
   opacity: number,
 ) => {
   const centerizePosition = getCenterizePosition(
-    { width: canvasApi.canvas.width, height: canvasApi.canvas.height },
+    { width: el.clientWidth, height: el.clientHeight },
     { width: image.width * scale, height: image.height * scale },
   );
   canvasApi.save();

@@ -19,7 +19,7 @@ export interface TypographyProps {
 
 export const typography = ({
   theme,
-  color,
+  color = "primary",
   fz,
   fw,
   ff,
