@@ -39,7 +39,7 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   const handleOnChangeSystemThemeColorLight = useCallback(() => {
-    console.log("OK")
+    console.log("OK");
     change("light");
   }, [change]);
   const handleOnChangeSystemThemeColorDark = useCallback(() => {
