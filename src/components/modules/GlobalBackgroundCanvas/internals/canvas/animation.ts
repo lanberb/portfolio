@@ -58,15 +58,13 @@ export const animation = (
       // 縦軸
       for (let i = 0; i < rowLineCount; i++) {
         const startPositionY = i % 2 === 0 ? 0 : el.clientHeight;
-        const endPositionY =
-          i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
+        const endPositionY = i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
         drawLine(canvasApi, [rowLineStartXArray[i], startPositionY], [rowLineStartXArray[i], endPositionY]);
       }
       // 横軸
       for (let i = 0; i < columnLineCount; i++) {
         const startPositionX = i % 2 === 0 ? 0 : el.clientWidth;
-        const endPositionX =
-          i % 2 === 0 ? animationProperties.lines.x : el.clientWidth - animationProperties.lines.x;
+        const endPositionX = i % 2 === 0 ? animationProperties.lines.x : el.clientWidth - animationProperties.lines.x;
         drawLine(canvasApi, [startPositionX, columnLineStartYArray[i]], [endPositionX, columnLineStartYArray[i]]);
       }
 

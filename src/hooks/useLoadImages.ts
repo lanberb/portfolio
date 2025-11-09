@@ -16,7 +16,11 @@ type ImageProp = {
   width?: number;
 };
 
-export const useLoadImages = (props: ImageProp[]): UseImageResult => {
+type Props = {
+  images: ImageProp[];
+};
+
+export const useLoadImages = (props: Props): UseImageResult => {
   const [status, setStatus] = useState<Status>("idle");
   const [data, setData] = useState<HTMLImageElement[]>([]);
   const [error, setError] = useState<unknown>(undefined);
@@ -28,7 +32,7 @@ export const useLoadImages = (props: ImageProp[]): UseImageResult => {
     setStatus("loading");
     setError(undefined);
 
-    const tasks = props.map((prop) => loadImageAsync(prop.url, prop.width));
+    const tasks = props.images.map((prop) => loadImageAsync(prop.url, prop.width));
     Promise.all(tasks)
       .then((imgs) => {
         if (canceled) return;
@@ -44,7 +48,7 @@ export const useLoadImages = (props: ImageProp[]): UseImageResult => {
     return () => {
       canceled = true;
     };
-  }, [props]);
+  }, [props.images]);
 
   return {
     data,

@@ -58,10 +58,10 @@ export const usePointerEvent = ({ el }: Props): Return => {
    */
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === "ArrowUp" || e.key === "w") {
-      ref.current.position.y += -10;
+      ref.current.position.y += 10;
     }
     if (e.key === "ArrowDown" || e.key === "s") {
-      ref.current.position.y += 10;
+      ref.current.position.y += -10;
     }
     if (e.key === "ArrowLeft" || e.key === "a") {
       ref.current.position.x += 10;

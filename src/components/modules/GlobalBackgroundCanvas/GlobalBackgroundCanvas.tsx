@@ -10,6 +10,7 @@ import { useCanvas } from "@/hooks/useCanvas";
 import { useLoadImages } from "@/hooks/useLoadImages";
 import { useTheme } from "@/hooks/useTheme";
 import { useGlobalStore } from "@/state/global";
+import { getMobileFullWidthWithMargin } from "@/util/canvas";
 import { animation } from "./internals/canvas/animation";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "./internals/canvas/common";
 import { interaction } from "./internals/canvas/interaction";
@@ -17,7 +18,7 @@ import { interaction } from "./internals/canvas/interaction";
 const STICEKR_SETTING_LIST = [
   {
     url: ExpandChromStickerImage,
-    width: 640,
+    width: getMobileFullWidthWithMargin(640),
     x: 0,
     y: 0,
   },
@@ -80,7 +81,9 @@ export const GlobalBackgroundCanvas: FC = () => {
   const { el, canvasApi, canvasRef } = useCanvas();
   const globalStore = useGlobalStore();
 
-  const loadImages = useLoadImages(STICEKR_SETTING_LIST);
+  console.log(STICEKR_SETTING_LIST);
+
+  const loadImages = useLoadImages({ images: STICEKR_SETTING_LIST });
 
   const { position, isDragging } = usePointerEvent({ el });
 

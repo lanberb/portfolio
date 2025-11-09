@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { type FC } from "react";
+import type { FC } from "react";
 import { TopKeyboardArrowHint } from "@/components/modules/TopKeyboardArrowHint";
 import { Box } from "@/components/unit/Box";
 // import { TopKeyboardWasdHint } from "@/components/modules/TopKeyboardWasdHint";
