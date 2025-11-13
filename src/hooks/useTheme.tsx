@@ -7,7 +7,7 @@ import { getIsBrowser } from "@/util/app";
 
 const ThemeStateContext = createContext<ThemeState | null>(null);
 
-const getSystemThemeMode = () => {
+const getSystemThemeMode = (): ThemeMode => {
   if (window.matchMedia(PrefersColorScheme.light).matches) {
     return "light";
   }
@@ -38,11 +38,8 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
     change,
   };
 
-  const handleOnChangeSystemThemeColorLight = useCallback(() => {
-    change("light");
-  }, [change]);
-  const handleOnChangeSystemThemeColorDark = useCallback(() => {
-    change("dark");
+  const handleOnChangeSystemThemeColor = useCallback(() => {
+    change(getSystemThemeMode());
   }, [change]);
 
   useEffect(() => {
@@ -50,15 +47,13 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
       document.body.dataset.themeMode = themeMode;
 
       // デバイスのtheme切り替えを検知して同期する
-      window.matchMedia(PrefersColorScheme.light).addEventListener("change", handleOnChangeSystemThemeColorLight);
-      window.matchMedia(PrefersColorScheme.dark).addEventListener("change", handleOnChangeSystemThemeColorDark);
+      window.matchMedia(PrefersColorScheme.light).addEventListener("change", handleOnChangeSystemThemeColor);
     }
 
     return () => {
-      window.matchMedia(PrefersColorScheme.light).removeEventListener("change", handleOnChangeSystemThemeColorLight);
-      window.matchMedia(PrefersColorScheme.dark).removeEventListener("change", handleOnChangeSystemThemeColorDark);
+      window.matchMedia(PrefersColorScheme.light).removeEventListener("change", handleOnChangeSystemThemeColor);
     };
-  }, [themeMode, handleOnChangeSystemThemeColorLight, handleOnChangeSystemThemeColorDark]);
+  }, [themeMode, handleOnChangeSystemThemeColor]);
 
   return (
     <ThemeStateContext.Provider value={themeState}>

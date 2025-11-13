@@ -16,9 +16,9 @@ export const getCenterizePosition = (container: Size, item: Size): Position => {
   };
 };
 
-export const getMobileFullWidthWithMargin = (width: number) => {
+export const getMobileFullWidthWithMargin = (width: number, margin = 16) => {
   if (window.matchMedia(MediaQuery.sp).matches) {
-    return document.documentElement.clientWidth - 16 * 2;
+    return document.documentElement.clientWidth - margin * 2;
   }
   return width;
 };

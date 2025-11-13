@@ -18,7 +18,7 @@ import { interaction } from "./internals/canvas/interaction";
 const STICEKR_SETTING_LIST = [
   {
     url: ExpandChromStickerImage,
-    width: getMobileFullWidthWithMargin(640),
+    width: getMobileFullWidthWithMargin(640, 32),
     x: 0,
     y: 0,
   },
