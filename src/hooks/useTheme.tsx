@@ -39,10 +39,8 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   const handleOnChangeSystemThemeColor = useCallback(() => {
-    if (persistedThemeMode == null) { 
       change(getSystemThemeMode());
-    }
-  }, [change, persistedThemeMode]);
+  }, [change]);
 
   useEffect(() => {
     if (getIsBrowser()) {
