@@ -44,6 +44,8 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (getIsBrowser()) {
+      // 初期マウント時にbodyのスタイルを設定
+      document.body.style.backgroundColor = `var(--theme-${themeMode}-color-surface-primary)`;
       document.body.dataset.themeMode = themeMode;
 
       // デバイスのtheme切り替えを検知して同期する
