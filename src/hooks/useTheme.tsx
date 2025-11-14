@@ -38,32 +38,26 @@ export const ThemeStateProvider: FC<PropsWithChildren> = ({ children }) => {
     change,
   };
 
-  // システムテーマの変更を検知して常に反映する
-  useEffect(() => {
-    if (!getIsBrowser()) {
-      return;
+  const handleOnChangeSystemThemeColor = useCallback(() => {
+    if (persistedThemeMode == null) { 
+      change(getSystemThemeMode());
     }
+  }, [change, persistedThemeMode]);
 
-    const handleOnChangeSystemThemeColor = () => {
-      const newSystemThemeMode = getSystemThemeMode();
-      change(newSystemThemeMode);
-    };
+  useEffect(() => {
+    if (getIsBrowser()) {
+      // 初期マウント時にbodyのスタイルを設定
+      document.body.style.backgroundColor = `var(--theme-${themeMode}-color-surface-primary)`;
+      document.body.dataset.themeMode = themeMode;
 
-    // デバイスのtheme切り替えを検知して同期する
-    window.matchMedia(PrefersColorScheme.light).addEventListener("change", handleOnChangeSystemThemeColor);
+      // デバイスのtheme切り替えを検知して同期する
+      window.matchMedia(PrefersColorScheme.light).addEventListener("change", handleOnChangeSystemThemeColor);
+    }
 
     return () => {
       window.matchMedia(PrefersColorScheme.light).removeEventListener("change", handleOnChangeSystemThemeColor);
     };
-  }, [change]);
-
-  // themeModeの変更に応じてbodyのスタイルを更新する
-  useEffect(() => {
-    if (getIsBrowser()) {
-      document.body.style.backgroundColor = `var(--theme-${themeMode}-color-surface-primary)`;
-      document.body.dataset.themeMode = themeMode;
-    }
-  }, [themeMode]);
+  }, [themeMode, handleOnChangeSystemThemeColor]);
 
   return (
     <ThemeStateContext.Provider value={themeState}>
