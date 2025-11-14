@@ -13,7 +13,7 @@ export const useCanvas = (): Return => {
   const [canvasApi, setCanvasApi] = useState<CanvasRenderingContext2D | null>(null);
   const [el, setEl] = useState<HTMLCanvasElement | null>(null);
 
-  const canvasRef = useCallback((element: HTMLCanvasElement | null) => {
+  const setState = useCallback((element: HTMLCanvasElement | null) => {
     if (element == null) {
       return;
     }
@@ -30,6 +30,6 @@ export const useCanvas = (): Return => {
   return {
     el,
     canvasApi,
-    canvasRef,
+    canvasRef: setState,
   };
 };

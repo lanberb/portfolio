@@ -110,22 +110,22 @@ export const animation = (
           scale: 1,
           opacity: 1,
           duration: 300,
-          delay: (_, index: number) => (800 / images.length) * index,
+          delay: (_, index: number) => (480 / images.length) * index,
           ease: "inOut(1.6)",
         },
         0,
       )
       .add(animationProperties.images, {
         scale: 0.96,
-        duration: 240,
-        ease: "inBack(0.8)",
+        duration: 160,
+        ease: "inBack(0.6)",
       })
       .add(animationProperties.images, {
         x: (_: unknown, index: number) => animationProperties.images[index].x,
         y: (_: unknown, index: number) => animationProperties.images[index].y,
         scale: 1,
-        duration: 640,
-        ease: "outBack(0.4)",
+        duration: 440,
+        ease: "outBack(0.68)",
       });
   });
 };
