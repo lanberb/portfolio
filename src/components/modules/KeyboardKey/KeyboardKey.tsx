@@ -37,7 +37,7 @@ const _Item = styled.div`
 
   @media ${MediaQuery.sp} {
     p, &::before {
-      border-radius: 4px;
+      border-radius: 6px;
     }
   }
 `;
