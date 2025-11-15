@@ -78,7 +78,7 @@ export const TopKeyboardArrowHint: FC = () => {
 
   return (
     <Stack direction="column" gap={24} alignItems="center">
-      <Text fz={14} ws="nowrap">
+      <Text ff="Zen Old Mincho" fz={14} ws="nowrap">
         {t["top.keyboardArrowHint.label"]}
       </Text>
 

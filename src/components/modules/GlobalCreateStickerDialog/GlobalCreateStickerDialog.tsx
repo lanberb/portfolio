@@ -1,5 +1,4 @@
 import { type FC, useCallback } from "react";
-import { createPortal } from "react-dom";
 import { useDialogStore } from "@/state/dialog";
 import { Dialog } from "../../unit/Dialog";
 
@@ -10,11 +9,10 @@ export const GlobalCreateStickerDialog: FC = () => {
     dialogStore.closeCreateStickerDialog();
   }, [dialogStore]);
 
-  return createPortal(
+  return (
     <Dialog.Frame open={dialogStore.isOpenCreateStickerDialog} onRequestClose={handleOnRequestClose}>
       <Dialog.Header title="Let's get your footprint" onClose={handleOnRequestClose} />
       <Dialog.Footer onClose={handleOnRequestClose} />
-    </Dialog.Frame>,
-    document.body,
+    </Dialog.Frame>
   );
 };

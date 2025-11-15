@@ -198,7 +198,7 @@ export const GlobalNavigation: FC = () => {
           type="button"
           onClick={handleOnClickFootprintButton}
         >
-          <Text as="span" color="primaryInversed">
+          <Text as="span" ff="Zen Old Mincho" color="primaryInversed">
             足跡を残す
           </Text>
         </Button>

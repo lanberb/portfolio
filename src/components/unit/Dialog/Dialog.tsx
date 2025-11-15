@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { type FC, type MouseEvent, type PropsWithChildren, useCallback, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { IconButton } from "@/components/modules/IconButton";
 import { MediaQuery } from "@/components/styles/media";
 import { Button } from "../Button";
@@ -90,10 +91,11 @@ const Frame: FC<_FrameProps & PropsWithChildren> = ({ children, open, onRequestC
     }
   }, [open]);
 
-  return (
+  return createPortal(
     <_Frame aria-modal="true" role="dialog" ref={dialogRef} onClick={handleOnClickDialog} onClose={onRequestClose}>
       {children}
-    </_Frame>
+    </_Frame>,
+    document.body,
   );
 };
 
