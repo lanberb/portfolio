@@ -26,12 +26,16 @@ const _Content = styled.div<{ open: boolean }>`
 const _Inner = styled.div`
   margin-inline: 8px;
   padding: 16px;
-  border-radius: 12px;
-  background-color: var(${({ theme }) => theme.surface.primary});
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(${({ theme }) => theme.surface.primaryDisabled});
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
 
   @media ${MediaQuery.sp} {
-    margin-inline: 0;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }

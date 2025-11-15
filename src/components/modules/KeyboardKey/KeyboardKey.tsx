@@ -14,7 +14,9 @@ const _Item = styled.div`
     display: block;
     padding: 4px;
     border-radius: 8px;
-    border: 2px solid var(${({ theme }) => theme.surface.primaryInversed});
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(${({ theme }) => theme.surface.primaryInversed});
     position: absolute;
     inset: 0;
     transition: 0ms;
@@ -38,6 +40,7 @@ const _Item = styled.div`
   @media ${MediaQuery.sp} {
     p, &::before {
       border-radius: 6px;
+      border-width: 1px;
     }
   }
 `;
