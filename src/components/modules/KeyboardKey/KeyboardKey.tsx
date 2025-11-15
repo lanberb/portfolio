@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
 import type { FC } from "react";
+import { MediaQuery } from "@/components/styles/media";
 import { Text } from "@/components/unit/Text";
 
 const _Item = styled.div`
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
   
   p, &::before {
@@ -24,14 +25,19 @@ const _Item = styled.div`
   &::before {
     background-color: var(${({ theme }) => theme.surface.primaryInversed});
     transform-origin: inherit;
-    transform: translate(2px, 2px);
+    transform: translate(0px, 2px);
   }
-  
   &:hover {
     cursor: pointer;
 
     p {
-      transform: translate(1px, 1px);
+      transform: translate(0px, 1px);
+    }
+  }
+
+  @media ${MediaQuery.sp} {
+    p, &::before {
+      border-radius: 4px;
     }
   }
 `;
