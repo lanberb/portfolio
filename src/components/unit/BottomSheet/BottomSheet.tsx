@@ -1,7 +1,7 @@
-import { MediaQuery } from "@/components/styles/media";
 import styled from "@emotion/styled";
 import type { FC, PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
+import { MediaQuery } from "@/components/styles/media";
 
 const _Frame = styled.div`
   position: fixed;
@@ -45,9 +45,7 @@ export const BottomSheet: FC<PropsWithChildren<Props>> = ({ open, children }) =>
   return createPortal(
     <_Frame>
       <_Content open={open}>
-        <_Inner>
-          {children}
-        </_Inner>
+        <_Inner>{children}</_Inner>
       </_Content>
     </_Frame>,
     document.body,

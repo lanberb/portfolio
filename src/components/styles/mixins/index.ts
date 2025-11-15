@@ -1,6 +1,7 @@
 export * from "./base";
 export * from "./border";
 export * from "./button";
+export * from "./grid";
 export * from "./margin";
 export * from "./padding";
 export * from "./stack";

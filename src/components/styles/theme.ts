@@ -11,7 +11,7 @@ export type Theme = {
     primaryDisabled: string;
     primaryInversed: string;
   };
-}; 
+};
 export type ThemeMode = "light" | "dark";
 export type ThemeState = {
   theme: Theme;
