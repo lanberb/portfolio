@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { GlobalCreateStickerDialog } from "./GlobalCreateStickerDialog";
+import { GlobalFootprintDialog } from "./GlobalFootprintDialog";
 
 const meta = {
-  title: "Modules/GlobalCreateStickerDialog",
-  component: GlobalCreateStickerDialog,
+  title: "Modules/GlobalFootprintDialog",
+  component: GlobalFootprintDialog,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof GlobalCreateStickerDialog>;
+} satisfies Meta<typeof GlobalFootprintDialog>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

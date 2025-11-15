@@ -65,6 +65,7 @@ export const createGlobalStyles = (_: Theme) => {
       letter-spacing: 0.04rem;
       -webkit-font-smoothing: antialiased;
       touch-action: none;
+      min-height: 100vh;
     }
 
     body {

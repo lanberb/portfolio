@@ -24,6 +24,8 @@ const _NavigationCellWidth_PC = 96;
 const _NavigationCellWidth_SP = 72;
 
 const _NavigationTransitionItem = styled(Box)<TransitionProps>`
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 80px;
   ${transition};
 `;
 
@@ -57,6 +59,7 @@ const _NavigationCellList = styled(Stack)`
     height: 100%;
     transform: translateX(var(--pseudoElementPositionX));
     background-color: var(${({ theme }) => theme.surface.primaryInversed});
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.32);
 
     @media ${MediaQuery.sp} {
       width: ${_NavigationCellWidth_SP}px;
@@ -187,9 +190,17 @@ export const GlobalNavigation: FC = () => {
       <_NavigationTransitionItem
         opacity={globalStore.isEndedOpeningAnimation ? 1 : 0}
         position="absolute"
-        inset={[
-          { key: "pc", value: "64px 64px auto auto" },
-          { key: "sp", value: "auto 16px 24px auto" },
+        right={[
+          { key: "pc", value: 64 },
+          { key: "sp", value: 16 },
+        ]}
+        top={[
+          { key: "pc", value: 64 },
+          { key: "sp", value: "auto" }
+        ]}
+        bottom={[
+          // { key: "pc", value: "auto" },
+          { key: "sp", value: 24 },
         ]}
       >
         <Button

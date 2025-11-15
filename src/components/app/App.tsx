@@ -2,7 +2,7 @@ import { Global } from "@emotion/react";
 import { StrictMode } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { GlobalBackgroundCanvas } from "@/components/modules/GlobalBackgroundCanvas";
-import { GlobalCreateStickerDialog } from "@/components/modules/GlobalCreateStickerDialog";
+import { GlobalFootprintDialog } from "@/components/modules/GlobalFootprintDialog";
 import { GlobalNavigation } from "@/components/modules/GlobalNavigation";
 import { AboutPage } from "@/components/pages/about";
 import { BlogPage } from "@/components/pages/blog";
@@ -24,7 +24,7 @@ function App() {
               <Global styles={createGlobalStyles} />
               <GlobalBackgroundCanvas />
               <GlobalNavigation />
-              <GlobalCreateStickerDialog />
+              <GlobalFootprintDialog />
 
               <Routes>
                 <Route path={routes.top} element={<TopPage />} />

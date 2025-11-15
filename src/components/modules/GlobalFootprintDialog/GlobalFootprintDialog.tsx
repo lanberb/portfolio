@@ -2,7 +2,7 @@ import { type FC, useCallback } from "react";
 import { useDialogStore } from "@/state/dialog";
 import { Dialog } from "../../unit/Dialog";
 
-export const GlobalCreateStickerDialog: FC = () => {
+export const GlobalFootprintDialog: FC = () => {
   const dialogStore = useDialogStore();
 
   const handleOnRequestClose = useCallback(() => {

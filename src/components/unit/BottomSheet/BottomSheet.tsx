@@ -17,6 +17,7 @@ const _Content = styled.div<{ open: boolean }>`
   max-width: 480px;
   width: 100%;
   transform: translateY(${({ open }) => (open ? -100 : 0)}%);
+  margin-inline: 24px;
 
   @media ${MediaQuery.sp} {
     padding-bottom: 0;
@@ -24,13 +25,12 @@ const _Content = styled.div<{ open: boolean }>`
 `;
 
 const _Inner = styled.div`
-  margin-inline: 8px;
   padding: 16px;
   box-sizing: border-box;
   border-width: 1px;
   border-style: solid;
   border-color: var(${({ theme }) => theme.surface.primaryDisabled});
-  border-radius: 8px;
+  border-radius: 16px;
   background-color: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
@@ -38,6 +38,7 @@ const _Inner = styled.div`
   @media ${MediaQuery.sp} {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    border-bottom-width: 0;
   }
 `;
 

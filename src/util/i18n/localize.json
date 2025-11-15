@@ -1,8 +1,10 @@
 {
   "ja": {
-    "top.keyboardArrowHint.label": "WASD もしくは 矢印キーでカメラを移動できます。"
+    "page.top.hint.pc": "WASD / 矢印キーで移動できます",
+    "page.top.hint.sp": "タップ / ドラッグで移動できます"
   },
   "en": {
-    "top.keyboardArrowHint.label": "You can move the camera with the arrow keys."
+    "page.top.hint.pc": "WASD / Arrow keys to move.",
+    "page.top.hint.sp": "Tap / Drag to move."
   }
 }
