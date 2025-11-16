@@ -41,7 +41,7 @@ export const createGlobalStyles = (_: Theme) => {
       box-sizing: border-box;
       padding: 0;
       margin: 0;
-      transition: ${GLOBAL_TRANSITION_DURATION}ms;
+      transition-duration: ${GLOBAL_TRANSITION_DURATION}ms;
     }
     @media (${PrefersReducedMotion}) {
       *,
@@ -65,7 +65,7 @@ export const createGlobalStyles = (_: Theme) => {
       letter-spacing: 0.04rem;
       -webkit-font-smoothing: antialiased;
       touch-action: none;
-      min-height: 100vh;
+      min-height: 100svh;
     }
 
     body {

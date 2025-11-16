@@ -12,7 +12,7 @@ export const GlobalFootprintDialog: FC = () => {
   return (
     <Dialog.Frame open={dialogStore.isOpenCreateStickerDialog} onRequestClose={handleOnRequestClose}>
       <Dialog.Header title="Let's get your footprint" onClose={handleOnRequestClose} />
-      <Dialog.Footer onClose={handleOnRequestClose} />
+      あああああ
     </Dialog.Frame>
   );
 };

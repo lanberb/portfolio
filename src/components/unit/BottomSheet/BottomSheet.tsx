@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import type { FC, PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
+import bgNoise from "@/assets/images/common/bg_noise.png";
 import { MediaQuery } from "@/components/styles/media";
 
 const _Frame = styled.div`
@@ -31,9 +32,23 @@ const _Inner = styled.div`
   border-style: solid;
   border-color: var(${({ theme }) => theme.surface.primaryDisabled});
   border-radius: 16px;
-  background-color: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(4px);
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(${bgNoise});
+    background-size: 40px 40px;
+    background-repeat: repeat;
+    opacity: 0.02;
+  }
 
   @media ${MediaQuery.sp} {
     border-bottom-left-radius: 0;

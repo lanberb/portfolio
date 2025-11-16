@@ -3,6 +3,19 @@ import type { CSSProperties } from "react";
 import { px } from "../helpers";
 import type { Color, FontFamily, LineHeight, Theme } from "../theme";
 
+const _createLineClampStyle = (lc: number) => css`
+  display: -webkit-box;
+  -webkit-line-clamp: ${lc};
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`;
+
+const _textEllipsisStyle = css`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
 export interface TypographyProps {
   theme?: Theme;
   color?: Color;
@@ -15,6 +28,7 @@ export interface TypographyProps {
   ws?: CSSProperties["whiteSpace"];
   lh?: LineHeight;
   ls?: CSSProperties["letterSpacing"];
+  lc?: number;
 }
 
 export const typography = ({
@@ -29,6 +43,7 @@ export const typography = ({
   ws,
   lh = "100%",
   ls = "0.08rem",
+  lc,
 }: TypographyProps): SerializedStyles => css`
   ${color && `color: var(${theme?.text?.[color]});`}
   ${fz && `font-size: ${px(fz)}`};
@@ -40,4 +55,6 @@ export const typography = ({
   ${ws && `white-space: ${ws}`};
   ${lh && `line-height: ${lh}`};
   ${ls && `letter-spacing: ${px(ls)}`};
+  ${lc && lc > 1 && _createLineClampStyle(lc)}
+  ${lc && lc === 1 && _textEllipsisStyle}
 `;

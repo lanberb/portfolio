@@ -1,6 +1,6 @@
-import { type FC } from "react";
+import type { FC } from "react";
 
-interface Props {}
+type Props = {};
 
 export const GlobalFootprintButton: FC<Props> = () => {
   return <></>;

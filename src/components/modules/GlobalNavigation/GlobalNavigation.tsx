@@ -196,11 +196,9 @@ export const GlobalNavigation: FC = () => {
         ]}
         top={[
           { key: "pc", value: 64 },
-          { key: "sp", value: "auto" }
+          { key: "sp", value: "auto" },
         ]}
-        bottom={[
-          { key: "sp", value: 24 },
-        ]}
+        bottom={[{ key: "sp", value: 24 }]}
       >
         <Button
           endIcon={<Icon name="footprint" size={24} rotate={90} />}

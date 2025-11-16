@@ -26,7 +26,13 @@ export const TopPage: FC = () => {
           <Box as="span" display={[{ key: "sp", value: "none" }]}>
             {t["page.top.hint.pc"]}
           </Box>
-          <Box as="span" display={[{ key: "pc", value: "none" }, { key: "sp", value: "block" }]}>
+          <Box
+            as="span"
+            display={[
+              { key: "pc", value: "none" },
+              { key: "sp", value: "block" },
+            ]}
+          >
             {t["page.top.hint.sp"]}
           </Box>
         </Text>

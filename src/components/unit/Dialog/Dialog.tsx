@@ -3,14 +3,14 @@ import { type FC, type MouseEvent, type PropsWithChildren, useCallback, useEffec
 import { createPortal } from "react-dom";
 import { IconButton } from "@/components/modules/IconButton";
 import { MediaQuery } from "@/components/styles/media";
-import { Button } from "../Button";
 import { Text } from "../Text";
+import { GLOBAL_TRANSITION_DURATION } from "@/components/styles/mixins/transition";
 
 const _Header = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 24px 12px;
+  padding: 14px 16px 12px;
   border-bottom: 1px solid var(${({ theme }) => theme.surface.primaryDisabled});
 `;
 
@@ -30,45 +30,42 @@ const Header: FC<_HeaderProps> = ({ title, onClose }) => {
   );
 };
 
-const _Footer = styled.footer`
-  display: flex;
-  justify-content: center;
-  padding: 12px 24px;
-`;
-
-interface _FooterProps {
-  onClose: () => void;
-}
-
-const Footer: FC<_FooterProps> = ({ onClose }) => {
-  return (
-    <_Footer>
-      <Button type="button" variant="outlined" onClick={onClose}>
-        Close
-      </Button>
-    </_Footer>
-  );
-};
-
 const _Frame = styled.dialog`
   position: fixed;
   width: auto;
   min-width: 320px;
   max-width: 800px;
   height: 100%;
-  max-height: 640px;
+  max-height: min(640px, 100svh - 32px);
   margin: auto;
-  background-color: var(${({ theme }) => theme.surface.primary});
-  overflow: hidden;
-  border-radius: 16px;
 
   @media ${MediaQuery.sp} {
-    margin: 16px;
+    margin: auto 16px;
   }
 
   &::backdrop {
     background-color: rgba(0, 0, 0, 0.64);
+    opacity: 0;
+    transition: 
+      opacity ${GLOBAL_TRANSITION_DURATION}ms ease-in-out,
+      overlay ${GLOBAL_TRANSITION_DURATION}ms allow-discrete,
+      display ${GLOBAL_TRANSITION_DURATION}ms allow-discrete;
   }
+
+  &[open]::backdrop {
+    opacity: 1;
+    
+    @starting-style {
+      opacity: 0;
+    }
+  }
+`;
+
+const _Content = styled.div`
+  background-color: var(${({ theme }) => theme.surface.primary});
+  border-radius: 12px;
+  height: 100%;
+  overflow: scroll;
 `;
 
 interface _FrameProps {
@@ -79,7 +76,7 @@ interface _FrameProps {
 const Frame: FC<_FrameProps & PropsWithChildren> = ({ children, open, onRequestClose }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const handleOnClickDialog = useCallback((event: MouseEvent<HTMLDialogElement>) => {
+  const stopPropagation = useCallback((event: MouseEvent<HTMLElement>) => {
     event.stopPropagation();
   }, []);
 
@@ -92,8 +89,14 @@ const Frame: FC<_FrameProps & PropsWithChildren> = ({ children, open, onRequestC
   }, [open]);
 
   return createPortal(
-    <_Frame aria-modal="true" role="dialog" ref={dialogRef} onClick={handleOnClickDialog} onClose={onRequestClose}>
-      {children}
+    <_Frame
+      aria-modal="true"
+      role="dialog"
+      ref={dialogRef}
+      onClick={onRequestClose}
+      onClose={onRequestClose}
+    >
+      <_Content onClick={stopPropagation}>{children}</_Content>
     </_Frame>,
     document.body,
   );
@@ -102,5 +105,4 @@ const Frame: FC<_FrameProps & PropsWithChildren> = ({ children, open, onRequestC
 export const Dialog = {
   Frame,
   Header,
-  Footer,
 };
