@@ -199,7 +199,6 @@ export const GlobalNavigation: FC = () => {
           { key: "sp", value: "auto" }
         ]}
         bottom={[
-          // { key: "pc", value: "auto" },
           { key: "sp", value: 24 },
         ]}
       >
