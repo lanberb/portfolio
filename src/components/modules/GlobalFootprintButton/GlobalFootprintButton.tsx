@@ -32,8 +32,21 @@ const _RotateText = styled.svg<{ reverse?: boolean }>`
   position: absolute;
   inset: 0;
   margin: auto;
-  animation: ${_rotateTextKeyframes} 32s linear infinite ${({ reverse }) => (reverse ? "reverse" : "normal")};
+  animation: ${_rotateTextKeyframes} 32000ms linear infinite ${({ reverse }) => (reverse ? "reverse" : "normal")};
   overflow: visible;
+`;
+
+const _LabelTextKeyframes = keyframes`
+  from {
+    transform: rotate(-8deg);
+  }
+  to {
+    transform: rotate(-16deg);
+  }
+`;
+
+const _Label = styled(Text)`
+  animation: ${_LabelTextKeyframes} 2400ms linear infinite alternate;
 `;
 
 type Props = {
@@ -68,19 +81,19 @@ export const GlobalFootprintButton: FC<Props> = ({ onClick }) => {
         </_RotateText>
       </Stack>
 
-      <Text fz={12} fw={300} tt="capitalize" color="primary">
+      <_Label fz={12} fw={300} tt="capitalize" color="primary">
         <Stack as="span" direction="column" gap={8}>
-          <Text as="span" width="fit-content" display="block">
+          <Text as="span" width="fit-content" display="block" ff="Zen Old Mincho">
             Make
           </Text>
-          <Text as="span" width="fit-content" display="block" ml={28}>
+          <Text as="span" width="fit-content" display="block" ml={28} ff="Zen Old Mincho">
             your
           </Text>
-          <Text as="span" width="fit-content" display="block" ml={16}>
+          <Text as="span" width="fit-content" display="block" ml={16} ff="Zen Old Mincho">
             mark?
           </Text>
         </Stack>
-      </Text>
+      </_Label>
     </_Button>
   );
 };

@@ -106,12 +106,12 @@ export const GlobalNavigation: FC = () => {
         opacity={globalStore.isEndedOpeningAnimation ? 1 : 0}
         position="absolute"
         top={[
-          { key: "sp", value: 24 },
           { key: "pc", value: 64 },
+          { key: "sp", value: 24 },
         ]}
         left={[
-          { key: "sp", value: 16 },
           { key: "pc", value: 64 },
+          { key: "sp", value: 16 },
         ]}
       >
         <Stack
@@ -194,7 +194,7 @@ export const GlobalNavigation: FC = () => {
           { key: "sp", value: 16 },
         ]}
         top={[
-          { key: "pc", value: 64 },
+          { key: "pc", value: 48 },
           { key: "sp", value: "auto" },
         ]}
         bottom={[{ key: "sp", value: 24 }]}
