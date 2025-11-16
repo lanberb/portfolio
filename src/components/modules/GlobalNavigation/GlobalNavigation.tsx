@@ -6,17 +6,16 @@ import { MediaQuery } from "@/components/styles/media";
 import { GLOBAL_TRANSITION_DURATION, type TransitionProps, transition } from "@/components/styles/mixins/transition";
 import type { ThemeMode } from "@/components/styles/theme";
 import { Box } from "@/components/unit/Box";
-import { Button } from "@/components/unit/Button";
 import { Icon } from "@/components/unit/Icon";
 import { Link } from "@/components/unit/Link";
 import { Stack } from "@/components/unit/Stack";
-import { Text } from "@/components/unit/Text";
 import { useI18n } from "@/hooks/useI18n";
 import { useTheme } from "@/hooks/useTheme";
 import { useDialogStore } from "@/state/dialog";
 import { useGlobalStore } from "@/state/global";
 import type { LocaleKey } from "@/util/i18n/localize";
 import { routes } from "@/util/routes";
+import { GlobalFootprintButton } from "../GlobalFootprintButton";
 
 const navKeys: (keyof typeof routes)[] = ["top", "about", "blog"];
 
@@ -200,16 +199,7 @@ export const GlobalNavigation: FC = () => {
         ]}
         bottom={[{ key: "sp", value: 24 }]}
       >
-        <Button
-          endIcon={<Icon name="footprint" size={24} rotate={90} />}
-          variant="filled"
-          type="button"
-          onClick={handleOnClickFootprintButton}
-        >
-          <Text as="span" ff="Zen Old Mincho" color="primaryInversed">
-            足跡を残す
-          </Text>
-        </Button>
+        <GlobalFootprintButton onClick={handleOnClickFootprintButton} />
       </_NavigationTransitionItem>
     </>
   );

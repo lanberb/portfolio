@@ -11,8 +11,7 @@ export const GlobalFootprintDialog: FC = () => {
 
   return (
     <Dialog.Frame open={dialogStore.isOpenCreateStickerDialog} onRequestClose={handleOnRequestClose}>
-      <Dialog.Header title="Let's get your footprint" onClose={handleOnRequestClose} />
-      あああああ
+      <Dialog.Header onClose={handleOnRequestClose}>Let's get your footprint</Dialog.Header>
     </Dialog.Frame>
   );
 };

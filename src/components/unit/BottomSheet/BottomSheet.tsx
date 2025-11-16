@@ -16,12 +16,12 @@ const _Content = styled.div<{ open: boolean }>`
   height: fit-content;
   padding-bottom: 16px;
   max-width: 480px;
-  width: 100%;
   transform: translateY(${({ open }) => (open ? -100 : 0)}%);
   margin-inline: 24px;
 
   @media ${MediaQuery.sp} {
     padding-bottom: 0;
+    width: 100%;
   }
 `;
 

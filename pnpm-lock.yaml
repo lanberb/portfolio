@@ -48,6 +48,9 @@ importers:
       '@cloudflare/vite-plugin':
         specifier: ^1.14.0
         version: 1.14.0(vite@7.2.2(@types/node@20.19.17)(jiti@1.21.7)(tsx@4.20.6))(workerd@1.20251105.0)(wrangler@4.46.0)
+      '@emotion/babel-plugin':
+        specifier: ^11.13.5
+        version: 11.13.5
       '@storybook/addon-docs':
         specifier: ^10.0.2
         version: 10.0.6(@types/react@19.2.2)(esbuild@0.25.10)(rollup@4.52.2)(storybook@10.0.6(@testing-library/dom@10.4.1)(prettier@3.6.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.2.2(@types/node@20.19.17)(jiti@1.21.7)(tsx@4.20.6)))(vite@7.2.2(@types/node@20.19.17)(jiti@1.21.7)(tsx@4.20.6))
@@ -3889,8 +3892,8 @@ snapshots:
 
   '@babel/helper-module-imports@7.27.1':
     dependencies:
-      '@babel/traverse': 7.28.4
-      '@babel/types': 7.28.4
+      '@babel/traverse': 7.28.5
+      '@babel/types': 7.28.5
     transitivePeerDependencies:
       - supports-color
 

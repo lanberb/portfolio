@@ -3,7 +3,6 @@ import { type FC, type MouseEvent, type PropsWithChildren, useCallback, useEffec
 import { createPortal } from "react-dom";
 import { IconButton } from "@/components/modules/IconButton";
 import { MediaQuery } from "@/components/styles/media";
-import { Text } from "../Text";
 import { GLOBAL_TRANSITION_DURATION } from "@/components/styles/mixins/transition";
 
 const _Header = styled.header`
@@ -15,20 +14,24 @@ const _Header = styled.header`
 `;
 
 interface _HeaderProps {
-  title: string;
   onClose: () => void;
 }
 
-const Header: FC<_HeaderProps> = ({ title, onClose }) => {
+const Header: FC<PropsWithChildren<_HeaderProps>> = ({ children, onClose }) => {
   return (
     <_Header>
-      <Text fz={14} fw={700} tt="capitalize" color="primary">
-        {title}
-      </Text>
+      {children}
       <IconButton name="close" size={24} onClick={onClose} />
     </_Header>
   );
 };
+
+const _Content = styled.div`
+  background-color: var(${({ theme }) => theme.surface.primary});
+  border-radius: 12px;
+  height: 100%;
+  overflow: scroll;
+`;
 
 const _Frame = styled.dialog`
   position: fixed;
@@ -52,20 +55,14 @@ const _Frame = styled.dialog`
       display ${GLOBAL_TRANSITION_DURATION}ms allow-discrete;
   }
 
-  &[open]::backdrop {
-    opacity: 1;
-    
-    @starting-style {
-      opacity: 0;
+  &[open]{
+    &::backdrop {
+      opacity: 1;
+      @starting-style {
+        opacity: 0;
+      }
     }
   }
-`;
-
-const _Content = styled.div`
-  background-color: var(${({ theme }) => theme.surface.primary});
-  border-radius: 12px;
-  height: 100%;
-  overflow: scroll;
 `;
 
 interface _FrameProps {
@@ -89,13 +86,7 @@ const Frame: FC<_FrameProps & PropsWithChildren> = ({ children, open, onRequestC
   }, [open]);
 
   return createPortal(
-    <_Frame
-      aria-modal="true"
-      role="dialog"
-      ref={dialogRef}
-      onClick={onRequestClose}
-      onClose={onRequestClose}
-    >
+    <_Frame aria-modal="true" role="dialog" ref={dialogRef} onClick={onRequestClose} onClose={onRequestClose}>
       <_Content onClick={stopPropagation}>{children}</_Content>
     </_Frame>,
     document.body,

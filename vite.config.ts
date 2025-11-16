@@ -8,7 +8,12 @@ import { viteInjectSvgPlugin } from './plugins/viteInjectSvgPlugin';
 export default defineConfig({
   plugins: [
      viteInjectSvgPlugin(),
-     react(),
+     react({
+       jsxImportSource: "@emotion/react",
+       babel: {
+         plugins: ["@emotion/babel-plugin"]
+       }
+     }),
      cloudflare()
     ],
   resolve: {
