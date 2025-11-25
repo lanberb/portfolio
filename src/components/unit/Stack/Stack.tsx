@@ -9,8 +9,10 @@ import {
   margins,
   type PaddingProps,
   paddings,
+  type StackItemProps,
   type StackProps,
   stack,
+  stackItem,
 } from "@/components/styles/mixins";
 
 interface Props extends BaseProps, MarginProps, PaddingProps, BorderProps, StackProps {
@@ -23,4 +25,8 @@ export const Stack = styled.div<Props>`
   ${margins}
   ${paddings}
   ${borders}
+`;
+
+export const StackItem = styled.div<StackItemProps>`
+  ${stackItem}
 `;

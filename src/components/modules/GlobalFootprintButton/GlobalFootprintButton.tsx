@@ -36,17 +36,8 @@ const _RotateText = styled.svg<{ reverse?: boolean }>`
   overflow: visible;
 `;
 
-const _LabelTextKeyframes = keyframes`
-  from {
-    transform: rotate(-8deg);
-  }
-  to {
-    transform: rotate(-16deg);
-  }
-`;
-
 const _Label = styled(Text)`
-  animation: ${_LabelTextKeyframes} 2400ms linear infinite alternate;
+  transform: rotate(-16deg);
 `;
 
 type Props = {
@@ -64,7 +55,7 @@ export const GlobalFootprintButton: FC<Props> = ({ onClick }) => {
           <Text as="text" color="primary" fz={8} fw={300}>
             <textPath href="#circlePath" textAnchor="middle" startOffset="50%">
               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-              - - - - - - - - - - - - 
+              - - - - - - - - - - - -
             </textPath>
           </Text>
         </_RotateText>

@@ -1,39 +1,19 @@
 import styled from "@emotion/styled";
-import { type FC, type MouseEvent, type PropsWithChildren, useCallback, useEffect, useRef } from "react";
+import {
+  type FC,
+  type MouseEvent,
+  type PropsWithChildren,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { createPortal } from "react-dom";
-import { IconButton } from "@/components/modules/IconButton";
 import { MediaQuery } from "@/components/styles/media";
 import { GLOBAL_TRANSITION_DURATION } from "@/components/styles/mixins/transition";
+import { Stack } from "../Stack";
 
-const _Header = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 16px 12px;
-  border-bottom: 1px solid var(${({ theme }) => theme.surface.primaryDisabled});
-`;
-
-interface _HeaderProps {
-  onClose: () => void;
-}
-
-const Header: FC<PropsWithChildren<_HeaderProps>> = ({ children, onClose }) => {
-  return (
-    <_Header>
-      {children}
-      <IconButton name="close" size={24} onClick={onClose} />
-    </_Header>
-  );
-};
-
-const _Content = styled.div`
-  background-color: var(${({ theme }) => theme.surface.primary});
-  border-radius: 12px;
-  height: 100%;
-  overflow: scroll;
-`;
-
-const _Frame = styled.dialog`
+const _Dialog = styled.dialog`
   position: fixed;
   width: auto;
   min-width: 320px;
@@ -41,6 +21,7 @@ const _Frame = styled.dialog`
   height: 100%;
   max-height: min(640px, 100svh - 32px);
   margin: auto;
+  overflow: hidden;
 
   @media ${MediaQuery.sp} {
     margin: auto 16px;
@@ -67,10 +48,11 @@ const _Frame = styled.dialog`
 
 interface _FrameProps {
   open: boolean;
+  title: ReactNode;
   onRequestClose: () => void;
 }
 
-const Frame: FC<_FrameProps & PropsWithChildren> = ({ children, open, onRequestClose }) => {
+export const Dialog: FC<_FrameProps & PropsWithChildren> = ({ children, open, title, onRequestClose }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const stopPropagation = useCallback((event: MouseEvent<HTMLElement>) => {
@@ -86,14 +68,11 @@ const Frame: FC<_FrameProps & PropsWithChildren> = ({ children, open, onRequestC
   }, [open]);
 
   return createPortal(
-    <_Frame aria-modal="true" role="dialog" ref={dialogRef} onClick={onRequestClose} onClose={onRequestClose}>
-      <_Content onClick={stopPropagation}>{children}</_Content>
-    </_Frame>,
+    <_Dialog aria-modal="true" role="dialog" ref={dialogRef} onClick={onRequestClose} onClose={onRequestClose}>
+      <Stack direction="column" height="100%" backgroundColor="primary" radius={12} onClick={stopPropagation}>
+        {children}
+      </Stack>
+    </_Dialog>,
     document.body,
   );
-};
-
-export const Dialog = {
-  Frame,
-  Header,
 };
