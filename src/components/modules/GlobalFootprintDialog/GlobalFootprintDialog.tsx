@@ -1,7 +1,6 @@
 import { type FC, useCallback } from "react";
 import { Box } from "@/components/unit/Box";
 import { Stack, StackItem } from "@/components/unit/Stack";
-import { Text } from "@/components/unit/Text";
 import { useDialogStore } from "@/state/dialog";
 import { Dialog } from "../../unit/Dialog";
 
@@ -13,15 +12,7 @@ export const GlobalFootprintDialog: FC = () => {
   }, [dialogStore]);
 
   return (
-    <Dialog
-      open={dialogStore.isOpenCreateStickerDialog}
-      onRequestClose={handleOnRequestClose}
-      title={
-        <Text fz={12} ff="Zen Old Mincho">
-          あなたの足跡を残しましょう。
-        </Text>
-      }
-    >
+    <Dialog open={dialogStore.isOpenCreateStickerDialog} onRequestClose={handleOnRequestClose}>
       <Stack direction="column" height="100%">
         <StackItem grow={1}>
           <Stack height="100%">

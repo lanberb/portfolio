@@ -1,13 +1,5 @@
 import styled from "@emotion/styled";
-import {
-  type FC,
-  type MouseEvent,
-  type PropsWithChildren,
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+import { type FC, type MouseEvent, type PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { MediaQuery } from "@/components/styles/media";
 import { GLOBAL_TRANSITION_DURATION } from "@/components/styles/mixins/transition";
@@ -48,11 +40,10 @@ const _Dialog = styled.dialog`
 
 interface _FrameProps {
   open: boolean;
-  title: ReactNode;
   onRequestClose: () => void;
 }
 
-export const Dialog: FC<_FrameProps & PropsWithChildren> = ({ children, open, title, onRequestClose }) => {
+export const Dialog: FC<_FrameProps & PropsWithChildren> = ({ children, open, onRequestClose }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const stopPropagation = useCallback((event: MouseEvent<HTMLElement>) => {
