@@ -9,6 +9,7 @@ import { BlogPage } from "@/components/pages/blog";
 import { HelloPage } from "@/components/pages/hello";
 import { TopPage } from "@/components/pages/top";
 import { createGlobalStyles } from "@/components/styles/globalStyles";
+import { GlobalCanvasProvider } from "@/hooks/useGlobalCanvas/useGlobalCanvas";
 import { I18nStateProvider } from "@/hooks/useI18n";
 import { ThemeStateProvider } from "@/hooks/useTheme";
 import { routes } from "@/util/routes";
@@ -21,17 +22,19 @@ function App() {
         <BrowserRouter>
           <I18nStateProvider>
             <ThemeStateProvider>
-              <Global styles={createGlobalStyles} />
-              <GlobalBackgroundCanvas />
-              <GlobalNavigation />
-              <GlobalFootprintDialog />
+              <GlobalCanvasProvider>
+                <Global styles={createGlobalStyles} />
+                <GlobalBackgroundCanvas />
+                <GlobalNavigation />
+                <GlobalFootprintDialog />
 
-              <Routes>
-                <Route path={routes.top} element={<TopPage />} />
-                <Route path={routes.about} element={<AboutPage />} />
-                <Route path={routes.blog} element={<BlogPage />} />
-                <Route path={routes.hello} element={<HelloPage />} />
-              </Routes>
+                <Routes>
+                  <Route path={routes.top} element={<TopPage />} />
+                  <Route path={routes.about} element={<AboutPage />} />
+                  <Route path={routes.blog} element={<BlogPage />} />
+                  <Route path={routes.hello} element={<HelloPage />} />
+                </Routes>
+              </GlobalCanvasProvider>
             </ThemeStateProvider>
           </I18nStateProvider>
         </BrowserRouter>
