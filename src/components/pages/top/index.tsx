@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { type FC, useCallback, useEffect, useMemo, useState } from "react";
+import { type FC, useCallback, useEffect, useMemo } from "react";
 import EarthLogoStickerImage from "@/assets/images/sticker/earth_logo.png";
 import ExpandChromStickerImage from "@/assets/images/sticker/expand_chrom.png";
 import RotateTextStickerImage from "@/assets/images/sticker/rotate_text.png";
@@ -89,14 +89,9 @@ const Wrapper = styled.div`
 export const TopPage: FC = () => {
   const { t } = useI18n();
   const themeState = useTheme();
-
-  const { el, canvasApi, isDragging, position } = useGlobalCanvas();
-
   const globalStore = useGlobalStore();
-
   const loadImages = useLoadImages({ images: STICEKR_SETTING_LIST });
-
-  const [isMounted, setIsMounted] = useState(false);
+  const { el, canvasApi, isDragging, position } = useGlobalCanvas();
 
   const rowLineCount = useMemo(() => caluculateLineCount(el?.clientWidth ?? 0), [el]);
   const columnLineCount = useMemo(() => caluculateLineCount(el?.clientHeight ?? 0), [el]);
@@ -122,17 +117,7 @@ export const TopPage: FC = () => {
     globalStore.setIsPlayedOnce,
   ]);
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (["ArrowUp", "w", "ArrowDown", "s", "ArrowLeft", "a", "ArrowRight", "d"].includes(e.key)) {
-        handleOnMouseMoveOrReRender();
-      }
-    },
-    [handleOnMouseMoveOrReRender],
-  );
-
   const handleOnOpeningAnimationComplete = useCallback(() => {
-    setIsMounted(true);
     globalStore.setIsEndedOpeningAnimation();
   }, [globalStore.setIsEndedOpeningAnimation]);
 
@@ -147,18 +132,13 @@ export const TopPage: FC = () => {
    * マウスイベント登録
    */
   useEffect(() => {
-    if (isMounted === false) {
-      return;
-    }
     if (isDragging) {
       document.body.addEventListener("pointermove", handleOnMouseMoveOrReRender);
     }
-    document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.removeEventListener("pointermove", handleOnMouseMoveOrReRender);
-      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handleOnMouseMoveOrReRender, handleKeyDown, isDragging, isMounted]);
+  }, [handleOnMouseMoveOrReRender, isDragging]);
 
   return (
     <Wrapper>

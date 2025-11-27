@@ -6,9 +6,9 @@ import {
   caluculateLineStartArray,
   drawImage,
   drawLine,
-  getSurfaceColor,
   type RenderableImage,
 } from "./common";
+import { getSurfaceColor } from "@/util/canvas";
 
 export const interaction = (
   canvasApi: CanvasRenderingContext2D,

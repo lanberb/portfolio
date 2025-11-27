@@ -1,5 +1,3 @@
-import type { Theme } from "@emotion/react";
-import type { ThemeState } from "@/components/styles/theme";
 import { getCenterizePosition } from "@/util/canvas";
 
 export const BACKGROUND_GRID_GAP = 40;
@@ -9,17 +7,6 @@ export type RenderableImage = {
   el: HTMLImageElement;
   x: number;
   y: number;
-};
-
-/**
- * @summary keyをもとにglobalStyleに登録されているRGBAを返す
- */
-export const getSurfaceColor = (key: keyof Theme["surface"], themeState: ThemeState) => {
-  const color = window
-    .getComputedStyle(document.documentElement)
-    .getPropertyValue(themeState.theme.surface[key])
-    .trim();
-  return color;
 };
 
 /**

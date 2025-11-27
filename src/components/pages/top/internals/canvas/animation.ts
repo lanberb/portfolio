@@ -7,9 +7,9 @@ import {
   caluculateLineStartArray,
   drawImage,
   drawLine,
-  getSurfaceColor,
   type RenderableImage,
 } from "./common";
+import { getSurfaceColor } from "@/util/canvas";
 
 export const animation = (
   canvasApi: CanvasRenderingContext2D,

@@ -1,4 +1,5 @@
 import { MediaQuery } from "@/components/styles/media";
+import type { Theme, ThemeState } from "@/components/styles/theme";
 
 interface Size {
   width: number;
@@ -21,4 +22,15 @@ export const getMobileFullWidthWithMargin = (width: number, margin = 16) => {
     return document.documentElement.clientWidth - margin * 2;
   }
   return width;
+};
+
+/**
+ * @summary keyをもとにglobalStyleに登録されているRGBAを返す
+ */
+export const getSurfaceColor = (key: keyof Theme["surface"], themeState: ThemeState) => {
+  const color = window
+    .getComputedStyle(document.documentElement)
+    .getPropertyValue(themeState.theme.surface[key])
+    .trim();
+  return color;
 };
