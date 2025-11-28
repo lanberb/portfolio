@@ -1,14 +1,17 @@
 import { createTimeline } from "animejs";
-import { getIsBrowser } from "@/util/app";
+import type { ThemeState } from "@/components/styles/theme";
+import { getSurfaceColor, isMobile } from "@/util/canvas";
 
-const SQUARE_SIZE = 200;
+const SQUARE_SIZE = isMobile() ? 100 : 200;
 
-export const animation = (canvasApi: CanvasRenderingContext2D, el: HTMLCanvasElement, onComplete: () => void) => {
-  const isBrowser = getIsBrowser();
-  if (isBrowser === false) {
-    return;
-  }
-  console.log("Running transition...");
+export const animation = (
+  canvasApi: CanvasRenderingContext2D,
+  el: HTMLCanvasElement,
+  theme: ThemeState,
+  onComplete: () => void,
+) => {
+  const surfaceColor = getSurfaceColor("backgroundGrid", theme);
+  canvasApi.fillStyle = surfaceColor;
 
   const spaceRowCount = Math.ceil(el.clientWidth / SQUARE_SIZE) + 1;
   const spaceColumnCount = Math.ceil(el.clientHeight / SQUARE_SIZE) + 1;
@@ -49,7 +52,6 @@ export const animation = (canvasApi: CanvasRenderingContext2D, el: HTMLCanvasEle
     };
 
     const handleOnComplete = () => {
-      console.log("About Page Complete timeline!");
       window.cancelAnimationFrame(requestAnimationFrameId);
       onComplete();
       resolve();

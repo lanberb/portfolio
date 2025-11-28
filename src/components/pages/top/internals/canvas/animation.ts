@@ -19,8 +19,6 @@ export const openingAnimation = (
   images: RenderableImage[],
   onComplete: () => void,
 ) => {
-  console.log("Running openingAnimation...");
-
   canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
   canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
   canvasApi.lineWidth = BACKGROUND_GRID_STROKE_WIDTH;
@@ -78,7 +76,6 @@ export const openingAnimation = (
     };
 
     const handleOnComplete = () => {
-      console.log("Top Page Complete timeline!");
       window.cancelAnimationFrame(requestAnimationFrameId);
       onComplete();
       resolve();
@@ -134,8 +131,6 @@ export const transitionAnimation = (
   columnLineCount: number,
   images: RenderableImage[],
 ) => {
-  console.log("Running transitionAnimation...");
-
   canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
   canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
   canvasApi.lineWidth = BACKGROUND_GRID_STROKE_WIDTH;
@@ -193,7 +188,6 @@ export const transitionAnimation = (
     };
 
     const handleOnComplete = () => {
-      console.log("Top Page Complete timeline!");
       window.cancelAnimationFrame(requestAnimationFrameId);
       resolve();
     };
