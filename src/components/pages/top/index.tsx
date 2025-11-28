@@ -17,7 +17,7 @@ import { useLoadImages } from "@/hooks/useLoadImages";
 import { useTheme } from "@/hooks/useTheme";
 import { useGlobalStore } from "@/state/global";
 import { getMobileFullWidthWithMargin } from "@/util/canvas";
-import { animation } from "./internals/canvas/animation";
+import { openingAnimation, transitionAnimation } from "./internals/canvas/animation";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "./internals/canvas/common";
 import { interaction } from "./internals/canvas/interaction";
 
@@ -125,8 +125,29 @@ export const TopPage: FC = () => {
     if (canvasApi == null || el == null || themeState == null || images.length === 0) {
       return;
     }
-    animation(canvasApi, el, themeState, rowLineCount, columnLineCount, images, handleOnOpeningAnimationComplete);
-  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, images, handleOnOpeningAnimationComplete]);
+    if (globalStore.isEndedOpeningAnimation) {
+      transitionAnimation(canvasApi, el, themeState, rowLineCount, columnLineCount, images);
+    } else {
+      openingAnimation(
+        canvasApi,
+        el,
+        themeState,
+        rowLineCount,
+        columnLineCount,
+        images,
+        handleOnOpeningAnimationComplete,
+      );
+    }
+  }, [
+    canvasApi,
+    el,
+    themeState,
+    rowLineCount,
+    columnLineCount,
+    images,
+    globalStore.isEndedOpeningAnimation,
+    handleOnOpeningAnimationComplete,
+  ]);
 
   /**
    * マウスイベント登録

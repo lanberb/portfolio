@@ -1,16 +1,9 @@
 import { createTimeline } from "animejs";
-import type { ThemeState } from "@/components/styles/theme";
 import { getIsBrowser } from "@/util/app";
-import { getSurfaceColor } from "@/util/canvas";
 
 const SQUARE_SIZE = 200;
 
-export const animation = (
-  canvasApi: CanvasRenderingContext2D,
-  el: HTMLCanvasElement,
-  themeState: ThemeState,
-  onComplete: () => void,
-) => {
+export const animation = (canvasApi: CanvasRenderingContext2D, el: HTMLCanvasElement, onComplete: () => void) => {
   const isBrowser = getIsBrowser();
   if (isBrowser === false) {
     return;
@@ -19,6 +12,8 @@ export const animation = (
 
   const spaceRowCount = Math.ceil(el.clientWidth / SQUARE_SIZE) + 1;
   const spaceColumnCount = Math.ceil(el.clientHeight / SQUARE_SIZE) + 1;
+  const distX = (el.clientWidth - spaceRowCount * SQUARE_SIZE) / 2;
+  const distY = (el.clientHeight - spaceColumnCount * SQUARE_SIZE) / 2;
 
   return new Promise<void>((resolve) => {
     const animationProperties = {
@@ -31,10 +26,10 @@ export const animation = (
     let animationMode: "fill" | "clear" = "fill";
 
     const handleOnBegin = () => {
-      console.log("handleOnBegin-02");
-      canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
-
-      if (animationMode === "clear") {
+      canvasApi.save();
+      if (animationMode === "fill") {
+        canvasApi.globalCompositeOperation = "source-over";
+      } else {
         canvasApi.globalCompositeOperation = "destination-out";
       }
 
@@ -42,18 +37,18 @@ export const animation = (
         for (let i = 0; i < spaceColumnCount; i++) {
           const animatedSquareSize = animationProperties.squares[i * j].scale * SQUARE_SIZE;
           canvasApi.fillRect(
-            j * SQUARE_SIZE + SQUARE_SIZE / 2 - animatedSquareSize / 2,
-            i * SQUARE_SIZE + SQUARE_SIZE / 2 - animatedSquareSize / 2,
+            j * SQUARE_SIZE + SQUARE_SIZE / 2 - animatedSquareSize / 2 + distX,
+            i * SQUARE_SIZE + SQUARE_SIZE / 2 - animatedSquareSize / 2 + distY,
             animatedSquareSize,
             animatedSquareSize,
           );
         }
       }
+      canvasApi.restore();
       requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
     };
 
     const handleOnComplete = () => {
-      canvasApi.globalCompositeOperation = "source-over";
       console.log("About Page Complete timeline!");
       window.cancelAnimationFrame(requestAnimationFrameId);
       onComplete();
@@ -69,13 +64,15 @@ export const animation = (
         scale: 1,
         opacity: 1,
         ease: "inOut(1.6)",
-        duration: 300,
-        delay: (_, index: number) => (400 / animationProperties.squares.length) * index,
+        duration: 120,
+        delay: (_, index: number) => {
+          return (400 / animationProperties.squares.length) * index;
+        },
       })
       .set(animationProperties.squares, {
         scale: 0,
         opacity: 0,
-        onComplete: () => {
+        onBegin: () => {
           animationMode = "clear";
         },
       })
@@ -83,8 +80,10 @@ export const animation = (
         scale: 1,
         opacity: 1,
         ease: "inOut(1.6)",
-        duration: 300,
-        delay: (_, index: number) => (400 / animationProperties.squares.length) * index,
+        duration: 120,
+        delay: (_, index: number) => {
+          return (400 / animationProperties.squares.length) * index;
+        },
       });
   });
 };

@@ -1,12 +1,10 @@
 import { type FC, useCallback, useEffect } from "react";
 import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
-import { useTheme } from "@/hooks/useTheme";
 import { useGlobalStore } from "@/state/global";
 import { animation } from "./canvas/animation";
 
 export const AboutPage: FC = () => {
   const globalStore = useGlobalStore();
-  const themeState = useTheme();
   const { el, canvasApi } = useGlobalCanvas();
 
   const handleOnAnimationComplete = useCallback(() => {
@@ -14,12 +12,12 @@ export const AboutPage: FC = () => {
   }, [globalStore.setIsEndedOpeningAnimation]);
 
   useEffect(() => {
-    if (canvasApi == null || el == null || themeState == null) {
+    if (canvasApi == null || el == null) {
       return;
     }
     console.log("Running about animation...");
-    animation(canvasApi, el, themeState, handleOnAnimationComplete);
-  }, [canvasApi, el, themeState, handleOnAnimationComplete]);
+    animation(canvasApi, el, handleOnAnimationComplete);
+  }, [canvasApi, el, handleOnAnimationComplete]);
 
   return <div />;
 };
