@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { type FC, useCallback, useEffect, useMemo } from "react";
+import { type FC, useCallback, useEffect, useMemo, useRef } from "react";
 import EarthLogoStickerImage from "@/assets/images/sticker/earth_logo.png";
 import ExpandChromStickerImage from "@/assets/images/sticker/expand_chrom.png";
 import RotateTextStickerImage from "@/assets/images/sticker/rotate_text.png";
@@ -93,6 +93,8 @@ export const TopPage: FC = () => {
   const loadImages = useLoadImages({ images: STICEKR_SETTING_LIST });
   const { el, canvasApi, isDragging, position } = useGlobalCanvas();
 
+  const isMounted = useRef(globalStore.isEndedOpeningAnimation);
+
   const rowLineCount = useMemo(() => caluculateLineCount(el?.clientWidth ?? 0), [el]);
   const columnLineCount = useMemo(() => caluculateLineCount(el?.clientHeight ?? 0), [el]);
   const images = useMemo(() => createRenderableImagesFromLoadedImages(loadImages.data ?? []), [loadImages.data]);
@@ -125,7 +127,7 @@ export const TopPage: FC = () => {
     if (canvasApi == null || el == null || themeState == null || images.length === 0) {
       return;
     }
-    if (globalStore.isEndedOpeningAnimation) {
+    if (isMounted.current) {
       transitionAnimation(canvasApi, el, themeState, rowLineCount, columnLineCount, images);
     } else {
       openingAnimation(
@@ -138,16 +140,7 @@ export const TopPage: FC = () => {
         handleOnOpeningAnimationComplete,
       );
     }
-  }, [
-    canvasApi,
-    el,
-    themeState,
-    rowLineCount,
-    columnLineCount,
-    images,
-    globalStore.isEndedOpeningAnimation,
-    handleOnOpeningAnimationComplete,
-  ]);
+  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, images, handleOnOpeningAnimationComplete]);
 
   /**
    * マウスイベント登録
