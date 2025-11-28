@@ -1,6 +1,7 @@
 import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
 import { getIsBrowser } from "@/util/app";
+import { getSurfaceColor } from "@/util/canvas";
 import {
   BACKGROUND_GRID_STROKE_WIDTH,
   caluculateFirstLineStart,
@@ -9,7 +10,6 @@ import {
   drawLine,
   type RenderableImage,
 } from "./common";
-import { getSurfaceColor } from "@/util/canvas";
 
 export const animation = (
   canvasApi: CanvasRenderingContext2D,
@@ -26,7 +26,7 @@ export const animation = (
   }
   console.log("Running openingAnimation...");
 
-  canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
+  // canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
   canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
   canvasApi.lineWidth = BACKGROUND_GRID_STROKE_WIDTH;
 
@@ -54,6 +54,7 @@ export const animation = (
     let requestAnimationFrameId: number;
 
     const handleOnBegin = () => {
+      console.log("handleOnBegin-01");
       canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
       // 縦軸
       for (let i = 0; i < rowLineCount; i++) {
@@ -83,7 +84,7 @@ export const animation = (
     };
 
     const handleOnComplete = () => {
-      console.log("Complete timeline!");
+      console.log("Top Page Complete timeline!");
       window.cancelAnimationFrame(requestAnimationFrameId);
       onComplete();
       resolve();

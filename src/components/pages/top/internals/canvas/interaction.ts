@@ -1,4 +1,5 @@
 import type { ThemeState } from "@/components/styles/theme";
+import { getSurfaceColor } from "@/util/canvas";
 import {
   BACKGROUND_GRID_GAP,
   BACKGROUND_GRID_STROKE_WIDTH,
@@ -8,7 +9,6 @@ import {
   drawLine,
   type RenderableImage,
 } from "./common";
-import { getSurfaceColor } from "@/util/canvas";
 
 export const interaction = (
   canvasApi: CanvasRenderingContext2D,

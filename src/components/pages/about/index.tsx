@@ -1,8 +1,8 @@
+import { type FC, useCallback, useEffect } from "react";
 import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
-import { useCallback, useEffect, type FC } from "react";
-import { animation } from "./canvas/animation";
 import { useTheme } from "@/hooks/useTheme";
 import { useGlobalStore } from "@/state/global";
+import { animation } from "./canvas/animation";
 
 export const AboutPage: FC = () => {
   const globalStore = useGlobalStore();
