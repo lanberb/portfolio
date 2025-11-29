@@ -14,9 +14,9 @@ export const animation = (
   canvasApi.fillStyle = surfaceColor;
 
   const _spaceRowCount = Math.ceil(el.clientWidth / SQUARE_SIZE);
-  const spaceRowCount = _spaceRowCount %2 === 0 ? _spaceRowCount + 1 : _spaceRowCount;
+  const spaceRowCount = _spaceRowCount % 2 === 0 ? _spaceRowCount + 1 : _spaceRowCount;
   const _spaceColumnCount = Math.ceil(el.clientHeight / SQUARE_SIZE);
-  const spaceColumnCount = _spaceColumnCount %2 === 0 ? _spaceColumnCount + 1 : _spaceColumnCount;
+  const spaceColumnCount = _spaceColumnCount % 2 === 0 ? _spaceColumnCount + 1 : _spaceColumnCount;
   const distX = (el.clientWidth - spaceRowCount * SQUARE_SIZE) / 2;
   const distY = (el.clientHeight - spaceColumnCount * SQUARE_SIZE) / 2;
 
