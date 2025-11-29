@@ -2,7 +2,7 @@ import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
 import { getSurfaceColor, isMobile } from "@/util/canvas";
 
-const SQUARE_SIZE = isMobile() ? 80 : 200;
+const SQUARE_SIZE = isMobile() ? 80 : 320;
 
 export const animation = (
   canvasApi: CanvasRenderingContext2D,
@@ -10,7 +10,7 @@ export const animation = (
   theme: ThemeState,
   onComplete: () => void,
 ) => {
-  const surfaceColor = getSurfaceColor("backgroundGrid", theme);
+  const surfaceColor = getSurfaceColor("primaryInversed", theme);
   canvasApi.fillStyle = surfaceColor;
 
   const _spaceRowCount = Math.ceil(el.clientWidth / SQUARE_SIZE);
@@ -22,7 +22,7 @@ export const animation = (
 
   return new Promise<void>((resolve) => {
     const animationProperties = {
-      squares: Array.from({ length: spaceRowCount * spaceColumnCount }, () => ({
+      squares: Array.from({ length: spaceColumnCount }, () => ({
         scale: 0,
       })),
     };
@@ -38,12 +38,16 @@ export const animation = (
         canvasApi.globalCompositeOperation = "destination-out";
       }
 
-      for (let j = 0; j < spaceRowCount; j++) {
-        for (let i = 0; i < spaceColumnCount; i++) {
-          const animatedSquareSize = animationProperties.squares[i * j].scale * SQUARE_SIZE;
+      for (let _y = 0; _y < spaceColumnCount; _y++) {
+        for (let _x = 0; _x < spaceRowCount; _x++) {
+          const animatedSquareSize = animationProperties.squares[_y].scale * SQUARE_SIZE;
+
+          const x = _x;
+          const y = _y;
+
           canvasApi.fillRect(
-            j * SQUARE_SIZE + SQUARE_SIZE / 2 - animatedSquareSize / 2 + distX,
-            i * SQUARE_SIZE + SQUARE_SIZE / 2 - animatedSquareSize / 2 + distY,
+            x * SQUARE_SIZE + SQUARE_SIZE / 2 - animatedSquareSize / 2 + distX,
+            y * SQUARE_SIZE + SQUARE_SIZE / 2 - animatedSquareSize / 2 + distY,
             animatedSquareSize,
             animatedSquareSize,
           );
@@ -70,7 +74,7 @@ export const animation = (
         ease: "inOut(1.6)",
         duration: 120,
         delay: (_, index: number) => {
-          return (400 / animationProperties.squares.length) * index;
+          return 400 * index;
         },
       })
       .set(animationProperties.squares, {
@@ -86,7 +90,8 @@ export const animation = (
         ease: "inOut(1.6)",
         duration: 120,
         delay: (_, index: number) => {
-          return (400 / animationProperties.squares.length) * index;
+          const unitDelay = 400 * index;
+          return unitDelay;
         },
       });
   });

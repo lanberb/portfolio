@@ -2,7 +2,7 @@ import { type FC, useCallback, useEffect } from "react";
 import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
 import { useTheme } from "@/hooks/useTheme";
 import { useGlobalStore } from "@/state/global";
-import { animation } from "./canvas/animation";
+import { animation } from "./internals/canvas/animation";
 
 export const AboutPage: FC = () => {
   const themeState = useTheme();
