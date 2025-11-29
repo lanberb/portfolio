@@ -2,7 +2,7 @@ import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
 import { getSurfaceColor, isMobile } from "@/util/canvas";
 
-const SQUARE_SIZE = isMobile() ? 100 : 200;
+const SQUARE_SIZE = isMobile() ? 80 : 200;
 
 export const animation = (
   canvasApi: CanvasRenderingContext2D,
@@ -13,8 +13,10 @@ export const animation = (
   const surfaceColor = getSurfaceColor("backgroundGrid", theme);
   canvasApi.fillStyle = surfaceColor;
 
-  const spaceRowCount = Math.ceil(el.clientWidth / SQUARE_SIZE) + 1;
-  const spaceColumnCount = Math.ceil(el.clientHeight / SQUARE_SIZE) + 1;
+  const _spaceRowCount = Math.ceil(el.clientWidth / SQUARE_SIZE);
+  const spaceRowCount = _spaceRowCount %2 === 0 ? _spaceRowCount + 1 : _spaceRowCount;
+  const _spaceColumnCount = Math.ceil(el.clientHeight / SQUARE_SIZE);
+  const spaceColumnCount = _spaceColumnCount %2 === 0 ? _spaceColumnCount + 1 : _spaceColumnCount;
   const distX = (el.clientWidth - spaceRowCount * SQUARE_SIZE) / 2;
   const distY = (el.clientHeight - spaceColumnCount * SQUARE_SIZE) / 2;
 
