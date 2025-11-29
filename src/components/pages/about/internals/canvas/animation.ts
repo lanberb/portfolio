@@ -2,7 +2,7 @@ import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
 import { getSurfaceColor, isMobile } from "@/util/canvas";
 
-const SQUARE_SIZE = isMobile() ? 80 : 320;
+const SQUARE_SIZE = isMobile() ? 40 : 320;
 
 export const animation = (
   canvasApi: CanvasRenderingContext2D,
@@ -38,13 +38,9 @@ export const animation = (
         canvasApi.globalCompositeOperation = "destination-out";
       }
 
-      for (let _y = 0; _y < spaceColumnCount; _y++) {
-        for (let _x = 0; _x < spaceRowCount; _x++) {
-          const animatedSquareSize = animationProperties.squares[_y].scale * SQUARE_SIZE;
-
-          const x = _x;
-          const y = _y;
-
+      for (let y = 0; y < spaceColumnCount; y++) {
+        for (let x = 0; x < spaceRowCount; x++) {
+          const animatedSquareSize = animationProperties.squares[y].scale * SQUARE_SIZE;
           canvasApi.fillRect(
             x * SQUARE_SIZE + SQUARE_SIZE / 2 - animatedSquareSize / 2 + distX,
             y * SQUARE_SIZE + SQUARE_SIZE / 2 - animatedSquareSize / 2 + distY,
@@ -63,35 +59,37 @@ export const animation = (
       resolve();
     };
 
+    const targetScale = 1.05;
+    const duration = 200;
+
     const timeline = createTimeline({
       onBegin: handleOnBegin,
       onComplete: handleOnComplete,
     });
     timeline
       .add(animationProperties.squares, {
-        scale: 1,
-        opacity: 1,
+        scale: targetScale,
         ease: "inOut(1.6)",
-        duration: 120,
+        duration,
         delay: (_, index: number) => {
-          return 400 * index;
+          return 80 * (spaceColumnCount - index);
+        },
+        onBegin: () => {
+          animationMode = "fill";
         },
       })
       .set(animationProperties.squares, {
         scale: 0,
-        opacity: 0,
         onBegin: () => {
           animationMode = "clear";
         },
       })
       .add(animationProperties.squares, {
-        scale: 1,
-        opacity: 1,
+        scale: targetScale,
         ease: "inOut(1.6)",
-        duration: 120,
+        duration,
         delay: (_, index: number) => {
-          const unitDelay = 400 * index;
-          return unitDelay;
+          return 80 * (spaceColumnCount - index);
         },
       });
   });
