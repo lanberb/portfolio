@@ -2,7 +2,7 @@ import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
 import { getSurfaceColor, isMobile } from "@/util/canvas";
 
-const SQUARE_SIZE = isMobile() ? 40 : 320;
+const SQUARE_SIZE = isMobile() ? 20 : 64;
 
 export const animation = (
   canvasApi: CanvasRenderingContext2D,
@@ -72,7 +72,7 @@ export const animation = (
         ease: "inOut(1.6)",
         duration,
         delay: (_, index: number) => {
-          return 80 * (spaceColumnCount - index);
+          return 20 * (spaceColumnCount - index);
         },
         onBegin: () => {
           animationMode = "fill";
@@ -89,7 +89,7 @@ export const animation = (
         ease: "inOut(1.6)",
         duration,
         delay: (_, index: number) => {
-          return 80 * (spaceColumnCount - index);
+          return 20 * (spaceColumnCount - index);
         },
       });
   });
