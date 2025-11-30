@@ -103,7 +103,7 @@ export const TopPage: FC = () => {
     if (globalStore.isPlayedOnce === false) {
       globalStore.setIsPlayedOnce();
     }
-    if (canvasApi == null || el == null || themeState == null) {
+    if (canvasApi == null || el == null || themeState == null || isDragging === false) {
       return;
     }
     interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
@@ -117,6 +117,7 @@ export const TopPage: FC = () => {
     images,
     globalStore.isPlayedOnce,
     globalStore.setIsPlayedOnce,
+    isDragging,
   ]);
 
   const handleOnOpeningAnimationComplete = useCallback(() => {
@@ -146,13 +147,11 @@ export const TopPage: FC = () => {
    * マウスイベント登録
    */
   useEffect(() => {
-    if (isDragging) {
-      document.body.addEventListener("pointermove", handleOnMouseMoveOrReRender);
-    }
+    document.body.addEventListener("pointermove", handleOnMouseMoveOrReRender);
     return () => {
       document.body.removeEventListener("pointermove", handleOnMouseMoveOrReRender);
     };
-  }, [handleOnMouseMoveOrReRender, isDragging]);
+  }, [handleOnMouseMoveOrReRender]);
 
   return (
     <Wrapper>

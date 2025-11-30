@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useGlobalStore } from "@/state/global";
 import { useCanvas } from "../useCanvas";
 import { useUnmount } from "../useUnmount";
 
@@ -28,6 +29,7 @@ const GlobalCanvasContext = createContext<State | null>(null);
 
 export const GlobalCanvasProvider: FC<PropsWithChildren> = ({ children }) => {
   const canvas = useCanvas();
+  const globalStore = useGlobalStore();
 
   const [isDragging, setIsDragging] = useState(false);
   const immutableState = useRef<ImmutableState>({
@@ -49,13 +51,13 @@ export const GlobalCanvasProvider: FC<PropsWithChildren> = ({ children }) => {
   }, []);
   const handlePointerMove = useCallback(
     (e: PointerEvent) => {
-      if (isDragging === false) {
+      if (isDragging === false || globalStore.isEndedOpeningAnimation === false) {
         return;
       }
       immutableState.current.position.x += e.movementX;
       immutableState.current.position.y += e.movementY;
     },
-    [isDragging],
+    [isDragging, globalStore.isEndedOpeningAnimation],
   );
 
   /**
