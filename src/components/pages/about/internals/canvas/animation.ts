@@ -2,7 +2,7 @@ import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
 import { getSurfaceColor, isMobile } from "@/util/canvas";
 
-const SQUARE_SIZE = isMobile() ? 20 : 40;
+const SQUARE_SIZE = isMobile() ? 1 : 40;
 
 export const animation = (
   canvasApi: CanvasRenderingContext2D,
