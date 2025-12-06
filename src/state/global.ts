@@ -14,6 +14,10 @@ type Store = {
   // GlobalBackgroundCanvasのstate管理
   isEndedOpeningAnimation: boolean;
   setIsPlayedOnce: () => void;
+
+  // GlobalBackgroundCanvasのグラブ可能状態を管理するstate
+  isGrabbable: boolean;
+  setIsGrabbable: (isGrabbable: boolean) => void;
 };
 
 export const useGlobalStore = create<Store>((set) => ({
@@ -25,4 +29,7 @@ export const useGlobalStore = create<Store>((set) => ({
 
   isEndedOpeningAnimation: false,
   setIsEndedOpeningAnimation: () => set({ isEndedOpeningAnimation: true }),
+
+  isGrabbable: false,
+  setIsGrabbable: (isGrabbable: boolean) => set({ isGrabbable }),
 }));

@@ -1,5 +1,6 @@
-import { MediaQuery } from "@/components/styles/media";
+import { MediaQuery, PrefersReducedMotion } from "@/components/styles/media";
 import type { Theme, ThemeState } from "@/components/styles/theme";
+import { getIsBrowser } from "./app";
 
 interface Size {
   width: number;
@@ -19,6 +20,10 @@ export const getCenterizePosition = (container: Size, item: Size): Position => {
 
 export const isMobile = () => {
   return window.matchMedia(MediaQuery.sp).matches;
+};
+
+export const isPrefersReducedMotion = () => {
+  return getIsBrowser() && window.matchMedia(PrefersReducedMotion).matches;
 };
 
 export const getMobileFullWidthWithMargin = (width: number, margin = 16) => {

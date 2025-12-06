@@ -12,9 +12,9 @@ export const Canvas = styled.canvas<Props>`
   ${({ grabbable = false }) =>
     grabbable &&
     css`
-    cursor: grab;
-    &:active {
-      cursor: grabbing;
-    }
+      cursor: grab;
+      &:active {
+        cursor: grabbing;
+      }
   `}
 `;

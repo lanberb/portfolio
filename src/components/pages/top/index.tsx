@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import { type FC, useCallback, useEffect, useMemo, useRef } from "react";
 import EarthLogoStickerImage from "@/assets/images/sticker/earth_logo.png";
 import ExpandChromStickerImage from "@/assets/images/sticker/expand_chrom.png";
@@ -6,6 +5,7 @@ import RotateTextStickerImage from "@/assets/images/sticker/rotate_text.png";
 import StarLikeStickerImage from "@/assets/images/sticker/star_like.png";
 import StreetPaintStickerImage from "@/assets/images/sticker/street_paint.png";
 import { KeyboardKey } from "@/components/modules/KeyboardKey";
+import { PageLayout } from "@/components/modules/PageLayout";
 import { BottomSheet } from "@/components/unit/BottomSheet";
 import { Box } from "@/components/unit/Box";
 import { Grid, GridItem } from "@/components/unit/Grid";
@@ -82,10 +82,6 @@ const createRenderableImagesFromLoadedImages = (images: HTMLImageElement[]): Ren
   }, []);
 };
 
-const Wrapper = styled.div`
-  pointer-events: none;
-`;
-
 export const TopPage: FC = () => {
   const { t } = useI18n();
   const themeState = useTheme();
@@ -122,7 +118,8 @@ export const TopPage: FC = () => {
 
   const handleOnOpeningAnimationComplete = useCallback(() => {
     globalStore.setIsEndedOpeningAnimation();
-  }, [globalStore.setIsEndedOpeningAnimation]);
+    globalStore.setIsGrabbable(true);
+  }, [globalStore.setIsEndedOpeningAnimation, globalStore.setIsGrabbable]);
 
   useEffect(() => {
     if (canvasApi == null || el == null || themeState == null || images.length === 0) {
@@ -154,9 +151,7 @@ export const TopPage: FC = () => {
   }, [handleOnMouseMoveOrReRender]);
 
   return (
-    <Wrapper>
-      <title>EE-BBB.©</title>
-
+    <PageLayout title="EE-BBB.©">
       <BottomSheet open={globalStore.isEndedOpeningAnimation && globalStore.isPlayedOnce === false}>
         <Text ta="center" ff="Zen Old Mincho" fz={14}>
           <Box as="span" display={[{ key: "sp", value: "none" }]}>
@@ -207,6 +202,6 @@ export const TopPage: FC = () => {
           </Stack>
         </Box>
       </BottomSheet>
-    </Wrapper>
+    </PageLayout>
   );
 };

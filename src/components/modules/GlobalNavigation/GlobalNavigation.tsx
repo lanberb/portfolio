@@ -25,6 +25,8 @@ const _NavigationCellWidth_SP = 72;
 const _NavigationTransitionItem = styled(Box)<TransitionProps>`
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
   border-radius: 80px;
+  z-index: 9999;
+
   ${transition};
 `;
 

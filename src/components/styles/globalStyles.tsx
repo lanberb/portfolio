@@ -12,14 +12,14 @@ export const createGlobalStyles = (_: Theme) => {
       ${themeKeyMap.light.surface.primaryHover}: #c8c8c8;
       ${themeKeyMap.light.text.primary}: #0A0A0A;
       ${themeKeyMap.light.text.primaryDisabled}: #969696;
-      ${themeKeyMap.light.surface.backgroundGrid}: #a6a6a6;
+      ${themeKeyMap.light.surface.backgroundGrid}: #c4c4c4;
 
       ${themeKeyMap.dark.surface.primary}: #0A0A0A;
       ${themeKeyMap.dark.surface.primaryDisabled}: #323232;
       ${themeKeyMap.dark.surface.primaryHover}: #161616;
       ${themeKeyMap.dark.text.primary}: #FFFFFF;
       ${themeKeyMap.dark.text.primaryDisabled}: #323232;
-      ${themeKeyMap.dark.surface.backgroundGrid}: #161616;
+      ${themeKeyMap.dark.surface.backgroundGrid}: #1b1b1b;
     }
 
     /**
@@ -125,6 +125,10 @@ export const createGlobalStyles = (_: Theme) => {
     :root:has(dialog[open]) {
       overflow: hidden;
       scrollbar-gutter: stable;
+    }
+
+    ::selection {
+      background-color: olivedrab;
     }
   `;
 };

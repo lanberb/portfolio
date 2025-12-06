@@ -2,7 +2,7 @@ import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
 import { getSurfaceColor, isMobile } from "@/util/canvas";
 
-const SQUARE_SIZE = isMobile() ? 1 : 40;
+const SQUARE_SIZE = isMobile() ? 20 : 40;
 
 export const animation = (
   canvasApi: CanvasRenderingContext2D,
@@ -10,7 +10,7 @@ export const animation = (
   theme: ThemeState,
   onComplete: () => void,
 ) => {
-  const surfaceColor = getSurfaceColor("primaryInversed", theme);
+  const surfaceColor = getSurfaceColor("backgroundGrid", theme);
   canvasApi.fillStyle = surfaceColor;
 
   const _spaceRowCount = Math.ceil(el.clientWidth / SQUARE_SIZE);
@@ -69,8 +69,8 @@ export const animation = (
     };
 
     const targetScale = 1.2;
-    const duration = 400;
-    const delay = 16;
+    const duration = 120;
+    const delay = 8;
 
     const centerX = (spaceRowCount - 1) / 2;
     const centerY = (spaceColumnCount - 1) / 2;
