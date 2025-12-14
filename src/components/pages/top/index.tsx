@@ -4,6 +4,10 @@ import ExpandChromStickerImage from "@/assets/images/sticker/expand_chrom.png";
 import RotateTextStickerImage from "@/assets/images/sticker/rotate_text.png";
 import StarLikeStickerImage from "@/assets/images/sticker/star_like.png";
 import StreetPaintStickerImage from "@/assets/images/sticker/street_paint.png";
+import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
+import { useI18n } from "@/components/hooks/useI18n";
+import { useLoadImages } from "@/components/hooks/useLoadImages";
+import { useTheme } from "@/components/hooks/useTheme";
 import { KeyboardKey } from "@/components/modules/KeyboardKey";
 import { PageLayout } from "@/components/modules/PageLayout";
 import { BottomSheet } from "@/components/unit/BottomSheet";
@@ -11,14 +15,10 @@ import { Box } from "@/components/unit/Box";
 import { Grid, GridItem } from "@/components/unit/Grid";
 import { Stack } from "@/components/unit/Stack";
 import { Text } from "@/components/unit/Text";
-import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
-import { useI18n } from "@/components/hooks/useI18n";
-import { useLoadImages } from "@/components/hooks/useLoadImages";
-import { useTheme } from "@/components/hooks/useTheme";
 import { useGlobalStore } from "@/state/global";
 import { getMobileFullWidthWithMargin } from "@/util/canvas";
-import { openingAnimation, transitionAnimation } from "../../canvas/top/canvas/animation";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "../../canvas/common/common";
+import { openingAnimation, transitionAnimation } from "../../canvas/top/canvas/animation";
 import { interaction } from "../../canvas/top/canvas/interaction";
 
 const STICEKR_SETTING_LIST = [
@@ -138,7 +138,7 @@ export const Page: FC = () => {
         handleOnOpeningAnimationComplete,
       );
     }
-  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, images, handleOnOpeningAnimationComplete]);
+  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, images, position, handleOnOpeningAnimationComplete]);
 
   /**
    * マウスイベント登録

@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { type CSSProperties, type FC, useCallback } from "react";
 import { useLocation } from "react-router-dom";
+import { useI18n } from "@/components/hooks/useI18n";
+import { useTheme } from "@/components/hooks/useTheme";
 import { SegmentControl } from "@/components/modules/SegmentControl";
 import { MediaQuery } from "@/components/styles/media";
 import { GLOBAL_TRANSITION_DURATION, type TransitionProps, transition } from "@/components/styles/mixins/transition";
@@ -9,8 +11,6 @@ import { Box } from "@/components/unit/Box";
 import { Icon } from "@/components/unit/Icon";
 import { Link } from "@/components/unit/Link";
 import { Stack } from "@/components/unit/Stack";
-import { useI18n } from "@/components/hooks/useI18n";
-import { useTheme } from "@/components/hooks/useTheme";
 import { useGlobalStore } from "@/state/global";
 import type { LocaleKey } from "@/util/i18n/localize";
 import { routes } from "@/util/routes";
@@ -96,91 +96,82 @@ export const GlobalNavigation: FC = () => {
   })();
 
   return (
-    <>
-      <_NavigationTransitionItem
-        opacity={globalStore.isEndedOpeningAnimation ? 1 : 0}
-        position="fixed"
-        top={[
-          { key: "pc", value: 64 },
-          { key: "sp", value: 24 },
-        ]}
-        left={[
-          { key: "pc", value: 64 },
-          { key: "sp", value: 16 },
-        ]}
-        mx="auto"
-      >
-        <Stack
-          wrap="nowrap"
-          b={1}
-          bc="primaryInversed"
-          radius={80}
-          width="fit-content"
-          backgroundColor="primaryInversed"
+    <_NavigationTransitionItem
+      opacity={globalStore.isEndedOpeningAnimation ? 1 : 0}
+      position="fixed"
+      top={[
+        { key: "pc", value: 64 },
+        { key: "sp", value: 24 },
+      ]}
+      left={[
+        { key: "pc", value: 64 },
+        { key: "sp", value: 16 },
+      ]}
+      mx="auto"
+    >
+      <Stack wrap="nowrap" b={1} bc="primaryInversed" radius={80} width="fit-content" backgroundColor="primaryInversed">
+        <_NavigationCellList
+          as="nav"
+          position="relative"
+          alignItems="center"
+          b={2}
+          radius={32}
+          backgroundColor="primary"
+          style={
+            {
+              "--pseudoElementPositionX": `${pseudoElementPositionX}px`,
+            } as CSSProperties
+          }
         >
-          <_NavigationCellList
-            as="nav"
-            position="relative"
-            alignItems="center"
-            b={2}
-            radius={32}
-            backgroundColor="primary"
-            style={
-              {
-                "--pseudoElementPositionX": `${pseudoElementPositionX}px`,
-              } as CSSProperties
-            }
-          >
-            {navKeys.map((key) => {
-              const pathname = `/${key === "top" ? "" : key}`;
-              return (
-                <_NavigationCell
-                  key={key}
-                  href={routes[key]}
-                  ta="center"
-                  tt="capitalize"
-                  width={[
-                    { key: "sp", value: _NavigationCellWidth_SP },
-                    { key: "pc", value: _NavigationCellWidth_PC },
-                  ]}
-                  radius={32}
-                  py={4}
-                  position="relative"
-                  color="primary"
-                  zIndex={1}
-                  display="block"
-                  data-selected={pathname === location.pathname}
-                >
-                  {key}
-                </_NavigationCell>
-              );
-            })}
-          </_NavigationCellList>
+          {navKeys.map((key) => {
+            const pathname = `/${key === "top" ? "" : key}`;
+            return (
+              <_NavigationCell
+                key={key}
+                href={routes[key]}
+                ta="center"
+                tt="capitalize"
+                width={[
+                  { key: "sp", value: _NavigationCellWidth_SP },
+                  { key: "pc", value: _NavigationCellWidth_PC },
+                ]}
+                radius={32}
+                py={4}
+                position="relative"
+                color="primary"
+                zIndex={1}
+                display="block"
+                data-selected={pathname === location.pathname}
+              >
+                {key}
+              </_NavigationCell>
+            );
+          })}
+        </_NavigationCellList>
 
-          <Stack alignItems="center" gap={24} px={32}>
+        <Stack alignItems="center" gap={24} px={32}>
+          <SegmentControl
+            name="localizeLang"
+            defaultKey={i18n.lang}
+            items={[<span key="ja">JA</span>, <span key="en">EN</span>]}
+            onSelect={handleOnSelectLang}
+          />
+          {/* SPだとはみ出る & 端末で切り替えればいい */}
+          <Box
+            display={[
+              { key: "sp", value: "none" },
+              { key: "pc", value: "block" },
+            ]}
+          >
             <SegmentControl
-              name="localizeLang"
-              defaultKey={i18n.lang}
-              items={[<span key="ja">JA</span>, <span key="en">EN</span>]}
-              onSelect={handleOnSelectLang}
+              name="themeMode"
+              defaultKey={theme?.mode}
+              items={[<Icon key="light" name="modeLight" size={16} />, <Icon key="dark" name="modeDark" size={16} />]}
+              onSelect={handleOnSelectTheme}
             />
-            {/* SPだとはみ出る & 端末で切り替えればいい */}
-            <Box
-              display={[
-                { key: "sp", value: "none" },
-                { key: "pc", value: "block" },
-              ]}
-            >
-              <SegmentControl
-                name="themeMode"
-                defaultKey={theme?.mode}
-                items={[<Icon key="light" name="modeLight" size={16} />, <Icon key="dark" name="modeDark" size={16} />]}
-                onSelect={handleOnSelectTheme}
-              />
-            </Box>
-          </Stack>
+          </Box>
         </Stack>
-      </_NavigationTransitionItem>
-    </>
+      </Stack>
+    </_NavigationTransitionItem>
   );
 };

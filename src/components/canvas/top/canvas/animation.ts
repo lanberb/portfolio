@@ -137,11 +137,7 @@ export const transitionAnimation = (
   canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
   canvasApi.lineWidth = BACKGROUND_GRID_STROKE_WIDTH;
 
-  const rowFirstLineStartX = caluculateFirstLineStart(
-    el.clientWidth,
-    rowLineCount,
-    position.x % BACKGROUND_GRID_GAP,
-  );
+  const rowFirstLineStartX = caluculateFirstLineStart(el.clientWidth, rowLineCount, position.x % BACKGROUND_GRID_GAP);
   const rowLineStartXArray = caluculateLineStartArray(rowFirstLineStartX, rowLineCount);
   const columnFirstLineStartY = caluculateFirstLineStart(
     el.clientHeight,

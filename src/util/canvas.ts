@@ -6,7 +6,7 @@ interface Size {
   width: number;
   height: number;
 }
-interface Position {
+export interface Position {
   x: number;
   y: number;
 }
