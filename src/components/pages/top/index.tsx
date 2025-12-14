@@ -11,15 +11,15 @@ import { Box } from "@/components/unit/Box";
 import { Grid, GridItem } from "@/components/unit/Grid";
 import { Stack } from "@/components/unit/Stack";
 import { Text } from "@/components/unit/Text";
-import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
-import { useI18n } from "@/hooks/useI18n";
-import { useLoadImages } from "@/hooks/useLoadImages";
-import { useTheme } from "@/hooks/useTheme";
+import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
+import { useI18n } from "@/components/hooks/useI18n";
+import { useLoadImages } from "@/components/hooks/useLoadImages";
+import { useTheme } from "@/components/hooks/useTheme";
 import { useGlobalStore } from "@/state/global";
 import { getMobileFullWidthWithMargin } from "@/util/canvas";
-import { openingAnimation, transitionAnimation } from "./internals/canvas/animation";
-import { BACKGROUND_GRID_GAP, type RenderableImage } from "./internals/canvas/common";
-import { interaction } from "./internals/canvas/interaction";
+import { openingAnimation, transitionAnimation } from "../../canvas/top/canvas/animation";
+import { BACKGROUND_GRID_GAP, type RenderableImage } from "../../canvas/common/common";
+import { interaction } from "../../canvas/top/canvas/interaction";
 
 const STICEKR_SETTING_LIST = [
   {
@@ -82,7 +82,7 @@ const createRenderableImagesFromLoadedImages = (images: HTMLImageElement[]): Ren
   }, []);
 };
 
-export const TopPage: FC = () => {
+export const Page: FC = () => {
   const { t } = useI18n();
   const themeState = useTheme();
   const globalStore = useGlobalStore();
@@ -126,7 +126,7 @@ export const TopPage: FC = () => {
       return;
     }
     if (isMounted.current) {
-      transitionAnimation(canvasApi, el, themeState, rowLineCount, columnLineCount, images);
+      transitionAnimation(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
     } else {
       openingAnimation(
         canvasApi,

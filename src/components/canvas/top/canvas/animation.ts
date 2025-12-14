@@ -2,13 +2,14 @@ import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
 import { getSurfaceColor } from "@/util/canvas";
 import {
+  BACKGROUND_GRID_GAP,
   BACKGROUND_GRID_STROKE_WIDTH,
   caluculateFirstLineStart,
   caluculateLineStartArray,
   drawImage,
   drawLine,
   type RenderableImage,
-} from "./common";
+} from "../../common/common";
 
 export const openingAnimation = (
   canvasApi: CanvasRenderingContext2D,
@@ -129,15 +130,24 @@ export const transitionAnimation = (
   themeState: ThemeState,
   rowLineCount: number,
   columnLineCount: number,
+  position: { x: number; y: number },
   images: RenderableImage[],
 ) => {
   canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
   canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
   canvasApi.lineWidth = BACKGROUND_GRID_STROKE_WIDTH;
 
-  const rowFirstLineStartX = caluculateFirstLineStart(el.clientWidth, rowLineCount, 0);
+  const rowFirstLineStartX = caluculateFirstLineStart(
+    el.clientWidth,
+    rowLineCount,
+    position.x % BACKGROUND_GRID_GAP,
+  );
   const rowLineStartXArray = caluculateLineStartArray(rowFirstLineStartX, rowLineCount);
-  const columnFirstLineStartY = caluculateFirstLineStart(el.clientHeight, columnLineCount, 0);
+  const columnFirstLineStartY = caluculateFirstLineStart(
+    el.clientHeight,
+    columnLineCount,
+    position.y % BACKGROUND_GRID_GAP,
+  );
   const columnLineStartYArray = caluculateLineStartArray(columnFirstLineStartY, columnLineCount);
 
   return new Promise<void>((resolve) => {
@@ -160,7 +170,14 @@ export const transitionAnimation = (
 
     const handleOnBegin = () => {
       canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
-      // 縦軸
+      // // 縦軸
+      // for (let i = 0; i < rowLineCount; i++) {
+      //   drawLine(canvasApi, [rowLineStartXArray[i], 0], [rowLineStartXArray[i], animationProperties.lines.y]);
+      // }
+      // // 横軸
+      // for (let i = 0; i < columnLineCount; i++) {
+      //   drawLine(canvasApi, [0, columnLineStartYArray[i]], [animationProperties.lines.x, columnLineStartYArray[i]]);
+      // }
       for (let i = 0; i < rowLineCount; i++) {
         const startPositionY = i % 2 === 0 ? 0 : el.clientHeight;
         const endPositionY = i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
@@ -178,7 +195,7 @@ export const transitionAnimation = (
           canvasApi,
           el,
           images[i].el,
-          { x: animationProperties.images[i]?.x, y: animationProperties.images[i]?.y },
+          { x: animationProperties.images[i]?.x + position.x, y: animationProperties.images[i]?.y + position.y },
           animationProperties.images[i]?.scale,
           animationProperties.images[i]?.opacity,
         );
@@ -201,7 +218,7 @@ export const transitionAnimation = (
       .add(animationProperties.lines, {
         x: el.clientWidth,
         y: el.clientHeight,
-        duration: 640,
+        duration: 1200,
         ease: "inOut(1.6)",
       })
       .add(
@@ -210,7 +227,7 @@ export const transitionAnimation = (
           scale: 1,
           opacity: 1,
           duration: 300,
-          delay: (_, index: number) => (240 / images.length) * index,
+          delay: (_, index: number) => (480 / images.length) * index,
           ease: "inOut(1.6)",
         },
         0,

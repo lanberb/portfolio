@@ -5,7 +5,6 @@ export const protocol = {
 
 export const routes = {
   top: "/",
-  about: "/about",
   blog: "/blog",
   gallery: "/gallery",
   contact: "/contact",

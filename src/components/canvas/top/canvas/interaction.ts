@@ -8,7 +8,7 @@ import {
   drawImage,
   drawLine,
   type RenderableImage,
-} from "./common";
+} from "../../common/common";
 
 export const interaction = (
   canvasApi: CanvasRenderingContext2D,

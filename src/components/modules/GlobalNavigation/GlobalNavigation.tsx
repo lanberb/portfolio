@@ -9,15 +9,13 @@ import { Box } from "@/components/unit/Box";
 import { Icon } from "@/components/unit/Icon";
 import { Link } from "@/components/unit/Link";
 import { Stack } from "@/components/unit/Stack";
-import { useI18n } from "@/hooks/useI18n";
-import { useTheme } from "@/hooks/useTheme";
-import { useDialogStore } from "@/state/dialog";
+import { useI18n } from "@/components/hooks/useI18n";
+import { useTheme } from "@/components/hooks/useTheme";
 import { useGlobalStore } from "@/state/global";
 import type { LocaleKey } from "@/util/i18n/localize";
 import { routes } from "@/util/routes";
-import { GlobalFootprintButton } from "../GlobalFootprintButton";
 
-const navKeys: (keyof typeof routes)[] = ["top", "about", "blog"];
+const navKeys: (keyof typeof routes)[] = ["top", "blog"];
 
 const _NavigationCellWidth_PC = 96;
 const _NavigationCellWidth_SP = 72;
@@ -74,7 +72,6 @@ export const GlobalNavigation: FC = () => {
   const i18n = useI18n();
 
   const globalStore = useGlobalStore();
-  const dialogStore = useDialogStore();
 
   const handleOnSelectTheme = useCallback(
     (mode: string) => {
@@ -92,10 +89,6 @@ export const GlobalNavigation: FC = () => {
     [i18n],
   );
 
-  const handleOnClickFootprintButton = useCallback(() => {
-    dialogStore.openCreateStickerDialog();
-  }, [dialogStore]);
-
   const pseudoElementPositionX = (() => {
     const index = navKeys.findIndex((route) => `/${route}` === location.pathname);
     const width = window.matchMedia(MediaQuery.sp).matches ? _NavigationCellWidth_SP : _NavigationCellWidth_PC;
@@ -106,7 +99,7 @@ export const GlobalNavigation: FC = () => {
     <>
       <_NavigationTransitionItem
         opacity={globalStore.isEndedOpeningAnimation ? 1 : 0}
-        position="absolute"
+        position="fixed"
         top={[
           { key: "pc", value: 64 },
           { key: "sp", value: 24 },
@@ -115,6 +108,7 @@ export const GlobalNavigation: FC = () => {
           { key: "pc", value: 64 },
           { key: "sp", value: 16 },
         ]}
+        mx="auto"
       >
         <Stack
           wrap="nowrap"
@@ -186,22 +180,6 @@ export const GlobalNavigation: FC = () => {
             </Box>
           </Stack>
         </Stack>
-      </_NavigationTransitionItem>
-
-      <_NavigationTransitionItem
-        opacity={globalStore.isEndedOpeningAnimation ? 1 : 0}
-        position="absolute"
-        right={[
-          { key: "pc", value: 64 },
-          { key: "sp", value: 16 },
-        ]}
-        top={[
-          { key: "pc", value: 48 },
-          { key: "sp", value: "auto" },
-        ]}
-        bottom={[{ key: "sp", value: 24 }]}
-      >
-        <GlobalFootprintButton onClick={handleOnClickFootprintButton} />
       </_NavigationTransitionItem>
     </>
   );
