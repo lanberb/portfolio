@@ -8,6 +8,7 @@ import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
 import { useI18n } from "@/components/hooks/useI18n";
 import { useLoadImages } from "@/components/hooks/useLoadImages";
 import { useTheme } from "@/components/hooks/useTheme";
+import { GlobalCanvasNavigator } from "@/components/modules/GlobalCanvasNavigator";
 import { KeyboardKey } from "@/components/modules/KeyboardKey";
 import { PageLayout } from "@/components/modules/PageLayout";
 import { BottomSheet } from "@/components/unit/BottomSheet";
@@ -20,7 +21,6 @@ import { getMobileFullWidthWithMargin } from "@/util/canvas";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "../../canvas/common/common";
 import { openingAnimation, transitionAnimation } from "../../canvas/top/canvas/animation";
 import { interaction } from "../../canvas/top/canvas/interaction";
-import { GlobalCanvasNavigator } from "@/components/modules/GlobalCanvasNavigator";
 
 const STICEKR_SETTING_LIST = [
   {
