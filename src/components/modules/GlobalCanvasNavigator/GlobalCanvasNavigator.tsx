@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
 import { type CSSProperties, type FC, type PropsWithChildren, useCallback, useEffect, useState } from "react";
 import type { RenderableImage } from "@/components/canvas/common/common";
-import { interaction } from "@/components/canvas/top/canvas/interaction";
+import { translateAnimation } from "@/components/canvas/top/canvas/animation";
 import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
 import { useTheme } from "@/components/hooks/useTheme";
 import { MediaQuery } from "@/components/styles/media";
-import { useGlobalStore } from "@/state/global";
 import type { Position } from "@/util/canvas";
 import { IconButton } from "../IconButton";
 
@@ -63,7 +62,6 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
   images,
 }) => {
   const { isDragging, position, canvasApi, el, update } = useGlobalCanvas();
-  const globalStore = useGlobalStore();
   const themeState = useTheme();
 
   const [homeButtonPosition, setHomeButtonPosition] = useState<Position>({ x: 0, y: 0 });
@@ -86,10 +84,21 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
     })();
   }, [isDragging, position, el]);
 
-  const handleOnClickIconButton = useCallback(() => {
-    update({ x: 0, y: 0 }, 1);
-    interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
-  }, [update, position, el, canvasApi, themeState, rowLineCount, columnLineCount, images]);
+  const handleOnClickIconButton = useCallback(async () => {
+    const targetPosition = { x: 0, y: 0 };
+    await translateAnimation(
+      canvasApi,
+      el,
+      themeState,
+      rowLineCount,
+      columnLineCount,
+      position,
+      targetPosition,
+      images,
+    );
+    update(targetPosition, 1);
+    handleOnPointerMove();
+  }, [position, el, canvasApi, themeState, rowLineCount, columnLineCount, images, update, handleOnPointerMove]);
 
   /**
    * マウスイベント登録
@@ -100,13 +109,6 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
       document.body.removeEventListener("pointermove", handleOnPointerMove);
     };
   }, [handleOnPointerMove]);
-
-  useEffect(() => {
-    if (globalStore.isEndedOpeningAnimation === false) {
-      return;
-    }
-    handleOnPointerMove();
-  }, [globalStore.isEndedOpeningAnimation, handleOnPointerMove]);
 
   return (
     <>

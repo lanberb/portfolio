@@ -152,28 +152,17 @@ export const transitionAnimation = (
         x: 0,
         y: 0,
       },
-      images: images.map(({ x, y }) => {
+      images: images.map(() => {
         return {
           scale: 1.2,
           opacity: 0,
-          x,
-          y,
         };
       }),
     };
 
     let requestAnimationFrameId: number;
-
     const handleOnBegin = () => {
       canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
-      // // 縦軸
-      // for (let i = 0; i < rowLineCount; i++) {
-      //   drawLine(canvasApi, [rowLineStartXArray[i], 0], [rowLineStartXArray[i], animationProperties.lines.y]);
-      // }
-      // // 横軸
-      // for (let i = 0; i < columnLineCount; i++) {
-      //   drawLine(canvasApi, [0, columnLineStartYArray[i]], [animationProperties.lines.x, columnLineStartYArray[i]]);
-      // }
       for (let i = 0; i < rowLineCount; i++) {
         const startPositionY = i % 2 === 0 ? 0 : el.clientHeight;
         const endPositionY = i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
@@ -191,7 +180,7 @@ export const transitionAnimation = (
           canvasApi,
           el,
           images[i].el,
-          { x: animationProperties.images[i]?.x + position.x, y: animationProperties.images[i]?.y + position.y },
+          { x: images[i]?.x + position.x, y: images[i]?.y + position.y },
           animationProperties.images[i]?.scale,
           animationProperties.images[i]?.opacity,
         );
@@ -228,5 +217,94 @@ export const transitionAnimation = (
         },
         0,
       );
+  });
+};
+
+export const translateAnimation = (
+  canvasApi: CanvasRenderingContext2D | null,
+  el: HTMLCanvasElement | null,
+  themeState: ThemeState | null,
+  rowLineCount: number,
+  columnLineCount: number,
+  basePosition: { x: number; y: number }, // 遷移元の座標
+  targetPosition: { x: number; y: number }, // 遷移先の座標
+  images: RenderableImage[],
+) => {
+  if (canvasApi == null || el == null || themeState == null) {
+    return;
+  }
+  canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
+  canvasApi.lineWidth = BACKGROUND_GRID_STROKE_WIDTH;
+
+  const rowFirstLineStartX = caluculateFirstLineStart(
+    el.clientWidth,
+    rowLineCount,
+    basePosition.x % BACKGROUND_GRID_GAP,
+  );
+  const rowLineStartXArray = caluculateLineStartArray(rowFirstLineStartX, rowLineCount);
+  const columnFirstLineStartY = caluculateFirstLineStart(
+    el.clientHeight,
+    columnLineCount,
+    basePosition.y % BACKGROUND_GRID_GAP,
+  );
+  const columnLineStartYArray = caluculateLineStartArray(columnFirstLineStartY, columnLineCount);
+
+  console.log({ rowFirstLineStartX, columnFirstLineStartY });
+
+  return new Promise<void>((resolve) => {
+    const animationProperties = {
+      x: basePosition.x,
+      y: basePosition.y,
+    };
+
+    let requestAnimationFrameId: number;
+    const handleOnBegin = () => {
+      console.log({ animationProperties });
+      canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
+      for (let i = 0; i < rowLineCount; i++) {
+        drawLine(
+          canvasApi,
+          [rowLineStartXArray[i] + animationProperties.x, 0],
+          [rowLineStartXArray[i] + animationProperties.x, el.clientHeight],
+        );
+      }
+      for (let i = 0; i < columnLineCount; i++) {
+        drawLine(
+          canvasApi,
+          [0, columnLineStartYArray[i] + animationProperties.y],
+          [el.clientWidth, columnLineStartYArray[i] + animationProperties.y],
+        );
+      }
+
+      for (let i = 0; i < images.length; i++) {
+        drawImage(
+          canvasApi,
+          el,
+          images[i].el,
+          { x: images[i]?.x + animationProperties.x, y: images[i]?.y + animationProperties.y },
+          1,
+          1,
+        );
+      }
+
+      requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
+    };
+
+    const handleOnComplete = () => {
+      window.cancelAnimationFrame(requestAnimationFrameId);
+      resolve();
+    };
+
+    const timeline = createTimeline({
+      onBegin: handleOnBegin,
+      onComplete: handleOnComplete,
+    });
+
+    timeline.add(animationProperties, {
+      x: targetPosition.x,
+      y: targetPosition.y,
+      duration: 400,
+      ease: "inOut(1.6)",
+    });
   });
 };

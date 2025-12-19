@@ -10,7 +10,7 @@ export type RenderableImage = {
 };
 
 /**
- * @summary (与えられた幅)から(行数 - 1) * グリッドの幅)を引いた値を2で割る
+ * @summary (与えられた幅 - (行数 - 1) * グリッドの幅)を引いた値を2で割る
  * @param width 描画する領域幅
  * @param lineCount グリッドの本数
  * @param dist ドラッグなどによる描画位置のズレ量
