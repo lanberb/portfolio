@@ -11,14 +11,17 @@ import {
 } from "../../common/common";
 
 export const interaction = (
-  canvasApi: CanvasRenderingContext2D,
-  el: HTMLCanvasElement,
-  themeState: ThemeState,
+  canvasApi: CanvasRenderingContext2D | null,
+  el: HTMLCanvasElement | null,
+  themeState: ThemeState | null,
   rowLineCount: number,
   columnLineCount: number,
   position: { x: number; y: number },
   images: RenderableImage[],
 ) => {
+  if (canvasApi == null || el == null || themeState == null) {
+    return;
+  }
   canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
   canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
   canvasApi.lineWidth = BACKGROUND_GRID_STROKE_WIDTH;

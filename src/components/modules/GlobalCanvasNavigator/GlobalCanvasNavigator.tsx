@@ -1,6 +1,9 @@
 import styled from "@emotion/styled";
 import { type CSSProperties, type FC, type PropsWithChildren, useCallback, useEffect, useState } from "react";
+import type { RenderableImage } from "@/components/canvas/common/common";
+import { interaction } from "@/components/canvas/top/canvas/interaction";
 import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
+import { useTheme } from "@/components/hooks/useTheme";
 import { MediaQuery } from "@/components/styles/media";
 import { useGlobalStore } from "@/state/global";
 import type { Position } from "@/util/canvas";
@@ -26,7 +29,7 @@ const Item = styled.li`
   pointer-events: initial;
 
   @media ${MediaQuery.sp} {
-    transition-duration: 0ms;
+    /* transition-duration: 0ms; */
   }
 `;
 
@@ -47,11 +50,21 @@ const List = styled.ul<{ hasBorder: boolean }>`
 
 interface Props {
   hasBorder: boolean;
+  rowLineCount: number;
+  columnLineCount: number;
+  images: RenderableImage[];
 }
 
-export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({ children, hasBorder }) => {
-  const { isDragging, position, el } = useGlobalCanvas();
+export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
+  children,
+  hasBorder,
+  rowLineCount,
+  columnLineCount,
+  images,
+}) => {
+  const { isDragging, position, canvasApi, el, update } = useGlobalCanvas();
   const globalStore = useGlobalStore();
+  const themeState = useTheme();
 
   const [homeButtonPosition, setHomeButtonPosition] = useState<Position>({ x: 0, y: 0 });
   const [isHomeButtonVisible, setIsHomeButtonVisible] = useState(false);
@@ -60,7 +73,6 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({ children, 
     if (isDragging === false || el == null) {
       return;
     }
-
     (() => {
       const isVisible = Math.abs(position.x) > el.clientWidth || Math.abs(position.y) > el.clientHeight;
       const absX = el.clientWidth / 2 + position.x - ITEM_SIZE / 2;
@@ -73,6 +85,11 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({ children, 
       setHomeButtonPosition({ x, y });
     })();
   }, [isDragging, position, el]);
+
+  const handleOnClickIconButton = useCallback(() => {
+    update({ x: 0, y: 0 }, 1);
+    interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
+  }, [update, position, el, canvasApi, themeState, rowLineCount, columnLineCount, images]);
 
   /**
    * マウスイベント登録
@@ -105,13 +122,7 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({ children, 
             } as CSSProperties
           }
         >
-          <IconButton
-            name="home"
-            color="primaryInversed"
-            onClick={(): void => {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <IconButton name="home" color="primaryInversed" onClick={handleOnClickIconButton} />
         </Item>
       </List>
     </>

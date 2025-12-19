@@ -23,6 +23,7 @@ type ImmutableState = {
 type State = ReturnType<typeof useCanvas> &
   ImmutableState & {
     isDragging: boolean;
+    update: (position: { x: number; y: number }, scale: number) => void;
   };
 
 const GlobalCanvasContext = createContext<State | null>(null);
@@ -60,6 +61,12 @@ export const GlobalCanvasProvider: FC<PropsWithChildren> = ({ children }) => {
     [isDragging, globalStore.isEndedOpeningAnimation],
   );
 
+  const update = useCallback((position: { x: number; y: number }, scale: number) => {
+    immutableState.current.position.x = position.x;
+    immutableState.current.position.y = position.y;
+    immutableState.current.scale = scale;
+  }, []);
+
   /**
    * リセット処理
    */
@@ -93,7 +100,13 @@ export const GlobalCanvasProvider: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <GlobalCanvasContext.Provider
-      value={{ ...canvas, position: immutableState.current.position, scale: immutableState.current.scale, isDragging }}
+      value={{
+        ...canvas,
+        position: immutableState.current.position,
+        scale: immutableState.current.scale,
+        isDragging,
+        update,
+      }}
     >
       {children}
     </GlobalCanvasContext.Provider>

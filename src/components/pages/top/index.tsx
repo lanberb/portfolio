@@ -100,7 +100,7 @@ export const Page: FC = () => {
     if (globalStore.isPlayedOnce === false) {
       globalStore.setIsPlayedOnce();
     }
-    if (canvasApi == null || el == null || themeState == null || isDragging === false) {
+    if (isDragging === false) {
       return;
     }
     interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
@@ -153,7 +153,12 @@ export const Page: FC = () => {
 
   return (
     <PageLayout title="EE-BBB.©">
-      <GlobalCanvasNavigator hasBorder={globalStore.isEndedOpeningAnimation} />
+      <GlobalCanvasNavigator
+        hasBorder={globalStore.isEndedOpeningAnimation}
+        rowLineCount={rowLineCount}
+        columnLineCount={columnLineCount}
+        images={images}
+      />
 
       <BottomSheet open={globalStore.isEndedOpeningAnimation && globalStore.isPlayedOnce === false}>
         <Text ta="center" ff="Zen Old Mincho" fz={14}>
