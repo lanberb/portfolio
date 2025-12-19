@@ -5,6 +5,7 @@ export type IconName =
   | "modeDark"
   | "footprint"
   | "close"
+  | "home"
   | "arrowRight"
   | "arrowLeft"
   | "arrowTop"

@@ -20,6 +20,7 @@ import { getMobileFullWidthWithMargin } from "@/util/canvas";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "../../canvas/common/common";
 import { openingAnimation, transitionAnimation } from "../../canvas/top/canvas/animation";
 import { interaction } from "../../canvas/top/canvas/interaction";
+import { GlobalCanvasNavigator } from "@/components/modules/GlobalCanvasNavigator";
 
 const STICEKR_SETTING_LIST = [
   {
@@ -152,6 +153,8 @@ export const Page: FC = () => {
 
   return (
     <PageLayout title="EE-BBB.©">
+      <GlobalCanvasNavigator hasBorder={globalStore.isEndedOpeningAnimation} />
+
       <BottomSheet open={globalStore.isEndedOpeningAnimation && globalStore.isPlayedOnce === false}>
         <Text ta="center" ff="Zen Old Mincho" fz={14}>
           <Box as="span" display={[{ key: "sp", value: "none" }]}>

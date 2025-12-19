@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import { type FC, type PropsWithChildren, useCallback, useEffect, useState } from "react";
+import { type CSSProperties, type FC, type PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
+import { MediaQuery } from "@/components/styles/media";
 import { useGlobalStore } from "@/state/global";
 import type { Position } from "@/util/canvas";
 import { IconButton } from "../IconButton";
@@ -9,20 +10,24 @@ const ITEM_SIZE = 64;
 
 const Item = styled.li`
   position: relative;
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
   width: 0;
   height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  transition-duration: 50ms;
   background-color: var(${({ theme }) => theme.surface.primaryInversed});
   border-radius: 100%;
   width: ${ITEM_SIZE}px;
   height: ${ITEM_SIZE}px;
+  transition: translate 50ms, scale 300ms;
+  translate: var(--positionX) var(--positionY);
+  scale: var(--scale);
+  pointer-events: initial;
+
+  @media ${MediaQuery.sp} {
+    transition-duration: 0ms;
+  }
 `;
 
 const List = styled.ul<{ hasBorder: boolean }>`
@@ -34,6 +39,10 @@ const List = styled.ul<{ hasBorder: boolean }>`
   border-width: ${({ hasBorder }) => (hasBorder ? "16px" : "0")};
   border-color: var(${({ theme }) => theme.surface.primaryInversed});
   filter: url("#filter");
+
+  @media ${MediaQuery.sp} {
+    border-width: ${({ hasBorder }) => (hasBorder ? "8px" : "0")};
+  }
 `;
 
 interface Props {
@@ -41,35 +50,29 @@ interface Props {
 }
 
 export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({ children, hasBorder }) => {
-  const { isDragging, position } = useGlobalCanvas();
+  const { isDragging, position, el } = useGlobalCanvas();
   const globalStore = useGlobalStore();
 
-  const [homeButtonPosition, setHomeButtonPosition] = useState<Position | null>(null);
+  const [homeButtonPosition, setHomeButtonPosition] = useState<Position>({ x: 0, y: 0 });
+  const [isHomeButtonVisible, setIsHomeButtonVisible] = useState(false);
 
   const handleOnPointerMove = useCallback(() => {
-    if (isDragging === false) {
+    if (isDragging === false || el == null) {
       return;
     }
 
-    const homeButtonPosition = (() => {
-      if (Math.abs(position.x) < window.innerWidth && Math.abs(position.y) < window.innerHeight) {
-        return null;
-      }
+    (() => {
+      const isVisible = Math.abs(position.x) > el.clientWidth || Math.abs(position.y) > el.clientHeight;
+      const absX = el.clientWidth / 2 + position.x - ITEM_SIZE / 2;
+      const absY = el.clientHeight / 2 + position.y - ITEM_SIZE / 2;
 
-      const absX = window.innerWidth / 2 + position.x - ITEM_SIZE / 2;
-      const absY = window.innerHeight / 2 + position.y - ITEM_SIZE / 2;
+      const x = absX < 0 ? Math.max(-ITEM_SIZE / 2, absX) : Math.min(el.clientWidth - ITEM_SIZE, absX);
+      const y = absY < 0 ? Math.max(-ITEM_SIZE / 2, absY) : Math.min(el.clientHeight - ITEM_SIZE, absY);
 
-      const x = absX < 0 ? Math.max(-ITEM_SIZE / 2, absX) : Math.min(window.innerWidth - ITEM_SIZE, absX);
-      const y = absY < 0 ? Math.max(-ITEM_SIZE / 2, absY) : Math.min(window.innerHeight - ITEM_SIZE, absY);
-      console.log(x, y);
-      return {
-        x,
-        y,
-      };
+      setIsHomeButtonVisible(isVisible);
+      setHomeButtonPosition({ x, y });
     })();
-
-    setHomeButtonPosition(homeButtonPosition);
-  }, [isDragging, position]);
+  }, [isDragging, position, el]);
 
   /**
    * マウスイベント登録
@@ -93,21 +96,23 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({ children, 
       {children}
 
       <List hasBorder={hasBorder}>
-        {homeButtonPosition != null && (
-          <Item
-            style={{
-              transform: `translate(${homeButtonPosition.x}px, ${homeButtonPosition.y}px)`,
+        <Item
+          style={
+            {
+              "--scale": isHomeButtonVisible ? 1 : 0,
+              "--positionX": `${homeButtonPosition?.x}px`,
+              "--positionY": `${homeButtonPosition?.y}px`,
+            } as CSSProperties
+          }
+        >
+          <IconButton
+            name="home"
+            color="primaryInversed"
+            onClick={(): void => {
+              throw new Error("Function not implemented.");
             }}
-          >
-            <IconButton
-              name="modeLight"
-              color="primaryInversed"
-              onClick={(): void => {
-                throw new Error("Function not implemented.");
-              }}
-            />
-          </Item>
-        )}
+          />
+        </Item>
       </List>
     </>
   );

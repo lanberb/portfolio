@@ -2,23 +2,19 @@ import type { FC } from "react";
 import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
 import { Canvas } from "@/components/unit/Canvas";
 import { useGlobalStore } from "@/state/global";
-import { GlobalCanvasNavigator } from "../GlobalCanvasNavigator";
 
 export const GlobalCanvas: FC = () => {
   const { canvasRef } = useGlobalCanvas();
   const globalStore = useGlobalStore();
 
   return (
-    <>
-      <Canvas
-        ref={canvasRef}
-        grabbable={globalStore.isGrabbable}
-        position="fixed"
-        inset={0}
-        width="100%"
-        minHeight="100%"
-      />
-      <GlobalCanvasNavigator hasBorder={globalStore.isEndedOpeningAnimation} />
-    </>
+    <Canvas
+      ref={canvasRef}
+      grabbable={globalStore.isGrabbable}
+      position="fixed"
+      inset={0}
+      width="100%"
+      minHeight="100%"
+    />
   );
 };
