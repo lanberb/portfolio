@@ -249,18 +249,27 @@ export const translateAnimation = (
   );
   const columnLineStartYArray = caluculateLineStartArray(columnFirstLineStartY, columnLineCount);
 
-  console.log({ rowFirstLineStartX, columnFirstLineStartY });
-
   return new Promise<void>((resolve) => {
     const animationProperties = {
       x: basePosition.x,
       y: basePosition.y,
+      scale: 1,
     };
 
     let requestAnimationFrameId: number;
     const handleOnBegin = () => {
-      console.log({ animationProperties });
+      canvasApi.save();
       canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
+
+      const centerX = el.clientWidth / 2;
+      const centerY = el.clientHeight / 2;
+      canvasApi.translate(centerX, centerY);
+      canvasApi.scale(animationProperties.scale, animationProperties.scale);
+      canvasApi.translate(-centerX, -centerY);
+
+      console.log(animationProperties.scale);
+
+      // 縦軸
       for (let i = 0; i < rowLineCount; i++) {
         drawLine(
           canvasApi,
@@ -268,6 +277,7 @@ export const translateAnimation = (
           [rowLineStartXArray[i] + animationProperties.x, el.clientHeight],
         );
       }
+      // 横軸
       for (let i = 0; i < columnLineCount; i++) {
         drawLine(
           canvasApi,
@@ -287,6 +297,7 @@ export const translateAnimation = (
         );
       }
 
+      canvasApi.restore();
       requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
     };
 
@@ -300,11 +311,26 @@ export const translateAnimation = (
       onComplete: handleOnComplete,
     });
 
-    timeline.add(animationProperties, {
-      x: targetPosition.x,
-      y: targetPosition.y,
-      duration: 400,
-      ease: "inOut(1.6)",
-    });
+    timeline
+      .add(animationProperties, {
+        scale: 0.6,
+        duration: 575,
+        ease: "outCirc",
+      })
+      .add(animationProperties, {
+        scale: 1,
+        duration: 575,
+        ease: "inCirc",
+      })
+      .add(
+        animationProperties,
+        {
+          x: targetPosition.x,
+          y: targetPosition.y,
+          duration: 1200,
+          ease: "inOut(1.6)",
+        },
+        0,
+      );
   });
 };
