@@ -5,6 +5,7 @@ import { translateAnimation } from "@/components/canvas/top/canvas/animation";
 import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
 import { useTheme } from "@/components/hooks/useTheme";
 import { MediaQuery } from "@/components/styles/media";
+import type { IconName } from "@/components/unit/Icon";
 import type { Position } from "@/util/canvas";
 import { IconButton } from "../IconButton";
 
@@ -84,21 +85,31 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
     })();
   }, [isDragging, position, el]);
 
-  const handleOnClickIconButton = useCallback(async () => {
-    const targetPosition = { x: 0, y: 0 };
-    await translateAnimation(
-      canvasApi,
-      el,
-      themeState,
-      rowLineCount,
-      columnLineCount,
-      position,
-      targetPosition,
-      images,
-    );
-    update(targetPosition, 1);
-    handleOnPointerMove();
-  }, [position, el, canvasApi, themeState, rowLineCount, columnLineCount, images, update, handleOnPointerMove]);
+  const handleOnClickIconButton = useCallback(
+    async (name: IconName) => {
+      switch (name) {
+        case "home": {
+          const targetPosition = { x: 0, y: 0 };
+          await translateAnimation(
+            canvasApi,
+            el,
+            themeState,
+            rowLineCount,
+            columnLineCount,
+            position,
+            targetPosition,
+            images,
+          );
+          update(targetPosition, 1);
+          setIsHomeButtonVisible(false);
+          break;
+        }
+        default:
+          break;
+      }
+    },
+    [position, el, canvasApi, themeState, rowLineCount, columnLineCount, images, update],
+  );
 
   /**
    * マウスイベント登録
@@ -124,7 +135,7 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
             } as CSSProperties
           }
         >
-          <IconButton name="home" color="primaryInversed" onClick={handleOnClickIconButton} />
+          <IconButton name="home" color="primaryInversed" onClick={() => handleOnClickIconButton("home")} />
         </Item>
       </List>
     </>

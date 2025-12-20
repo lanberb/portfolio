@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import type { FC } from "react";
+import type { FC, MouseEvent } from "react";
 import { GLOBAL_TRANSITION_DURATION } from "@/components/styles/mixins";
 import type { Color } from "@/components/styles/theme";
 import { Icon, type IconProps } from "@/components/unit/Icon";
@@ -34,7 +34,7 @@ const _Button = styled.button<{ color: Color }>`
 
 interface Props extends IconProps {
   color?: Color;
-  onClick: () => void;
+  onClick: (e: MouseEvent<HTMLOrSVGElement>) => void;
 }
 
 export const IconButton: FC<Props> = ({ onClick, color = "primary", ...rest }) => {

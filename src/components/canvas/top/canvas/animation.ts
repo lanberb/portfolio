@@ -314,12 +314,12 @@ export const translateAnimation = (
     timeline
       .add(animationProperties, {
         scale: 0.6,
-        duration: 575,
+        duration: 390,
         ease: "outCirc",
       })
       .add(animationProperties, {
         scale: 1,
-        duration: 575,
+        duration: 390,
         ease: "inCirc",
       })
       .add(
@@ -327,7 +327,7 @@ export const translateAnimation = (
         {
           x: targetPosition.x,
           y: targetPosition.y,
-          duration: 1200,
+          duration: 800,
           ease: "inOut(1.6)",
         },
         0,
