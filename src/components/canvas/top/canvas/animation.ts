@@ -267,8 +267,6 @@ export const translateAnimation = (
       canvasApi.scale(animationProperties.scale, animationProperties.scale);
       canvasApi.translate(-centerX, -centerY);
 
-      console.log(animationProperties.scale);
-
       // 縦軸
       for (let i = 0; i < rowLineCount; i++) {
         drawLine(
@@ -313,7 +311,7 @@ export const translateAnimation = (
 
     timeline
       .add(animationProperties, {
-        scale: 0.6,
+        scale: 0.4,
         duration: 390,
         ease: "outCirc",
       })
