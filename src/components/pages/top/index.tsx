@@ -88,7 +88,7 @@ export const Page: FC = () => {
   const themeState = useTheme();
   const globalStore = useGlobalStore();
   const loadImages = useLoadImages({ images: STICEKR_SETTING_LIST });
-  const { el, canvasApi, isDragging, position } = useGlobalCanvas();
+  const { el, canvasApi, isDragging, isInertiaAnimating, position } = useGlobalCanvas();
 
   const isMounted = useRef(globalStore.isEndedOpeningAnimation);
 
@@ -150,6 +150,24 @@ export const Page: FC = () => {
       document.body.removeEventListener("pointermove", handleOnMouseMoveOrReRender);
     };
   }, [handleOnMouseMoveOrReRender]);
+
+  /**
+   * 慣性アニメーション中は継続的に描画
+   */
+  useEffect(() => {
+    if (!isInertiaAnimating) {
+      return;
+    }
+
+    let frameId: number;
+    const render = () => {
+      interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
+      frameId = requestAnimationFrame(render);
+    };
+
+    frameId = requestAnimationFrame(render);
+    return () => cancelAnimationFrame(frameId);
+  }, [isInertiaAnimating, canvasApi, el, themeState, rowLineCount, columnLineCount, position, images]);
 
   return (
     <PageLayout title="EE-BBB.©">
