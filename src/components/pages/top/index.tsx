@@ -88,7 +88,7 @@ export const Page: FC = () => {
   const themeState = useTheme();
   const globalStore = useGlobalStore();
   const loadImages = useLoadImages({ images: STICEKR_SETTING_LIST });
-   const { el, canvasApi, isDragging, isInertiaAnimating, position } = useGlobalCanvas();
+  const { el, canvasApi, isDragging, isInertiaAnimating, position } = useGlobalCanvas();
 
   const isMounted = useRef(globalStore.isEndedOpeningAnimation);
 
@@ -129,7 +129,6 @@ export const Page: FC = () => {
     globalStore.isPlayedOnce,
     globalStore.setIsPlayedOnce,
     isDragging,
-    isInertiaAnimating,
   ]);
 
   const handleOnOpeningAnimationComplete = useCallback(() => {

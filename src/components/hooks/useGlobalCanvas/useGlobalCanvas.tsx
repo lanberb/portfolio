@@ -39,15 +39,10 @@ export const GlobalCanvasProvider: FC<PropsWithChildren> = ({ children }) => {
     },
     scale: 1,
   });
-  
+
   const canvas = useCanvas();
   const globalStore = useGlobalStore();
-  const {
-    isInertiaAnimating,
-    setInertiaVelocity,
-    startInertia,
-    stopInertia,
-  } = useInertia({
+  const { isInertiaAnimating, setInertiaVelocity, startInertia, stopInertia } = useInertia({
     onUpdate: (inertiaMoveX, inertiaMoveY) => {
       immutableState.current.position.x += inertiaMoveX;
       immutableState.current.position.y += inertiaMoveY;

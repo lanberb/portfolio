@@ -37,9 +37,7 @@ export const useInertia = ({ onUpdate }: UseInertiaOptions) => {
       onUpdate(velocityRef.current.x, velocityRef.current.y);
 
       // 速度が閾値を下回ったら停止
-      const speed = Math.sqrt(
-        velocityRef.current.x ** 2 + velocityRef.current.y ** 2,
-      );
+      const speed = Math.sqrt(velocityRef.current.x ** 2 + velocityRef.current.y ** 2);
 
       if (speed > inertiaConfigRef.current.minVelocity) {
         inertiaFrameIdRef.current = requestAnimationFrame(animate);
@@ -69,4 +67,3 @@ export const useInertia = ({ onUpdate }: UseInertiaOptions) => {
     stopInertia,
   };
 };
-

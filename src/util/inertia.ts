@@ -34,7 +34,6 @@ export const INERTIA_PRESETS: Record<string, InertiaConfig> = {
   } as InertiaConfig,
 } as const;
 
-
 /**
  * デフォルトの慣性設定（中程度の慣性）
  */
