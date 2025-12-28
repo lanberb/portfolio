@@ -3,7 +3,7 @@ import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
 import { useTheme } from "@/components/hooks/useTheme";
 import { PageLayout } from "@/components/modules/PageLayout";
 import { useGlobalStore } from "@/state/global";
-import { animation } from "../../canvas/about/canvas/animation";
+import { animation } from "@/components/canvas/about/animation";
 
 export const Page: FC = () => {
   const themeState = useTheme();
