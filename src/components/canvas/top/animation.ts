@@ -264,7 +264,7 @@ export const translateAnimation = (
       const centerX = el.clientWidth / 2;
       const centerY = el.clientHeight / 2;
       canvasApi.translate(centerX, centerY);
-      canvasApi.scale(animationProperties.scale, animationProperties.scale);
+      // canvasApi.scale(animationProperties.scale, animationProperties.scale);
       canvasApi.translate(-centerX, -centerY);
 
       // 縦軸
@@ -310,16 +310,6 @@ export const translateAnimation = (
     });
 
     timeline
-      .add(animationProperties, {
-        scale: 0.4,
-        duration: 390,
-        ease: "outCirc",
-      })
-      .add(animationProperties, {
-        scale: 1,
-        duration: 390,
-        ease: "inCirc",
-      })
       .add(
         animationProperties,
         {

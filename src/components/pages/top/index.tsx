@@ -55,6 +55,21 @@ const STICEKR_SETTING_LIST = [
   },
 ];
 
+const CONTENTS_SETTING_LIST = [
+  {
+    url: "",
+    width: 400,
+    height: 320,
+    x: -240,
+    y: 560,
+  },
+  {
+    url: "",
+    width: 400,
+    x: -800,
+    y: 560,
+  },
+];
 /**
  * @summary 与えられた幅からグリッドの幅で割った値を偶数で返す
  */
