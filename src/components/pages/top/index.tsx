@@ -43,13 +43,13 @@ const STICEKR_SETTING_LIST = [
   },
   {
     url: RotateTextStickerImage,
-    width: 400,
+    width: 320,
     x: -240,
     y: 560,
   },
   {
     url: StreetPaintStickerImage,
-    width: 560,
+    width: 480,
     x: -600,
     y: -200,
   },
