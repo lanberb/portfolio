@@ -11,7 +11,7 @@ import { IconButton } from "../IconButton";
 
 const ITEM_SIZE = 64;
 
-const Item = styled.div`
+const Item = styled.li`
   position: relative;
   width: 0;
   height: 0;
@@ -125,29 +125,17 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
       {children}
 
       <List hasBorder={hasBorder}>
-        <li
+        <Item
           style={
             {
-              // position: "relative",
-              // "--scale": isHomeButtonVisible ? 1 : 0,
-              // transformOrigin: "center center",
-              // transform: "scale(var(--scale))",
-              // transition: "300ms",
+              "--scale": isHomeButtonVisible ? 1 : 0,
+              "--positionX": `${homeButtonPosition?.x}px`,
+              "--positionY": `${homeButtonPosition?.y}px`,
             } as CSSProperties
           }
         >
-          <Item
-            style={
-              {
-                "--scale": isHomeButtonVisible ? 1 : 0,
-                "--positionX": `${homeButtonPosition?.x}px`,
-                "--positionY": `${homeButtonPosition?.y}px`,
-              } as CSSProperties
-            }
-          >
-            <IconButton name="home" color="primaryInversed" onClick={() => handleOnClickIconButton("home")} />
-          </Item>
-        </li>
+          <IconButton name="home" color="primaryInversed" onClick={() => handleOnClickIconButton("home")} />
+        </Item>
       </List>
     </>
   );
