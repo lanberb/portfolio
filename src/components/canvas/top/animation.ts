@@ -9,7 +9,7 @@ import {
   drawImage,
   drawLine,
   type RenderableImage,
-} from "../../common/common";
+} from "../common/common";
 
 export const openingAnimation = (
   canvasApi: CanvasRenderingContext2D,

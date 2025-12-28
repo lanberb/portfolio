@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { type CSSProperties, type FC, type PropsWithChildren, useCallback, useEffect, useState } from "react";
 import type { RenderableImage } from "@/components/canvas/common/common";
-import { translateAnimation } from "@/components/canvas/top/canvas/animation";
+import { translateAnimation } from "@/components/canvas/top/animation";
 import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
 import { useTheme } from "@/components/hooks/useTheme";
 import { MediaQuery } from "@/components/styles/media";

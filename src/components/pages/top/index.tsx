@@ -19,8 +19,8 @@ import { Text } from "@/components/unit/Text";
 import { useGlobalStore } from "@/state/global";
 import { getMobileFullWidthWithMargin } from "@/util/canvas";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "../../canvas/common/common";
-import { openingAnimation, transitionAnimation } from "../../canvas/top/canvas/animation";
-import { interaction } from "../../canvas/top/canvas/interaction";
+import { openingAnimation, transitionAnimation } from "../../canvas/top/animation";
+import { interaction } from "../../canvas/top/interaction";
 
 const STICEKR_SETTING_LIST = [
   {
