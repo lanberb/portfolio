@@ -69,7 +69,7 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
   const [isHomeButtonVisible, setIsHomeButtonVisible] = useState(false);
 
   const handleOnPointerMove = useCallback(() => {
-    if (isDragging === false || el == null) {
+    if (el == null || (isDragging === false && isInertiaAnimating === false)) {
       return;
     }
     (() => {
@@ -112,7 +112,6 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
   );
 
   const handleOnMouseup = useCallback(() => {
-    // 慣性アニメーション中は継続的に描画
     if (isInertiaAnimating === false) {
       return;
     }
@@ -123,7 +122,7 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
     };
     frameId = requestAnimationFrame(render);
     return () => cancelAnimationFrame(frameId);
-  }, []);
+  }, [handleOnPointerMove, isInertiaAnimating]);
 
   /**
    * マウスイベント登録
@@ -135,7 +134,7 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
       document.body.removeEventListener("pointermove", handleOnPointerMove);
       document.body.removeEventListener("pointerup", handleOnMouseup);
     };
-  }, [handleOnPointerMove]);
+  }, [handleOnPointerMove, handleOnMouseup]);
 
   return (
     <>
