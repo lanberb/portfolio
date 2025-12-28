@@ -9,9 +9,9 @@ import {
   useState,
 } from "react";
 import { useGlobalStore } from "@/state/global";
-import { useCanvas } from "../useCanvas";
-import { useInertia } from "../useInertia";
-import { useUnmount } from "../useUnmount";
+import { useCanvas } from "./useCanvas";
+import { useInertia } from "./useInertia";
+import { useUnmount } from "./useUnmount";
 
 type ImmutableState = {
   position: {

@@ -1,7 +1,7 @@
 import { Global } from "@emotion/react";
 import { StrictMode } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { GlobalCanvasProvider } from "@/components/hooks/useGlobalCanvas/useGlobalCanvas";
+import { GlobalCanvasProvider } from "@/components/hooks/useGlobalCanvas";
 import { I18nStateProvider } from "@/components/hooks/useI18n";
 import { ThemeStateProvider } from "@/components/hooks/useTheme";
 import { GlobalCanvas } from "@/components/modules/GlobalCanvas";

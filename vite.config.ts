@@ -2,7 +2,7 @@ import { cloudflare } from "@cloudflare/vite-plugin";
 import react from '@vitejs/plugin-react';
 import path from "path";
 import { defineConfig } from 'vite';
-import { injectHtmlsPlugin } from './plugins/viteInjectHTMLlugin';
+import { injectHtmlsPlugin } from './plugins/injectHtmlsPlugin';
 
 // https://vite.dev/config/
 export default defineConfig({
