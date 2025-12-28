@@ -11,7 +11,7 @@ import { IconButton } from "../IconButton";
 
 const ITEM_SIZE = 64;
 
-const Item = styled.li`
+const Item = styled.div`
   position: relative;
   width: 0;
   height: 0;
@@ -25,11 +25,10 @@ const Item = styled.li`
   height: ${ITEM_SIZE}px;
   transition: translate 50ms, scale 300ms;
   translate: var(--positionX) var(--positionY);
-  scale: var(--scale);
   pointer-events: initial;
-
+  
   @media ${MediaQuery.sp} {
-    /* transition-duration: 0ms; */
+    transition: translate 0ms, scale 300ms;
   }
 `;
 
@@ -126,17 +125,29 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
       {children}
 
       <List hasBorder={hasBorder}>
-        <Item
+        <li
           style={
             {
-              "--scale": isHomeButtonVisible ? 1 : 0,
-              "--positionX": `${homeButtonPosition?.x}px`,
-              "--positionY": `${homeButtonPosition?.y}px`,
+              // position: "relative",
+              // "--scale": isHomeButtonVisible ? 1 : 0,
+              // transformOrigin: "center center",
+              // transform: "scale(var(--scale))",
+              // transition: "300ms",
             } as CSSProperties
           }
         >
-          <IconButton name="home" color="primaryInversed" onClick={() => handleOnClickIconButton("home")} />
-        </Item>
+          <Item
+            style={
+              {
+                "--scale": isHomeButtonVisible ? 1 : 0,
+                "--positionX": `${homeButtonPosition?.x}px`,
+                "--positionY": `${homeButtonPosition?.y}px`,
+              } as CSSProperties
+            }
+          >
+            <IconButton name="home" color="primaryInversed" onClick={() => handleOnClickIconButton("home")} />
+          </Item>
+        </li>
       </List>
     </>
   );
