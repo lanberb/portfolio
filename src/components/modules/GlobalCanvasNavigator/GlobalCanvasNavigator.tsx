@@ -25,6 +25,7 @@ const Item = styled.li`
   height: ${ITEM_SIZE}px;
   transition: translate 50ms, scale 300ms;
   translate: var(--positionX) var(--positionY);
+  transform-origin: center center;
   scale: var(--scale);
   pointer-events: initial;
   
@@ -83,7 +84,7 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
       setIsHomeButtonVisible(isVisible);
       setHomeButtonPosition({ x, y });
     })();
-  }, [isDragging, position, el]);
+  }, [isDragging, isInertiaAnimating, position, el]);
 
   const handleOnClickIconButton = useCallback(
     async (name: IconName) => {
