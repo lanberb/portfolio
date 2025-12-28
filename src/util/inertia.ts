@@ -38,4 +38,4 @@ export const INERTIA_PRESETS: Record<string, InertiaConfig> = {
 /**
  * デフォルトの慣性設定（中程度の慣性）
  */
-export const DEFAULT_INERTIA_CONFIG: InertiaConfig = INERTIA_PRESETS.medium;
+export const DEFAULT_INERTIA_CONFIG: InertiaConfig = INERTIA_PRESETS.light;

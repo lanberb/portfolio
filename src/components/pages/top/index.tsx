@@ -31,25 +31,25 @@ const STICEKR_SETTING_LIST = [
   },
   {
     url: EarthLogoStickerImage,
-    width: 480,
+    width: 400,
     x: 240,
     y: -560,
   },
   {
     url: StarLikeStickerImage,
-    width: 480,
+    width: 320,
     x: 600,
     y: 200,
   },
   {
     url: RotateTextStickerImage,
-    width: 480,
+    width: 400,
     x: -240,
     y: 560,
   },
   {
     url: StreetPaintStickerImage,
-    width: 640,
+    width: 560,
     x: -600,
     y: -200,
   },
@@ -88,13 +88,27 @@ export const Page: FC = () => {
   const themeState = useTheme();
   const globalStore = useGlobalStore();
   const loadImages = useLoadImages({ images: STICEKR_SETTING_LIST });
-  const { el, canvasApi, isDragging, isInertiaAnimating, position } = useGlobalCanvas();
+   const { el, canvasApi, isDragging, isInertiaAnimating, position } = useGlobalCanvas();
 
   const isMounted = useRef(globalStore.isEndedOpeningAnimation);
 
   const rowLineCount = useMemo(() => caluculateLineCount(el?.clientWidth ?? 0), [el]);
   const columnLineCount = useMemo(() => caluculateLineCount(el?.clientHeight ?? 0), [el]);
   const images = useMemo(() => createRenderableImagesFromLoadedImages(loadImages.data ?? []), [loadImages.data]);
+
+  const handleOnMouseup = useCallback(() => {
+    // 慣性アニメーション中は継続的に描画
+    if (isInertiaAnimating === false) {
+      return;
+    }
+    let frameId: number;
+    const render = () => {
+      interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
+      frameId = requestAnimationFrame(render);
+    };
+    frameId = requestAnimationFrame(render);
+    return () => cancelAnimationFrame(frameId);
+  }, [isInertiaAnimating, canvasApi, el, themeState, rowLineCount, columnLineCount, position, images]);
 
   const handleOnMouseMoveOrReRender = useCallback(() => {
     if (globalStore.isPlayedOnce === false) {
@@ -115,6 +129,7 @@ export const Page: FC = () => {
     globalStore.isPlayedOnce,
     globalStore.setIsPlayedOnce,
     isDragging,
+    isInertiaAnimating,
   ]);
 
   const handleOnOpeningAnimationComplete = useCallback(() => {
@@ -146,28 +161,12 @@ export const Page: FC = () => {
    */
   useEffect(() => {
     document.body.addEventListener("pointermove", handleOnMouseMoveOrReRender);
+    document.body.addEventListener("pointerup", handleOnMouseup);
     return () => {
       document.body.removeEventListener("pointermove", handleOnMouseMoveOrReRender);
+      document.body.removeEventListener("pointerup", handleOnMouseup);
     };
-  }, [handleOnMouseMoveOrReRender]);
-
-  /**
-   * 慣性アニメーション中は継続的に描画
-   */
-  useEffect(() => {
-    if (!isInertiaAnimating) {
-      return;
-    }
-
-    let frameId: number;
-    const render = () => {
-      interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
-      frameId = requestAnimationFrame(render);
-    };
-
-    frameId = requestAnimationFrame(render);
-    return () => cancelAnimationFrame(frameId);
-  }, [isInertiaAnimating, canvasApi, el, themeState, rowLineCount, columnLineCount, position, images]);
+  }, [handleOnMouseMoveOrReRender, handleOnMouseup]);
 
   return (
     <PageLayout title="EE-BBB.©">
