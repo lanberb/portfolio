@@ -25,6 +25,7 @@ const Item = styled.li`
   height: ${ITEM_SIZE}px;
   transition: translate 50ms, scale 300ms;
   translate: var(--positionX) var(--positionY);
+  scale: var(--scale);
   pointer-events: initial;
   
   @media ${MediaQuery.sp} {
