@@ -62,7 +62,7 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
   columnLineCount,
   images,
 }) => {
-  const { isDragging, position, canvasApi, el, update } = useGlobalCanvas();
+  const { isDragging, position, canvasApi, el, isInertiaAnimating, update } = useGlobalCanvas();
   const themeState = useTheme();
 
   const [homeButtonPosition, setHomeButtonPosition] = useState<Position>({ x: 0, y: 0 });
@@ -111,13 +111,29 @@ export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
     [position, el, canvasApi, themeState, rowLineCount, columnLineCount, images, update],
   );
 
+  const handleOnMouseup = useCallback(() => {
+    // 慣性アニメーション中は継続的に描画
+    if (isInertiaAnimating === false) {
+      return;
+    }
+    let frameId: number;
+    const render = () => {
+      handleOnPointerMove();
+      frameId = requestAnimationFrame(render);
+    };
+    frameId = requestAnimationFrame(render);
+    return () => cancelAnimationFrame(frameId);
+  }, []);
+
   /**
    * マウスイベント登録
    */
   useEffect(() => {
+    document.body.addEventListener("pointerup", handleOnMouseup);
     document.body.addEventListener("pointermove", handleOnPointerMove);
     return () => {
       document.body.removeEventListener("pointermove", handleOnPointerMove);
+      document.body.removeEventListener("pointerup", handleOnMouseup);
     };
   }, [handleOnPointerMove]);
 
