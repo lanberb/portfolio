@@ -56,14 +56,14 @@ export const createGlobalStyles = (_: Theme) => {
 
     html,
     body {
-      font-family: "Roboto Flex", sans-serif;
+      font-family: "Roboto", sans-serif;
       font-optical-sizing: auto;
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
       font-style: normal;
-      letter-spacing: 0.04rem;
-      -webkit-font-smoothing: antialiased;
+      letter-spacing: 0.08rem;
+      /* -webkit-font-smoothing: antialiased; */
       touch-action: none;
       min-height: 100svh;
     }

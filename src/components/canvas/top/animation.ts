@@ -309,16 +309,15 @@ export const translateAnimation = (
       onComplete: handleOnComplete,
     });
 
-    timeline
-      .add(
-        animationProperties,
-        {
-          x: targetPosition.x,
-          y: targetPosition.y,
-          duration: 800,
-          ease: "inOut(1.6)",
-        },
-        0,
-      );
+    timeline.add(
+      animationProperties,
+      {
+        x: targetPosition.x,
+        y: targetPosition.y,
+        duration: 800,
+        ease: "inOut(1.6)",
+      },
+      0,
+    );
   });
 };

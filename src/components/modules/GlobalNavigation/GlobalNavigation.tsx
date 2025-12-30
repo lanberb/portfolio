@@ -17,12 +17,11 @@ import { routes } from "@/util/routes";
 
 const navKeys: (keyof typeof routes)[] = ["top", "blog"];
 
-const _NavigationCellWidth_PC = 96;
+const _NavigationCellWidth_PC = 84;
 const _NavigationCellWidth_SP = 72;
 
 const _NavigationTransitionItem = styled(Box)<TransitionProps>`
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
-  border-radius: 80px;
   z-index: 9999;
 
   ${transition};
@@ -31,7 +30,7 @@ const _NavigationTransitionItem = styled(Box)<TransitionProps>`
 const _NavigationCell = styled(Link)`
   flex-grow: 1;
   transition: ${GLOBAL_TRANSITION_DURATION}ms;
-  font-size: 16px;
+  font-size: 14px;
 
   @media ${MediaQuery.sp} {
     font-size: 14px;
@@ -52,7 +51,7 @@ const _NavigationCellList = styled(Stack)`
     display: block;
     content: "";
     position: absolute;
-    border-radius: 80px;
+    border-radius: 6px;
     left: 0;
     width: ${_NavigationCellWidth_PC}px;
     height: 100%;
@@ -109,13 +108,13 @@ export const GlobalNavigation: FC = () => {
       ]}
       mx="auto"
     >
-      <Stack wrap="nowrap" b={1} bc="primaryInversed" radius={80} width="fit-content" backgroundColor="primaryInversed">
+      <Stack wrap="nowrap" b={1} bc="primaryInversed" radius={8} width="fit-content" backgroundColor="primaryInversed">
         <_NavigationCellList
           as="nav"
           position="relative"
           alignItems="center"
           b={2}
-          radius={32}
+          radius={7}
           backgroundColor="primary"
           style={
             {
@@ -135,7 +134,7 @@ export const GlobalNavigation: FC = () => {
                   { key: "sp", value: _NavigationCellWidth_SP },
                   { key: "pc", value: _NavigationCellWidth_PC },
                 ]}
-                radius={32}
+                radius={6}
                 py={4}
                 position="relative"
                 color="primary"
@@ -149,27 +148,19 @@ export const GlobalNavigation: FC = () => {
           })}
         </_NavigationCellList>
 
-        <Stack alignItems="center" gap={24} px={32}>
+        <Stack alignItems="center" gap={24} px={24}>
           <SegmentControl
             name="localizeLang"
             defaultKey={i18n.lang}
             items={[<span key="ja">JA</span>, <span key="en">EN</span>]}
             onSelect={handleOnSelectLang}
           />
-          {/* SPだとはみ出る & 端末で切り替えればいい */}
-          <Box
-            display={[
-              { key: "sp", value: "none" },
-              { key: "pc", value: "block" },
-            ]}
-          >
-            <SegmentControl
-              name="themeMode"
-              defaultKey={theme?.mode}
-              items={[<Icon key="light" name="modeLight" size={16} />, <Icon key="dark" name="modeDark" size={16} />]}
-              onSelect={handleOnSelectTheme}
-            />
-          </Box>
+          <SegmentControl
+            name="themeMode"
+            defaultKey={theme?.mode}
+            items={[<Icon key="light" name="modeLight" size={16} />, <Icon key="dark" name="modeDark" size={16} />]}
+            onSelect={handleOnSelectTheme}
+          />
         </Stack>
       </Stack>
     </_NavigationTransitionItem>

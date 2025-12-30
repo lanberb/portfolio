@@ -42,7 +42,7 @@ export const typography = ({
   va,
   ws,
   lh = "100%",
-  ls = "0.08rem",
+  ls,
   lc,
 }: TypographyProps): SerializedStyles => css`
   ${color && `color: var(${theme?.text?.[color]});`}

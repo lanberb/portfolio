@@ -5,27 +5,21 @@ import RotateTextStickerImage from "@/assets/images/sticker/rotate_text.png";
 import StarLikeStickerImage from "@/assets/images/sticker/star_like.png";
 import StreetPaintStickerImage from "@/assets/images/sticker/street_paint.png";
 import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
-import { useI18n } from "@/components/hooks/useI18n";
 import { useLoadImages } from "@/components/hooks/useLoadImages";
 import { useTheme } from "@/components/hooks/useTheme";
 import { GlobalCanvasNavigator } from "@/components/modules/GlobalCanvasNavigator";
-import { KeyboardKey } from "@/components/modules/KeyboardKey";
 import { PageLayout } from "@/components/modules/PageLayout";
-import { BottomSheet } from "@/components/unit/BottomSheet";
-import { Box } from "@/components/unit/Box";
-import { Grid, GridItem } from "@/components/unit/Grid";
-import { Stack } from "@/components/unit/Stack";
-import { Text } from "@/components/unit/Text";
 import { useGlobalStore } from "@/state/global";
 import { getMobileFullWidthWithMargin } from "@/util/canvas";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "../../canvas/common/common";
 import { openingAnimation, transitionAnimation } from "../../canvas/top/animation";
 import { interaction } from "../../canvas/top/interaction";
+import { CanvasText } from "./CanvasText";
 
 const STICEKR_SETTING_LIST = [
   {
     url: ExpandChromStickerImage,
-    width: getMobileFullWidthWithMargin(640, 32),
+    width: getMobileFullWidthWithMargin(560, 32),
     x: 0,
     y: 0,
   },
@@ -100,7 +94,6 @@ const createRenderableImagesFromLoadedImages = (images: HTMLImageElement[]): Ren
 };
 
 export const Page: FC = () => {
-  const { t } = useI18n();
   const themeState = useTheme();
   const globalStore = useGlobalStore();
   const loadImages = useLoadImages({ images: STICEKR_SETTING_LIST });
@@ -192,7 +185,9 @@ export const Page: FC = () => {
         images={images}
       />
 
-      <BottomSheet open={globalStore.isEndedOpeningAnimation && globalStore.isPlayedOnce === false}>
+      <CanvasText>It’s an honor to meet you.</CanvasText>
+
+      {/* <BottomSheet open={globalStore.isEndedOpeningAnimation && globalStore.isPlayedOnce === false}>
         <Text ta="center" ff="Zen Old Mincho" fz={14}>
           <Box as="span" display={[{ key: "sp", value: "none" }]}>
             {t["page.top.hint.pc"]}
@@ -241,7 +236,7 @@ export const Page: FC = () => {
             </Grid>
           </Stack>
         </Box>
-      </BottomSheet>
+      </BottomSheet> */}
     </PageLayout>
   );
 };
