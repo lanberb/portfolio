@@ -1,6 +1,6 @@
 import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
-import { getSurfaceColor } from "@/util/canvas";
+import { getCenterizePosition, getSurfaceColor } from "@/util/canvas";
 import {
   BACKGROUND_GRID_GAP,
   BACKGROUND_GRID_STROKE_WIDTH,
@@ -53,29 +53,73 @@ export const openingAnimation = (
 
     const handleOnBegin = () => {
       canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
-      // 縦軸
+      /**
+       * 背景グリッドの描画
+       */
       for (let i = 0; i < rowLineCount; i++) {
         const startPositionY = i % 2 === 0 ? 0 : el.clientHeight;
         const endPositionY = i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
         drawLine(canvasApi, [rowLineStartXArray[i], startPositionY], [rowLineStartXArray[i], endPositionY]);
       }
-      // 横軸
       for (let i = 0; i < columnLineCount; i++) {
         const startPositionX = i % 2 === 0 ? 0 : el.clientWidth;
         const endPositionX = i % 2 === 0 ? animationProperties.lines.x : el.clientWidth - animationProperties.lines.x;
         drawLine(canvasApi, [startPositionX, columnLineStartYArray[i]], [endPositionX, columnLineStartYArray[i]]);
       }
 
+      /**
+       * ステッカーの描画
+       */
       for (let i = 0; i < images.length; i++) {
+        const centerizePosition = getCenterizePosition(
+          { width: el.clientWidth, height: el.clientHeight },
+          {
+            width: images[i].el.width * animationProperties.images[i]?.scale,
+            height: images[i].el.height * animationProperties.images[i]?.scale,
+          },
+        );
         drawImage(
           canvasApi,
-          el,
           images[i].el,
-          { x: animationProperties.images[i]?.x, y: animationProperties.images[i]?.y },
+          centerizePosition.x + animationProperties.images[i]?.x,
+          centerizePosition.y + animationProperties.images[i]?.y,
           animationProperties.images[i]?.scale,
           animationProperties.images[i]?.opacity,
         );
       }
+
+      /**
+       * メインロゴ下の線の描画
+       */
+      const underMainLogoLineWidth = 80;
+      const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2;
+      canvasApi.save();
+      canvasApi.strokeStyle = getSurfaceColor("primaryInversed", themeState);
+      drawLine(
+        canvasApi,
+        [el.clientWidth / 2 - underMainLogoLineWidth / 2, underMainLogoLineY],
+        [el.clientWidth / 2 + underMainLogoLineWidth / 2, underMainLogoLineY],
+      );
+      canvasApi.restore();
+
+      /**
+       * メインロゴ下のテキストの描画
+       */
+      const text01 = '"Extend Expression, Bit by Bit."';
+      const text02 = "Nao Sasaki / Lanberb";
+      const text03 = "A Creative Developer based in Tokyo.";
+      canvasApi.save();
+      canvasApi.font = "20px 'Rock Salt'";
+      canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
+      canvasApi.fillText(text01, el.clientWidth / 2 - canvasApi.measureText(text01).width / 2, underMainLogoLineY + 40);
+      canvasApi.font = "14px 'Rock Salt'";
+      canvasApi.fillText(text02, el.clientWidth / 2 - canvasApi.measureText(text02).width / 2, underMainLogoLineY + 80);
+      canvasApi.fillText(
+        text03,
+        el.clientWidth / 2 - canvasApi.measureText(text03).width / 2,
+        underMainLogoLineY + 100,
+      );
+      canvasApi.restore();
 
       requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
     };
@@ -172,7 +216,6 @@ export const translateAnimation = (
       const centerX = el.clientWidth / 2;
       const centerY = el.clientHeight / 2;
       canvasApi.translate(centerX, centerY);
-      // canvasApi.scale(animationProperties.scale, animationProperties.scale);
       canvasApi.translate(-centerX, -centerY);
 
       // 縦軸
@@ -183,7 +226,6 @@ export const translateAnimation = (
           [rowLineStartXArray[i] + animationProperties.x, el.clientHeight],
         );
       }
-      // 横軸
       for (let i = 0; i < columnLineCount; i++) {
         drawLine(
           canvasApi,
@@ -192,16 +234,55 @@ export const translateAnimation = (
         );
       }
 
+      /**
+       * ステッカーの描画
+       */
       for (let i = 0; i < images.length; i++) {
+        const centerizePosition = getCenterizePosition(
+          { width: el.clientWidth, height: el.clientHeight },
+          { width: images[i].el.width, height: images[i].el.height },
+        );
         drawImage(
           canvasApi,
-          el,
           images[i].el,
-          { x: images[i]?.x + animationProperties.x, y: images[i]?.y + animationProperties.y },
+          centerizePosition.x + images[i]?.x + animationProperties.x,
+          centerizePosition.y + images[i]?.y + animationProperties.y,
           1,
           1,
         );
       }
+
+      /**
+       * メインロゴ下の線の描画
+       */
+      const underMainLogoLineWidth = 80;
+      const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2;
+      canvasApi.save();
+      canvasApi.strokeStyle = getSurfaceColor("primaryInversed", themeState);
+      drawLine(
+        canvasApi,
+        [el.clientWidth / 2 - underMainLogoLineWidth / 2, underMainLogoLineY],
+        [el.clientWidth / 2 + underMainLogoLineWidth / 2, underMainLogoLineY],
+      );
+      canvasApi.restore();
+
+      /**
+       * メインロゴ下のテキストの描画
+       */
+      const text01 = '"Extend Expression, Bit by Bit."';
+      const text02 = "Nao Sasaki / Lanberb";
+      const text03 = "A Creative Developer based in Tokyo.";
+      canvasApi.save();
+      canvasApi.font = "20px 'Rock Salt'";
+      canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
+      canvasApi.fillText(text01, el.clientWidth / 2 - canvasApi.measureText(text01).width / 2, underMainLogoLineY + 40);
+      canvasApi.font = "14px 'Rock Salt'";
+      canvasApi.fillText(text02, el.clientWidth / 2 - canvasApi.measureText(text02).width / 2, underMainLogoLineY + 80);
+      canvasApi.fillText(
+        text03,
+        el.clientWidth / 2 - canvasApi.measureText(text03).width / 2,
+        underMainLogoLineY + 100,
+      );
 
       canvasApi.restore();
       requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);

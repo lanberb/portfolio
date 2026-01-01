@@ -20,7 +20,7 @@ const STICEKR_SETTING_LIST = [
     url: ExpandChromStickerImage,
     width: getMobileFullWidthWithMargin(560, 32),
     x: 0,
-    y: 0,
+    y: -20,
   },
   {
     url: EarthLogoStickerImage,

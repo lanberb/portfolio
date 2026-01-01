@@ -1,5 +1,3 @@
-import { getCenterizePosition } from "@/util/canvas";
-
 export const BACKGROUND_GRID_GAP = 40;
 export const BACKGROUND_GRID_STROKE_WIDTH = 1;
 
@@ -41,24 +39,14 @@ export type RenderableImage = {
 
 export const drawImage = (
   canvasApi: CanvasRenderingContext2D,
-  el: HTMLCanvasElement,
   image: HTMLImageElement,
-  position: { x: number; y: number },
+  x: number,
+  y: number,
   scale: number,
   opacity: number,
 ) => {
-  const centerizePosition = getCenterizePosition(
-    { width: el.clientWidth, height: el.clientHeight },
-    { width: image.width * scale, height: image.height * scale },
-  );
   canvasApi.save();
   canvasApi.globalAlpha = opacity;
-  canvasApi.drawImage(
-    image,
-    centerizePosition.x + position.x,
-    centerizePosition.y + position.y,
-    image.width * scale,
-    image.height * scale,
-  );
+  canvasApi.drawImage(image, x, y, image.width * scale, image.height * scale);
   canvasApi.restore();
 };

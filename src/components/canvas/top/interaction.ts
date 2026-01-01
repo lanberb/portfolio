@@ -1,5 +1,5 @@
 import type { ThemeState } from "@/components/styles/theme";
-import { getSurfaceColor } from "@/util/canvas";
+import { getCenterizePosition, getMobileFullWidthWithMargin, getSurfaceColor } from "@/util/canvas";
 import {
   BACKGROUND_GRID_GAP,
   BACKGROUND_GRID_STROKE_WIDTH,
@@ -53,14 +53,25 @@ export const interaction = (
    * ステッカーの描画
    */
   for (const image of images) {
-    drawImage(canvasApi, el, image.el, { x: image.x + position.x, y: image.y + position.y }, 1, 1);
+    const centerizePosition = getCenterizePosition(
+      { width: el.clientWidth, height: el.clientHeight },
+      { width: image.el.width, height: image.el.height },
+    );
+    drawImage(
+      canvasApi,
+      image.el,
+      centerizePosition.x + image.x + position.x,
+      centerizePosition.y + image.y + position.y,
+      1,
+      1,
+    );
   }
 
   /**
    * メインロゴ下の線の描画
    */
   const underMainLogoLineWidth = 80;
-  const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2 + position.y + 24;
+  const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2 + position.y;
   canvasApi.save();
   canvasApi.strokeStyle = getSurfaceColor("primaryInversed", themeState);
   drawLine(
@@ -77,14 +88,14 @@ export const interaction = (
   const text02 = "Nao Sasaki / Lanberb";
   const text03 = "A Creative Developer based in Tokyo.";
   canvasApi.save();
-  canvasApi.font = "20px 'Rock Salt'";
+  canvasApi.font = `${getMobileFullWidthWithMargin(20, 16)}px 'Rock Salt'`;
   canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
   canvasApi.fillText(
     text01,
     el.clientWidth / 2 - canvasApi.measureText(text01).width / 2 + position.x,
     underMainLogoLineY + 40,
   );
-  canvasApi.font = "14px 'Rock Salt'";
+  canvasApi.font = `${getMobileFullWidthWithMargin(14, 12)}px 'Rock Salt'`;
   canvasApi.fillText(
     text02,
     el.clientWidth / 2 - canvasApi.measureText(text02).width / 2 + position.x,
