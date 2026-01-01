@@ -1,6 +1,6 @@
 import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
-import { getCenterizePosition, getSurfaceColor } from "@/util/canvas";
+import { getCenterizePosition, getSurfaceColor, isMobile } from "@/util/canvas";
 import {
   BACKGROUND_GRID_GAP,
   BACKGROUND_GRID_STROKE_WIDTH,
@@ -109,10 +109,10 @@ export const openingAnimation = (
       const text02 = "Nao Sasaki / Lanberb";
       const text03 = "A Creative Developer based in Tokyo.";
       canvasApi.save();
-      canvasApi.font = "20px 'Rock Salt'";
+      canvasApi.font = `${isMobile() ? 20 : 16}px 'Rock Salt'`;
       canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
       canvasApi.fillText(text01, el.clientWidth / 2 - canvasApi.measureText(text01).width / 2, underMainLogoLineY + 40);
-      canvasApi.font = "14px 'Rock Salt'";
+      canvasApi.font = `${isMobile() ? 14 : 12}px 'Rock Salt'`;
       canvasApi.fillText(text02, el.clientWidth / 2 - canvasApi.measureText(text02).width / 2, underMainLogoLineY + 80);
       canvasApi.fillText(
         text03,
@@ -273,10 +273,10 @@ export const translateAnimation = (
       const text02 = "Nao Sasaki / Lanberb";
       const text03 = "A Creative Developer based in Tokyo.";
       canvasApi.save();
-      canvasApi.font = "20px 'Rock Salt'";
+      canvasApi.font = `${isMobile() ? 20 : 16}px 'Rock Salt'`;
       canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
       canvasApi.fillText(text01, el.clientWidth / 2 - canvasApi.measureText(text01).width / 2, underMainLogoLineY + 40);
-      canvasApi.font = "14px 'Rock Salt'";
+      canvasApi.font = `${isMobile() ? 14 : 12}px 'Rock Salt'`;
       canvasApi.fillText(text02, el.clientWidth / 2 - canvasApi.measureText(text02).width / 2, underMainLogoLineY + 80);
       canvasApi.fillText(
         text03,

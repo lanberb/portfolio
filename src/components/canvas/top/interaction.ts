@@ -1,5 +1,5 @@
 import type { ThemeState } from "@/components/styles/theme";
-import { getCenterizePosition, getMobileFullWidthWithMargin, getSurfaceColor } from "@/util/canvas";
+import { getCenterizePosition, getSurfaceColor, isMobile } from "@/util/canvas";
 import {
   BACKGROUND_GRID_GAP,
   BACKGROUND_GRID_STROKE_WIDTH,
@@ -88,14 +88,14 @@ export const interaction = (
   const text02 = "Nao Sasaki / Lanberb";
   const text03 = "A Creative Developer based in Tokyo.";
   canvasApi.save();
-  canvasApi.font = `${getMobileFullWidthWithMargin(20, 16)}px 'Rock Salt'`;
+  canvasApi.font = `${isMobile() ? 16 : 20}px 'Rock Salt'`;
   canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
   canvasApi.fillText(
     text01,
     el.clientWidth / 2 - canvasApi.measureText(text01).width / 2 + position.x,
     underMainLogoLineY + 40,
   );
-  canvasApi.font = `${getMobileFullWidthWithMargin(14, 12)}px 'Rock Salt'`;
+  canvasApi.font = `${isMobile() ? 12 : 14}px 'Rock Salt'`;
   canvasApi.fillText(
     text02,
     el.clientWidth / 2 - canvasApi.measureText(text02).width / 2 + position.x,
