@@ -39,13 +39,61 @@ export const interaction = (
   );
   const columnLineStartYArray = caluculateLineStartArray(columnFirstLineStartY, columnLineCount);
 
+  /**
+   * 背景グリッドの描画
+   */
   for (let i = 0; i < rowLineCount; i++) {
     drawLine(canvasApi, [rowLineStartXArray[i], 0], [rowLineStartXArray[i], el.clientHeight]);
   }
   for (let i = 0; i < columnLineCount; i++) {
     drawLine(canvasApi, [0, columnLineStartYArray[i]], [el.clientWidth, columnLineStartYArray[i]]);
   }
+
+  /**
+   * ステッカーの描画
+   */
   for (const image of images) {
     drawImage(canvasApi, el, image.el, { x: image.x + position.x, y: image.y + position.y }, 1, 1);
   }
+
+  /**
+   * メインロゴ下の線の描画
+   */
+  const underMainLogoLineWidth = 80;
+  const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2 + position.y + 24;
+  canvasApi.save();
+  canvasApi.strokeStyle = getSurfaceColor("primaryInversed", themeState);
+  drawLine(
+    canvasApi,
+    [el.clientWidth / 2 - underMainLogoLineWidth / 2 + position.x, underMainLogoLineY],
+    [el.clientWidth / 2 + underMainLogoLineWidth / 2 + position.x, underMainLogoLineY],
+  );
+  canvasApi.restore();
+
+  /**
+   * メインロゴ下のテキストの描画
+   */
+  const text01 = '"Extend Expression, Bit by Bit."';
+  const text02 = "Nao Sasaki / Lanberb";
+  const text03 = "A Creative Developer based in Tokyo.";
+  canvasApi.save();
+  canvasApi.font = "20px 'Rock Salt'";
+  canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
+  canvasApi.fillText(
+    text01,
+    el.clientWidth / 2 - canvasApi.measureText(text01).width / 2 + position.x,
+    underMainLogoLineY + 40,
+  );
+  canvasApi.font = "14px 'Rock Salt'";
+  canvasApi.fillText(
+    text02,
+    el.clientWidth / 2 - canvasApi.measureText(text02).width / 2 + position.x,
+    underMainLogoLineY + 80,
+  );
+  canvasApi.fillText(
+    text03,
+    el.clientWidth / 2 - canvasApi.measureText(text03).width / 2 + position.x,
+    underMainLogoLineY + 100,
+  );
+  canvasApi.restore();
 };

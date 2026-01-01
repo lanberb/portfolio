@@ -3,12 +3,6 @@ import { getCenterizePosition } from "@/util/canvas";
 export const BACKGROUND_GRID_GAP = 40;
 export const BACKGROUND_GRID_STROKE_WIDTH = 1;
 
-export type RenderableImage = {
-  el: HTMLImageElement;
-  x: number;
-  y: number;
-};
-
 /**
  * @summary (与えられた幅 - (行数 - 1) * グリッドの幅)を引いた値を2で割る
  * @param width 描画する領域幅
@@ -37,6 +31,12 @@ export const drawLine = (
   canvasApi.moveTo(startPosition[0], startPosition[1]);
   canvasApi.lineTo(endPosition[0], endPosition[1]);
   canvasApi.stroke();
+};
+
+export type RenderableImage = {
+  el: HTMLImageElement;
+  x: number;
+  y: number;
 };
 
 export const drawImage = (

@@ -1,9 +1,9 @@
-import { type FC, useCallback, useEffect, useMemo, useRef } from "react";
-import EarthLogoStickerImage from "@/assets/images/sticker/earth_logo.png";
-import ExpandChromStickerImage from "@/assets/images/sticker/expand_chrom.png";
-import RotateTextStickerImage from "@/assets/images/sticker/rotate_text.png";
-import StarLikeStickerImage from "@/assets/images/sticker/star_like.png";
-import StreetPaintStickerImage from "@/assets/images/sticker/street_paint.png";
+import { type FC, useCallback, useEffect, useMemo } from "react";
+import EarthLogoStickerImage from "@/assets/images/stickers/earth_logo.png";
+import ExpandChromStickerImage from "@/assets/images/stickers/expand_chrom.png";
+import RotateTextStickerImage from "@/assets/images/stickers/rotate_text.png";
+import StarLikeStickerImage from "@/assets/images/stickers/star_like.png";
+import StreetPaintStickerImage from "@/assets/images/stickers/street_paint.png";
 import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
 import { useLoadImages } from "@/components/hooks/useLoadImages";
 import { useTheme } from "@/components/hooks/useTheme";
@@ -12,9 +12,8 @@ import { PageLayout } from "@/components/modules/PageLayout";
 import { useGlobalStore } from "@/state/global";
 import { getMobileFullWidthWithMargin } from "@/util/canvas";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "../../canvas/common/common";
-import { openingAnimation, transitionAnimation } from "../../canvas/top/animation";
+import { openingAnimation } from "../../canvas/top/animation";
 import { interaction } from "../../canvas/top/interaction";
-import { CanvasText } from "./CanvasText";
 
 const STICEKR_SETTING_LIST = [
   {
@@ -99,25 +98,9 @@ export const Page: FC = () => {
   const loadImages = useLoadImages({ images: STICEKR_SETTING_LIST });
   const { el, canvasApi, isDragging, isInertiaAnimating, position } = useGlobalCanvas();
 
-  const isMounted = useRef(globalStore.isEndedOpeningAnimation);
-
   const rowLineCount = useMemo(() => caluculateLineCount(el?.clientWidth ?? 0), [el]);
   const columnLineCount = useMemo(() => caluculateLineCount(el?.clientHeight ?? 0), [el]);
   const images = useMemo(() => createRenderableImagesFromLoadedImages(loadImages.data ?? []), [loadImages.data]);
-
-  const handleOnMouseup = useCallback(() => {
-    // 慣性アニメーション中は継続的に描画
-    if (isInertiaAnimating === false) {
-      return;
-    }
-    let frameId: number;
-    const render = () => {
-      interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
-      frameId = requestAnimationFrame(render);
-    };
-    frameId = requestAnimationFrame(render);
-    return () => cancelAnimationFrame(frameId);
-  }, [isInertiaAnimating, canvasApi, el, themeState, rowLineCount, columnLineCount, position, images]);
 
   const handleOnMouseMoveOrReRender = useCallback(() => {
     if (globalStore.isPlayedOnce === false) {
@@ -146,35 +129,47 @@ export const Page: FC = () => {
   }, [globalStore.setIsEndedOpeningAnimation, globalStore.setIsGrabbable]);
 
   useEffect(() => {
-    if (canvasApi == null || el == null || themeState == null || images.length === 0) {
+    if (images.length === 0) {
       return;
     }
-    if (isMounted.current) {
-      transitionAnimation(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
-    } else {
-      openingAnimation(
-        canvasApi,
-        el,
-        themeState,
-        rowLineCount,
-        columnLineCount,
-        images,
-        handleOnOpeningAnimationComplete,
-      );
+    openingAnimation(
+      canvasApi,
+      el,
+      themeState,
+      rowLineCount,
+      columnLineCount,
+      images,
+      handleOnOpeningAnimationComplete,
+    );
+  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, images, handleOnOpeningAnimationComplete]);
+
+  /**
+   * 慣性アニメーション中は継続的に描画
+   */
+  useEffect(() => {
+    if (isInertiaAnimating === false) {
+      return;
     }
-  }, [canvasApi, el, themeState, rowLineCount, columnLineCount, images, position, handleOnOpeningAnimationComplete]);
+    let frameId: number;
+    const render = () => {
+      interaction(canvasApi, el, themeState, rowLineCount, columnLineCount, position, images);
+      frameId = window.requestAnimationFrame(render);
+    };
+    render();
+    return () => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [isInertiaAnimating, canvasApi, el, themeState, rowLineCount, columnLineCount, position, images]);
 
   /**
    * マウスイベント登録
    */
   useEffect(() => {
     document.body.addEventListener("pointermove", handleOnMouseMoveOrReRender);
-    document.body.addEventListener("pointerup", handleOnMouseup);
     return () => {
       document.body.removeEventListener("pointermove", handleOnMouseMoveOrReRender);
-      document.body.removeEventListener("pointerup", handleOnMouseup);
     };
-  }, [handleOnMouseMoveOrReRender, handleOnMouseup]);
+  }, [handleOnMouseMoveOrReRender]);
 
   return (
     <PageLayout title="EE-BBB.©">
@@ -184,59 +179,6 @@ export const Page: FC = () => {
         columnLineCount={columnLineCount}
         images={images}
       />
-
-      <CanvasText>It’s an honor to meet you.</CanvasText>
-
-      {/* <BottomSheet open={globalStore.isEndedOpeningAnimation && globalStore.isPlayedOnce === false}>
-        <Text ta="center" ff="Zen Old Mincho" fz={14}>
-          <Box as="span" display={[{ key: "sp", value: "none" }]}>
-            {t["page.top.hint.pc"]}
-          </Box>
-          <Box
-            as="span"
-            display={[
-              { key: "pc", value: "none" },
-              { key: "sp", value: "block" },
-            ]}
-          >
-            {t["page.top.hint.sp"]}
-          </Box>
-        </Text>
-
-        <Box display={[{ key: "sp", value: "none" }]} mt={24}>
-          <Stack gap={8} justifyContent="space-around">
-            <Grid gap={4} templateRows={2} templateColumns={2}>
-              <GridItem row={1} column={2}>
-                <KeyboardKey label="W" />
-              </GridItem>
-              <GridItem row={2} column={1}>
-                <KeyboardKey label="A" />
-              </GridItem>
-              <GridItem row={2} column={2}>
-                <KeyboardKey label="S" />
-              </GridItem>
-              <GridItem row={2} column={3}>
-                <KeyboardKey label="D" />
-              </GridItem>
-            </Grid>
-
-            <Grid gap={4} templateRows={2} templateColumns={2}>
-              <GridItem row={1} column={2}>
-                <KeyboardKey label="⬆︎" />
-              </GridItem>
-              <GridItem row={2} column={1}>
-                <KeyboardKey label="⬅︎" />
-              </GridItem>
-              <GridItem row={2} column={2}>
-                <KeyboardKey label="⬇︎" />
-              </GridItem>
-              <GridItem row={2} column={3}>
-                <KeyboardKey label="➡︎" />
-              </GridItem>
-            </Grid>
-          </Stack>
-        </Box>
-      </BottomSheet> */}
     </PageLayout>
   );
 };

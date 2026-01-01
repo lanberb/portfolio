@@ -12,14 +12,18 @@ import {
 } from "../common/common";
 
 export const openingAnimation = (
-  canvasApi: CanvasRenderingContext2D,
-  el: HTMLCanvasElement,
-  themeState: ThemeState,
+  canvasApi: CanvasRenderingContext2D | null,
+  el: HTMLCanvasElement | null,
+  themeState: ThemeState | null,
   rowLineCount: number,
   columnLineCount: number,
   images: RenderableImage[],
   onComplete: () => void,
 ) => {
+  if (canvasApi == null || el == null || themeState == null) {
+    return;
+  }
+
   canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
   canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
   canvasApi.lineWidth = BACKGROUND_GRID_STROKE_WIDTH;
@@ -121,102 +125,6 @@ export const openingAnimation = (
         duration: 440,
         ease: "outBack(0.68)",
       });
-  });
-};
-
-export const transitionAnimation = (
-  canvasApi: CanvasRenderingContext2D,
-  el: HTMLCanvasElement,
-  themeState: ThemeState,
-  rowLineCount: number,
-  columnLineCount: number,
-  position: { x: number; y: number },
-  images: RenderableImage[],
-) => {
-  canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
-  canvasApi.strokeStyle = getSurfaceColor("backgroundGrid", themeState);
-  canvasApi.lineWidth = BACKGROUND_GRID_STROKE_WIDTH;
-
-  const rowFirstLineStartX = caluculateFirstLineStart(el.clientWidth, rowLineCount, position.x % BACKGROUND_GRID_GAP);
-  const rowLineStartXArray = caluculateLineStartArray(rowFirstLineStartX, rowLineCount);
-  const columnFirstLineStartY = caluculateFirstLineStart(
-    el.clientHeight,
-    columnLineCount,
-    position.y % BACKGROUND_GRID_GAP,
-  );
-  const columnLineStartYArray = caluculateLineStartArray(columnFirstLineStartY, columnLineCount);
-
-  return new Promise<void>((resolve) => {
-    const animationProperties = {
-      lines: {
-        x: 0,
-        y: 0,
-      },
-      images: images.map(() => {
-        return {
-          scale: 1.2,
-          opacity: 0,
-        };
-      }),
-    };
-
-    let requestAnimationFrameId: number;
-    const handleOnBegin = () => {
-      canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
-      for (let i = 0; i < rowLineCount; i++) {
-        const startPositionY = i % 2 === 0 ? 0 : el.clientHeight;
-        const endPositionY = i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
-        drawLine(canvasApi, [rowLineStartXArray[i], startPositionY], [rowLineStartXArray[i], endPositionY]);
-      }
-      // 横軸
-      for (let i = 0; i < columnLineCount; i++) {
-        const startPositionX = i % 2 === 0 ? 0 : el.clientWidth;
-        const endPositionX = i % 2 === 0 ? animationProperties.lines.x : el.clientWidth - animationProperties.lines.x;
-        drawLine(canvasApi, [startPositionX, columnLineStartYArray[i]], [endPositionX, columnLineStartYArray[i]]);
-      }
-
-      for (let i = 0; i < images.length; i++) {
-        drawImage(
-          canvasApi,
-          el,
-          images[i].el,
-          { x: images[i]?.x + position.x, y: images[i]?.y + position.y },
-          animationProperties.images[i]?.scale,
-          animationProperties.images[i]?.opacity,
-        );
-      }
-
-      requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
-    };
-
-    const handleOnComplete = () => {
-      window.cancelAnimationFrame(requestAnimationFrameId);
-      resolve();
-    };
-
-    const timeline = createTimeline({
-      onBegin: handleOnBegin,
-      onComplete: handleOnComplete,
-    });
-
-    timeline
-      .add(animationProperties.lines, {
-        x: el.clientWidth,
-        y: el.clientHeight,
-        duration: 1200,
-        ease: "inOut(1.6)",
-      })
-      .add(
-        animationProperties.images,
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 300,
-          delay: (_, index: number) => (480 / images.length) * index,
-          ease: "inOut(1.6)",
-        },
-        0,
-      );
   });
 };
 
