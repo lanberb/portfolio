@@ -1,3 +1,6 @@
+import type { ThemeState } from "@/components/styles/theme";
+import { getSurfaceColor, isMobile } from "@/util/canvas";
+
 export const BACKGROUND_GRID_GAP = 40;
 export const BACKGROUND_GRID_STROKE_WIDTH = 1;
 
@@ -48,5 +51,41 @@ export const drawImage = (
   canvasApi.save();
   canvasApi.globalAlpha = opacity;
   canvasApi.drawImage(image, x, y, image.width * scale, image.height * scale);
+  canvasApi.restore();
+};
+
+export const drawTextUnderMainLogo = (
+  canvasApi: CanvasRenderingContext2D,
+  el: HTMLCanvasElement,
+  y: number,
+  position: { x: number; y: number },
+  themeState: ThemeState,
+) => {
+  /**
+   * メインロゴ下の線の描画
+   */
+  const underMainLogoLineWidth = 80;
+  canvasApi.save();
+  canvasApi.strokeStyle = getSurfaceColor("primaryInversed", themeState);
+  drawLine(
+    canvasApi,
+    [el.clientWidth / 2 - underMainLogoLineWidth / 2 + position.x, y],
+    [el.clientWidth / 2 + underMainLogoLineWidth / 2 + position.x, y],
+  );
+  canvasApi.restore();
+
+  /**
+   * メインロゴ下のテキストの描画
+   */
+  const text01 = '"Extend Expression, Bit by Bit."';
+  const text02 = "Nao Sasaki / Lanberb";
+  const text03 = "A Creative Developer based in Tokyo.";
+  canvasApi.save();
+  canvasApi.font = `${isMobile() ? 16 : 20}px 'Rock Salt'`;
+  canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
+  canvasApi.fillText(text01, el.clientWidth / 2 - canvasApi.measureText(text01).width / 2 + position.x, y + 40);
+  canvasApi.font = `${isMobile() ? 12 : 14}px 'Rock Salt'`;
+  canvasApi.fillText(text02, el.clientWidth / 2 - canvasApi.measureText(text02).width / 2 + position.x, y + 80);
+  canvasApi.fillText(text03, el.clientWidth / 2 - canvasApi.measureText(text03).width / 2 + position.x, y + 100);
   canvasApi.restore();
 };
