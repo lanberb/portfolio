@@ -11,11 +11,6 @@ import {
   type RenderableImage,
 } from "../common/common";
 
-const text01 = '"Extend Expression, Bit by Bit."';
-const text02 = "Nao Sasaki / Lanberb";
-const text03 = "A Creative Developer based in Tokyo.";
-const text04 = "© 2026 Nao Sasaki / Lanberb";
-
 export const interaction = (
   canvasApi: CanvasRenderingContext2D | null,
   el: HTMLCanvasElement | null,
@@ -76,13 +71,5 @@ export const interaction = (
   /**
    * メインロゴ下部の描画
    */
-  const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2 + position.y;
-  drawTextUnderMainLogo(
-    canvasApi,
-    el,
-    underMainLogoLineY,
-    { subtitle: text01, author: text02, description: text03, copyright: text04 },
-    position,
-    themeState,
-  );
+  drawTextUnderMainLogo(canvasApi, el, position, 1, getSurfaceColor("primaryInversed", themeState));
 };

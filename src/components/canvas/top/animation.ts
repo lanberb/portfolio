@@ -12,11 +12,6 @@ import {
   type RenderableImage,
 } from "../common/common";
 
-const text01 = '"Extend Expression, Bit by Bit."';
-const text02 = "Nao Sasaki / Lanberb";
-const text03 = "A Creative Developer based in Tokyo.";
-const text04 = "© 2026 Nao Sasaki / Lanberb";
-
 export const openingAnimation = (
   canvasApi: CanvasRenderingContext2D | null,
   el: HTMLCanvasElement | null,
@@ -53,12 +48,7 @@ export const openingAnimation = (
           y,
         };
       }),
-      text: {
-        subtitle: "",
-        author: "",
-        description: "",
-        copyright: "",
-      },
+      progress: 0,
     };
 
     let requestAnimationFrameId: number;
@@ -103,10 +93,13 @@ export const openingAnimation = (
       /**
        * メインロゴ下部の描画
        */
-      canvasApi.save();
-      const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2;
-      drawTextUnderMainLogo(canvasApi, el, underMainLogoLineY, animationProperties.text, { x: 0, y: 0 }, themeState);
-      canvasApi.restore();
+      drawTextUnderMainLogo(
+        canvasApi,
+        el,
+        { x: 0, y: 0 },
+        animationProperties.progress,
+        getSurfaceColor("primaryInversed", themeState),
+      );
 
       requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
     };
@@ -156,11 +149,8 @@ export const openingAnimation = (
         duration: 440,
         ease: "outBack(0.68)",
       })
-      .add(animationProperties.text, {
-        subtitle: text01,
-        author: text02,
-        description: text03,
-        copyright: text04,
+      .add(animationProperties, {
+        progress: 1,
         duration: 440,
         ease: "outBack(0.68)",
       });
@@ -250,14 +240,12 @@ export const translateAnimation = (
       /**
        * メインロゴ下部の描画
        */
-      const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2 + animationProperties.y;
       drawTextUnderMainLogo(
         canvasApi,
         el,
-        underMainLogoLineY,
-        { subtitle: text01, author: text02, description: text03, copyright: text04 },
         { x: animationProperties.x, y: animationProperties.y },
-        themeState,
+        1,
+        getSurfaceColor("primaryInversed", themeState),
       );
       requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
     };

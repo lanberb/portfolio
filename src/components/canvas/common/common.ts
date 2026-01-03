@@ -1,5 +1,4 @@
-import type { ThemeState } from "@/components/styles/theme";
-import { getSurfaceColor, isMobile } from "@/util/canvas";
+import { isMobile } from "@/util/canvas";
 
 export const BACKGROUND_GRID_GAP = 40;
 export const BACKGROUND_GRID_STROKE_WIDTH = 1;
@@ -54,24 +53,29 @@ export const drawImage = (
   canvasApi.restore();
 };
 
+const text01 = '"Extend Expression, Bit by Bit."';
+const text02 = "Nao Sasaki / Lanberb";
+const text03 = "A Creative Developer based in Tokyo.";
+const text04 = "© 2026 Nao Sasaki / Lanberb";
 export const drawTextUnderMainLogo = (
   canvasApi: CanvasRenderingContext2D,
   el: HTMLCanvasElement,
-  y: number,
-  text: { subtitle: string; author: string; description: string; copyright: string },
   position: { x: number; y: number },
-  themeState: ThemeState,
+  progress: number, // 0..1
+  fillColor: string,
 ) => {
+  const underMainLogoLineY = el.clientHeight / 2 + position.y + 60;
+
   /**
    * メインロゴ下の線の描画
    */
-  const underMainLogoLineWidth = 80;
+  const underMainLogoLineWidth = 80 * progress;
   canvasApi.save();
-  canvasApi.strokeStyle = getSurfaceColor("primaryInversed", themeState);
+  canvasApi.strokeStyle = fillColor;
   drawLine(
     canvasApi,
-    [el.clientWidth / 2 - underMainLogoLineWidth / 2 + position.x, y],
-    [el.clientWidth / 2 + underMainLogoLineWidth / 2 + position.x, y],
+    [el.clientWidth / 2 - underMainLogoLineWidth / 2 + position.x, underMainLogoLineY],
+    [el.clientWidth / 2 + underMainLogoLineWidth / 2 + position.x, underMainLogoLineY],
   );
   canvasApi.restore();
 
@@ -79,36 +83,33 @@ export const drawTextUnderMainLogo = (
    * メインロゴ下のテキストの描画
    */
   canvasApi.save();
+  canvasApi.globalAlpha = progress;
+  canvasApi.fillStyle = fillColor;
+  // メインテキスト
   canvasApi.font = `${isMobile() ? 16 : 20}px 'Rock Salt'`;
-  canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
   canvasApi.fillText(
-    text.subtitle,
-    el.clientWidth / 2 - canvasApi.measureText(text.subtitle).width / 2 + position.x,
-    y + 40,
+    text01,
+    el.clientWidth / 2 - canvasApi.measureText(text01).width / 2 + position.x,
+    underMainLogoLineY + 40,
   );
+  // サブテキスト
   canvasApi.font = `${isMobile() ? 12 : 14}px 'Rock Salt'`;
   canvasApi.fillText(
-    text.author,
-    el.clientWidth / 2 - canvasApi.measureText(text.author).width / 2 + position.x,
-    y + 80,
+    text02,
+    el.clientWidth / 2 - canvasApi.measureText(text02).width / 2 + position.x,
+    underMainLogoLineY + 80,
   );
   canvasApi.fillText(
-    text.description,
-    el.clientWidth / 2 - canvasApi.measureText(text.description).width / 2 + position.x,
-    y + 100,
+    text03,
+    el.clientWidth / 2 - canvasApi.measureText(text03).width / 2 + position.x,
+    underMainLogoLineY + 100,
   );
-  canvasApi.restore();
-
-  /**
-   * コピーライトの描画
-   */
-  canvasApi.save();
+  // コピーライト
   canvasApi.font = "9px 'Rock Salt'";
-  canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
   canvasApi.fillText(
-    text.copyright,
-    el.clientWidth / 2 - canvasApi.measureText(text.copyright).width / 2 + position.x,
-    y + 132,
+    text04,
+    el.clientWidth / 2 - canvasApi.measureText(text04).width / 2 + position.x,
+    underMainLogoLineY + 132,
   );
   canvasApi.restore();
 };
