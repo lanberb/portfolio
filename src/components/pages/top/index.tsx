@@ -10,7 +10,7 @@ import { useTheme } from "@/components/hooks/useTheme";
 import { GlobalCanvasNavigator } from "@/components/modules/GlobalCanvasNavigator";
 import { PageLayout } from "@/components/modules/PageLayout";
 import { useGlobalStore } from "@/state/global";
-import { getMobileFullWidthWithMargin } from "@/util/canvas";
+import { getMobileFullWidthWithMargin, isMobile } from "@/util/canvas";
 import { BACKGROUND_GRID_GAP, type RenderableImage } from "../../canvas/common/common";
 import { openingAnimation } from "../../canvas/top/animation";
 import { interaction } from "../../canvas/top/interaction";
@@ -20,7 +20,7 @@ const STICEKR_SETTING_LIST = [
     url: ExpandChromStickerImage,
     width: getMobileFullWidthWithMargin(560, 32),
     x: 0,
-    y: -20,
+    y: isMobile() ? 0 : -20,
   },
   {
     url: EarthLogoStickerImage,
