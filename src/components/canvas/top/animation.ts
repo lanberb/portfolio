@@ -12,6 +12,11 @@ import {
   type RenderableImage,
 } from "../common/common";
 
+const text01 = '"Extend Expression, Bit by Bit."';
+const text02 = "Nao Sasaki / Lanberb";
+const text03 = "A Creative Developer based in Tokyo.";
+const text04 = "© 2026 Nao Sasaki / Lanberb";
+
 export const openingAnimation = (
   canvasApi: CanvasRenderingContext2D | null,
   el: HTMLCanvasElement | null,
@@ -48,6 +53,12 @@ export const openingAnimation = (
           y,
         };
       }),
+      text: {
+        subtitle: "",
+        author: "",
+        description: "",
+        copyright: "",
+      },
     };
 
     let requestAnimationFrameId: number;
@@ -92,8 +103,10 @@ export const openingAnimation = (
       /**
        * メインロゴ下部の描画
        */
+      canvasApi.save();
       const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2;
-      drawTextUnderMainLogo(canvasApi, el, underMainLogoLineY, { x: 0, y: 0 }, themeState);
+      drawTextUnderMainLogo(canvasApi, el, underMainLogoLineY, animationProperties.text, { x: 0, y: 0 }, themeState);
+      canvasApi.restore();
 
       requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
     };
@@ -140,6 +153,14 @@ export const openingAnimation = (
         x: (_: unknown, index: number) => animationProperties.images[index].x,
         y: (_: unknown, index: number) => animationProperties.images[index].y,
         scale: 1,
+        duration: 440,
+        ease: "outBack(0.68)",
+      })
+      .add(animationProperties.text, {
+        subtitle: text01,
+        author: text02,
+        description: text03,
+        copyright: text04,
         duration: 440,
         ease: "outBack(0.68)",
       });
@@ -229,8 +250,15 @@ export const translateAnimation = (
       /**
        * メインロゴ下部の描画
        */
-      const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2;
-      drawTextUnderMainLogo(canvasApi, el, underMainLogoLineY, { x: basePosition.x, y: basePosition.y }, themeState);
+      const underMainLogoLineY = el.clientHeight / 2 + images[0]?.el.height / 2 + animationProperties.y;
+      drawTextUnderMainLogo(
+        canvasApi,
+        el,
+        underMainLogoLineY,
+        { subtitle: text01, author: text02, description: text03, copyright: text04 },
+        { x: animationProperties.x, y: animationProperties.y },
+        themeState,
+      );
       requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
     };
 
@@ -244,15 +272,17 @@ export const translateAnimation = (
       onComplete: handleOnComplete,
     });
 
-    timeline.add(
-      animationProperties,
-      {
+    timeline
+      .add(animationProperties, {
         x: targetPosition.x,
         y: targetPosition.y,
         duration: 800,
         ease: "inOut(1.6)",
-      },
-      0,
-    );
+      })
+      .add(animationProperties, {
+        scale: 0.96,
+        duration: 160,
+        ease: "inBack(0.6)",
+      });
   });
 };

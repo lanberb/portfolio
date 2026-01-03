@@ -58,6 +58,7 @@ export const drawTextUnderMainLogo = (
   canvasApi: CanvasRenderingContext2D,
   el: HTMLCanvasElement,
   y: number,
+  text: { subtitle: string; author: string; description: string; copyright: string },
   position: { x: number; y: number },
   themeState: ThemeState,
 ) => {
@@ -77,15 +78,37 @@ export const drawTextUnderMainLogo = (
   /**
    * メインロゴ下のテキストの描画
    */
-  const text01 = '"Extend Expression, Bit by Bit."';
-  const text02 = "Nao Sasaki / Lanberb";
-  const text03 = "A Creative Developer based in Tokyo.";
   canvasApi.save();
   canvasApi.font = `${isMobile() ? 16 : 20}px 'Rock Salt'`;
   canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
-  canvasApi.fillText(text01, el.clientWidth / 2 - canvasApi.measureText(text01).width / 2 + position.x, y + 40);
+  canvasApi.fillText(
+    text.subtitle,
+    el.clientWidth / 2 - canvasApi.measureText(text.subtitle).width / 2 + position.x,
+    y + 40,
+  );
   canvasApi.font = `${isMobile() ? 12 : 14}px 'Rock Salt'`;
-  canvasApi.fillText(text02, el.clientWidth / 2 - canvasApi.measureText(text02).width / 2 + position.x, y + 80);
-  canvasApi.fillText(text03, el.clientWidth / 2 - canvasApi.measureText(text03).width / 2 + position.x, y + 100);
+  canvasApi.fillText(
+    text.author,
+    el.clientWidth / 2 - canvasApi.measureText(text.author).width / 2 + position.x,
+    y + 80,
+  );
+  canvasApi.fillText(
+    text.description,
+    el.clientWidth / 2 - canvasApi.measureText(text.description).width / 2 + position.x,
+    y + 100,
+  );
+  canvasApi.restore();
+
+  /**
+   * コピーライトの描画
+   */
+  canvasApi.save();
+  canvasApi.font = "9px 'Rock Salt'";
+  canvasApi.fillStyle = getSurfaceColor("primaryInversed", themeState);
+  canvasApi.fillText(
+    text.copyright,
+    el.clientWidth / 2 - canvasApi.measureText(text.copyright).width / 2 + position.x,
+    y + 132,
+  );
   canvasApi.restore();
 };

@@ -18,7 +18,6 @@ export const Page: FC = () => {
     if (canvasApi == null || el == null || themeState == null) {
       return;
     }
-    console.log("Running about animation...");
     animation(canvasApi, el, themeState, handleOnAnimationComplete);
   }, [canvasApi, el, themeState, handleOnAnimationComplete]);
 
