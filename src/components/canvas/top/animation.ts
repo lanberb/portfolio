@@ -57,14 +57,16 @@ export const openingAnimation = (
        * 背景グリッドの描画
        */
       for (let i = 0; i < rowLineCount; i++) {
-        const startPositionY = i % 2 === 0 ? 0 : el.clientHeight;
-        const endPositionY = i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
-        drawLine(canvasApi, [rowLineStartXArray[i], startPositionY], [rowLineStartXArray[i], endPositionY]);
+        // const startPositionY = i % 2 === 0 ? 0 : el.clientHeight;
+        // const endPositionY = i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
+        // drawLine(canvasApi, [rowLineStartXArray[i], startPositionY], [rowLineStartXArray[i], endPositionY]);
+        drawLine(canvasApi, [rowLineStartXArray[i], 0], [rowLineStartXArray[i], el.clientHeight]);
       }
       for (let i = 0; i < columnLineCount; i++) {
-        const startPositionX = i % 2 === 0 ? 0 : el.clientWidth;
-        const endPositionX = i % 2 === 0 ? animationProperties.lines.x : el.clientWidth - animationProperties.lines.x;
-        drawLine(canvasApi, [startPositionX, columnLineStartYArray[i]], [endPositionX, columnLineStartYArray[i]]);
+        // const startPositionX = i % 2 === 0 ? 0 : el.clientWidth;
+        // const endPositionX = i % 2 === 0 ? animationProperties.lines.x : el.clientWidth - animationProperties.lines.x;
+        // drawLine(canvasApi, [startPositionX, columnLineStartYArray[i]], [endPositionX, columnLineStartYArray[i]]);
+        drawLine(canvasApi, [0, columnLineStartYArray[i]], [el.clientWidth, columnLineStartYArray[i]]);
       }
 
       /**
