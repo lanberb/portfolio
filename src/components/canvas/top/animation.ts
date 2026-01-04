@@ -131,8 +131,8 @@ export const openingAnimation = (
         {
           scale: 1,
           opacity: 1,
-          duration: 300,
-          delay: (_, index: number) => (480 / images.length) * index,
+          duration: 600,
+          delay: (_, index: number) => (800 / images.length) * index,
           ease: "inOut(1.6)",
         },
         0,
@@ -146,7 +146,7 @@ export const openingAnimation = (
         x: (_: unknown, index: number) => animationProperties.images[index].x,
         y: (_: unknown, index: number) => animationProperties.images[index].y,
         scale: 1,
-        duration: 440,
+        duration: 640,
         ease: "outBack(0.68)",
       })
       .add(animationProperties, {
