@@ -51,9 +51,7 @@ export const openingAnimation = (
       progress: 0,
     };
 
-    let requestAnimationFrameId: number;
-
-    const handleOnBegin = () => {
+    const handleUpdate = () => {
       canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
       /**
        * 背景グリッドの描画
@@ -100,18 +98,15 @@ export const openingAnimation = (
         animationProperties.progress,
         getSurfaceColor("primaryInversed", themeState),
       );
-
-      requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
     };
 
     const handleOnComplete = () => {
-      window.cancelAnimationFrame(requestAnimationFrameId);
       onComplete();
       resolve();
     };
 
     const timeline = createTimeline({
-      onBegin: handleOnBegin,
+      onUpdate: handleUpdate,
       onComplete: handleOnComplete,
     });
 
@@ -123,7 +118,7 @@ export const openingAnimation = (
       .add(animationProperties.lines, {
         x: el.clientWidth,
         y: el.clientHeight,
-        duration: 1200,
+        duration: 800,
         ease: "inOut(1.6)",
       })
       .add(
@@ -131,11 +126,11 @@ export const openingAnimation = (
         {
           scale: 1,
           opacity: 1,
-          duration: 600,
+          duration: 320,
           delay: (_, index: number) => (800 / images.length) * index,
           ease: "inOut(1.6)",
         },
-        0,
+        200,
       )
       .add(animationProperties.images, {
         scale: 0.96,
@@ -193,8 +188,7 @@ export const translateAnimation = (
       scale: 1,
     };
 
-    let requestAnimationFrameId: number;
-    const handleOnBegin = () => {
+    const handleUpdate = () => {
       canvasApi.save();
       canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
 
@@ -247,16 +241,15 @@ export const translateAnimation = (
         1,
         getSurfaceColor("primaryInversed", themeState),
       );
-      requestAnimationFrameId = window.requestAnimationFrame(handleOnBegin);
+      canvasApi.restore();
     };
 
     const handleOnComplete = () => {
-      window.cancelAnimationFrame(requestAnimationFrameId);
       resolve();
     };
 
     const timeline = createTimeline({
-      onBegin: handleOnBegin,
+      onUpdate: handleUpdate,
       onComplete: handleOnComplete,
     });
 
