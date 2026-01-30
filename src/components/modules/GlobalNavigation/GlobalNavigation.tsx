@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { type CSSProperties, type FC, useCallback } from "react";
 import { useLocation } from "react-router-dom";
-import { useI18n } from "@/components/hooks/useI18n";
-import { useTheme } from "@/components/hooks/useTheme";
+import { useI18n } from "@/hooks/useI18n";
+import { useTheme } from "@/hooks/useTheme";
 import { SegmentControl } from "@/components/modules/SegmentControl";
 import { MediaQuery } from "@/components/styles/media";
 import { GLOBAL_TRANSITION_DURATION, type TransitionProps, transition } from "@/components/styles/mixins/transition";
@@ -20,7 +20,7 @@ const navKeys: (keyof typeof routes)[] = ["top", "blog"];
 const _NavigationCellWidth_PC = 84;
 const _NavigationCellWidth_SP = 72;
 
-const _NavigationTransitionItem = styled(Box)<TransitionProps>`
+const _NavigationTransitionItem = styled(Box) <TransitionProps>`
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
   z-index: 9999;
 

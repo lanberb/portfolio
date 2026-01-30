@@ -1,7 +1,7 @@
 import { type FC, useCallback, useEffect } from "react";
 import { animation } from "@/components/legacy-canvas/about/animation";
-import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
-import { useTheme } from "@/components/hooks/useTheme";
+import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
+import { useTheme } from "@/hooks/useTheme";
 import { PageLayout } from "@/components/modules/PageLayout";
 import { useGlobalStore } from "@/state/global";
 
