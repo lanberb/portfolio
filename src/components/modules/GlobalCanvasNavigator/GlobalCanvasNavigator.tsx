@@ -2,10 +2,10 @@ import styled from "@emotion/styled";
 import { type CSSProperties, type FC, type PropsWithChildren, useCallback, useEffect, useState } from "react";
 import type { RenderableImage } from "@/components/legacy-canvas/common/common";
 import { translateAnimation } from "@/components/legacy-canvas/top/animation";
-import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
-import { useTheme } from "@/hooks/useTheme";
 import { MediaQuery } from "@/components/styles/media";
 import type { IconName } from "@/components/unit/Icon";
+import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
+import { useTheme } from "@/hooks/useTheme";
 import type { Position } from "@/util/canvas";
 import { IconButton } from "../IconButton";
 

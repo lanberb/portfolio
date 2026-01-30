@@ -1,8 +1,8 @@
 import { type FC, useCallback, useEffect } from "react";
 import { animation } from "@/components/legacy-canvas/about/animation";
+import { PageLayout } from "@/components/modules/PageLayout";
 import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
 import { useTheme } from "@/hooks/useTheme";
-import { PageLayout } from "@/components/modules/PageLayout";
 import { useGlobalStore } from "@/state/global";
 
 export const Page: FC = () => {

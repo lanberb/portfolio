@@ -61,14 +61,7 @@ export const interaction = (
   for (const image of images) {
     const centerX = (el.clientWidth - image.el.width) / 2;
     const centerY = (el.clientHeight - image.el.height) / 2;
-    drawImage(
-      canvasApi,
-      image.el,
-      centerX + image.x + position.x,
-      centerY + image.y + position.y,
-      1,
-      1,
-    );
+    drawImage(canvasApi, image.el, centerX + image.x + position.x, centerY + image.y + position.y, 1, 1);
   }
 
   /**

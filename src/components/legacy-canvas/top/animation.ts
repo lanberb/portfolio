@@ -83,14 +83,7 @@ export const openingAnimation = (
         const imgHeight = img.el.height * animImg.scale;
         const centerX = (el.clientWidth - imgWidth) / 2;
         const centerY = (el.clientHeight - imgHeight) / 2;
-        drawImage(
-          canvasApi,
-          img.el,
-          centerX + animImg.x,
-          centerY + animImg.y,
-          animImg.scale,
-          animImg.opacity,
-        );
+        drawImage(canvasApi, img.el, centerX + animImg.x, centerY + animImg.y, animImg.scale, animImg.opacity);
       }
       canvasApi.restore();
 

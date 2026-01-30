@@ -13,11 +13,7 @@ const textMetricsCache = new Map<string, number>();
  * テキスト幅を取得（キャッシュあり）
  * 初回のみ測定し、2回目以降はキャッシュから取得することでパフォーマンスを向上
  */
-const getOrCacheTextWidth = (
-  canvasApi: CanvasRenderingContext2D,
-  text: string,
-  font: string,
-): number => {
+const getOrCacheTextWidth = (canvasApi: CanvasRenderingContext2D, text: string, font: string): number => {
   const key = `${text}-${font}`;
   if (!textMetricsCache.has(key)) {
     const originalFont = canvasApi.font;
@@ -115,34 +111,18 @@ export const drawTextUnderMainLogo = (
   const font01 = `${isMobile() ? 16 : 20}px 'Rock Salt'`;
   const text01Width = getOrCacheTextWidth(canvasApi, text01, font01);
   canvasApi.font = font01;
-  canvasApi.fillText(
-    text01,
-    el.clientWidth / 2 - text01Width / 2 + position.x,
-    underMainLogoLineY + 40,
-  );
+  canvasApi.fillText(text01, el.clientWidth / 2 - text01Width / 2 + position.x, underMainLogoLineY + 40);
   // サブテキスト
   const font02 = `${isMobile() ? 12 : 14}px 'Rock Salt'`;
   const text02Width = getOrCacheTextWidth(canvasApi, text02, font02);
   const text03Width = getOrCacheTextWidth(canvasApi, text03, font02);
   canvasApi.font = font02;
-  canvasApi.fillText(
-    text02,
-    el.clientWidth / 2 - text02Width / 2 + position.x,
-    underMainLogoLineY + 80,
-  );
-  canvasApi.fillText(
-    text03,
-    el.clientWidth / 2 - text03Width / 2 + position.x,
-    underMainLogoLineY + 100,
-  );
+  canvasApi.fillText(text02, el.clientWidth / 2 - text02Width / 2 + position.x, underMainLogoLineY + 80);
+  canvasApi.fillText(text03, el.clientWidth / 2 - text03Width / 2 + position.x, underMainLogoLineY + 100);
   // コピーライト
   const font04 = "9px 'Rock Salt'";
   const text04Width = getOrCacheTextWidth(canvasApi, text04, font04);
   canvasApi.font = font04;
-  canvasApi.fillText(
-    text04,
-    el.clientWidth / 2 - text04Width / 2 + position.x,
-    underMainLogoLineY + 132,
-  );
+  canvasApi.fillText(text04, el.clientWidth / 2 - text04Width / 2 + position.x, underMainLogoLineY + 132);
   canvasApi.restore();
 };
