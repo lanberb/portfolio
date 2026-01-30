@@ -1,5 +1,5 @@
 import { type FC, useCallback, useEffect } from "react";
-import { animation } from "@/components/canvas/about/animation";
+import { animation } from "@/components/legacy-canvas/about/animation";
 import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
 import { useTheme } from "@/components/hooks/useTheme";
 import { PageLayout } from "@/components/modules/PageLayout";

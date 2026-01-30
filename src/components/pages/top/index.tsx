@@ -11,9 +11,9 @@ import { GlobalCanvasNavigator } from "@/components/modules/GlobalCanvasNavigato
 import { PageLayout } from "@/components/modules/PageLayout";
 import { useGlobalStore } from "@/state/global";
 import { getMobileFullWidthWithMargin, isMobile } from "@/util/canvas";
-import { BACKGROUND_GRID_GAP, type RenderableImage } from "../../canvas/common/common";
-import { openingAnimation } from "../../canvas/top/animation";
-import { interaction } from "../../canvas/top/interaction";
+import { BACKGROUND_GRID_GAP, type RenderableImage } from "../../legacy-canvas/common/common";
+import { openingAnimation } from "../../legacy-canvas/top/animation";
+import { interaction } from "../../legacy-canvas/top/interaction";
 
 const STICEKR_SETTING_LIST = [
   {

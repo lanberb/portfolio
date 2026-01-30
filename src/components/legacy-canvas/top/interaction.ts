@@ -1,12 +1,11 @@
 import type { ThemeState } from "@/components/styles/theme";
-import { getCenterizePosition, getSurfaceColor } from "@/util/canvas";
+import { getSurfaceColor } from "@/util/canvas";
 import {
   BACKGROUND_GRID_GAP,
   BACKGROUND_GRID_STROKE_WIDTH,
   caluculateFirstLineStart,
   caluculateLineStartArray,
   drawImage,
-  drawLine,
   drawTextUnderMainLogo,
   type RenderableImage,
 } from "../common/common";
@@ -41,28 +40,32 @@ export const interaction = (
   const columnLineStartYArray = caluculateLineStartArray(columnFirstLineStartY, columnLineCount);
 
   /**
-   * 背景グリッドの描画
+   * 背景グリッドの描画（バッチ処理で最適化）
    */
+  canvasApi.beginPath();
+  // 縦線
   for (let i = 0; i < rowLineCount; i++) {
-    drawLine(canvasApi, [rowLineStartXArray[i], 0], [rowLineStartXArray[i], el.clientHeight]);
+    canvasApi.moveTo(rowLineStartXArray[i], 0);
+    canvasApi.lineTo(rowLineStartXArray[i], el.clientHeight);
   }
+  // 横線
   for (let i = 0; i < columnLineCount; i++) {
-    drawLine(canvasApi, [0, columnLineStartYArray[i]], [el.clientWidth, columnLineStartYArray[i]]);
+    canvasApi.moveTo(0, columnLineStartYArray[i]);
+    canvasApi.lineTo(el.clientWidth, columnLineStartYArray[i]);
   }
+  canvasApi.stroke();
 
   /**
-   * ステッカーの描画
+   * ステッカーの描画（最適化: getCenterizePositionをインライン展開）
    */
   for (const image of images) {
-    const centerizePosition = getCenterizePosition(
-      { width: el.clientWidth, height: el.clientHeight },
-      { width: image.el.width, height: image.el.height },
-    );
+    const centerX = (el.clientWidth - image.el.width) / 2;
+    const centerY = (el.clientHeight - image.el.height) / 2;
     drawImage(
       canvasApi,
       image.el,
-      centerizePosition.x + image.x + position.x,
-      centerizePosition.y + image.y + position.y,
+      centerX + image.x + position.x,
+      centerY + image.y + position.y,
       1,
       1,
     );

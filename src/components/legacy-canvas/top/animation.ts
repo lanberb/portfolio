@@ -1,13 +1,12 @@
 import { createTimeline } from "animejs";
 import type { ThemeState } from "@/components/styles/theme";
-import { getCenterizePosition, getSurfaceColor } from "@/util/canvas";
+import { getSurfaceColor } from "@/util/canvas";
 import {
   BACKGROUND_GRID_GAP,
   BACKGROUND_GRID_STROKE_WIDTH,
   caluculateFirstLineStart,
   caluculateLineStartArray,
   drawImage,
-  drawLine,
   drawTextUnderMainLogo,
   type RenderableImage,
 } from "../common/common";
@@ -54,41 +53,46 @@ export const openingAnimation = (
     const handleUpdate = () => {
       canvasApi.clearRect(0, 0, el.clientWidth, el.clientHeight);
       /**
-       * 背景グリッドの描画
+       * 背景グリッドの描画（バッチ処理で最適化）
        */
+      canvasApi.beginPath();
+      // 縦線
       for (let i = 0; i < rowLineCount; i++) {
-        // const startPositionY = i % 2 === 0 ? 0 : el.clientHeight;
-        // const endPositionY = i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
-        // drawLine(canvasApi, [rowLineStartXArray[i], startPositionY], [rowLineStartXArray[i], endPositionY]);
-        drawLine(canvasApi, [rowLineStartXArray[i], 0], [rowLineStartXArray[i], el.clientHeight]);
+        const startPositionY = i % 2 === 0 ? 0 : el.clientHeight;
+        const endPositionY = i % 2 === 0 ? animationProperties.lines.y : el.clientHeight - animationProperties.lines.y;
+        canvasApi.moveTo(rowLineStartXArray[i], startPositionY);
+        canvasApi.lineTo(rowLineStartXArray[i], endPositionY);
       }
+      // 横線
       for (let i = 0; i < columnLineCount; i++) {
-        // const startPositionX = i % 2 === 0 ? 0 : el.clientWidth;
-        // const endPositionX = i % 2 === 0 ? animationProperties.lines.x : el.clientWidth - animationProperties.lines.x;
-        // drawLine(canvasApi, [startPositionX, columnLineStartYArray[i]], [endPositionX, columnLineStartYArray[i]]);
-        drawLine(canvasApi, [0, columnLineStartYArray[i]], [el.clientWidth, columnLineStartYArray[i]]);
+        const startPositionX = i % 2 === 0 ? 0 : el.clientWidth;
+        const endPositionX = i % 2 === 0 ? animationProperties.lines.x : el.clientWidth - animationProperties.lines.x;
+        canvasApi.moveTo(startPositionX, columnLineStartYArray[i]);
+        canvasApi.lineTo(endPositionX, columnLineStartYArray[i]);
       }
+      canvasApi.stroke();
 
       /**
-       * ステッカーの描画
+       * ステッカーの描画（最適化: 配列アクセスを最小化）
        */
+      canvasApi.save();
       for (let i = 0; i < images.length; i++) {
-        const centerizePosition = getCenterizePosition(
-          { width: el.clientWidth, height: el.clientHeight },
-          {
-            width: images[i].el.width * animationProperties.images[i]?.scale,
-            height: images[i].el.height * animationProperties.images[i]?.scale,
-          },
-        );
+        const img = images[i];
+        const animImg = animationProperties.images[i];
+        const imgWidth = img.el.width * animImg.scale;
+        const imgHeight = img.el.height * animImg.scale;
+        const centerX = (el.clientWidth - imgWidth) / 2;
+        const centerY = (el.clientHeight - imgHeight) / 2;
         drawImage(
           canvasApi,
-          images[i].el,
-          centerizePosition.x + animationProperties.images[i]?.x,
-          centerizePosition.y + animationProperties.images[i]?.y,
-          animationProperties.images[i]?.scale,
-          animationProperties.images[i]?.opacity,
+          img.el,
+          centerX + animImg.x,
+          centerY + animImg.y,
+          animImg.scale,
+          animImg.opacity,
         );
       }
+      canvasApi.restore();
 
       /**
        * メインロゴ下部の描画
@@ -199,35 +203,34 @@ export const translateAnimation = (
       canvasApi.translate(centerX, centerY);
       canvasApi.translate(-centerX, -centerY);
 
-      // 縦軸
+      /**
+       * 背景グリッドの描画（バッチ処理で最適化）
+       */
+      canvasApi.beginPath();
+      // 縦線
       for (let i = 0; i < rowLineCount; i++) {
-        drawLine(
-          canvasApi,
-          [rowLineStartXArray[i] + animationProperties.x, 0],
-          [rowLineStartXArray[i] + animationProperties.x, el.clientHeight],
-        );
+        canvasApi.moveTo(rowLineStartXArray[i] + animationProperties.x, 0);
+        canvasApi.lineTo(rowLineStartXArray[i] + animationProperties.x, el.clientHeight);
       }
+      // 横線
       for (let i = 0; i < columnLineCount; i++) {
-        drawLine(
-          canvasApi,
-          [0, columnLineStartYArray[i] + animationProperties.y],
-          [el.clientWidth, columnLineStartYArray[i] + animationProperties.y],
-        );
+        canvasApi.moveTo(0, columnLineStartYArray[i] + animationProperties.y);
+        canvasApi.lineTo(el.clientWidth, columnLineStartYArray[i] + animationProperties.y);
       }
+      canvasApi.stroke();
 
       /**
-       * ステッカーの描画
+       * ステッカーの描画（最適化: 配列アクセスを最小化）
        */
       for (let i = 0; i < images.length; i++) {
-        const centerizePosition = getCenterizePosition(
-          { width: el.clientWidth, height: el.clientHeight },
-          { width: images[i].el.width, height: images[i].el.height },
-        );
+        const img = images[i];
+        const centerX = (el.clientWidth - img.el.width) / 2;
+        const centerY = (el.clientHeight - img.el.height) / 2;
         drawImage(
           canvasApi,
-          images[i].el,
-          centerizePosition.x + images[i]?.x + animationProperties.x,
-          centerizePosition.y + images[i]?.y + animationProperties.y,
+          img.el,
+          centerX + img.x + animationProperties.x,
+          centerY + img.y + animationProperties.y,
           1,
           1,
         );
