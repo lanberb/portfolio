@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useGlobalCanvas } from "@/components/hooks/useGlobalCanvas";
+import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
 import { Canvas } from "@/components/unit/Canvas";
 import { useGlobalStore } from "@/state/global";
 
