@@ -11,11 +11,11 @@ type Store = {
   isPlayedOnce: boolean;
   setIsPlayedOnce: () => void;
 
-  // GlobalCanvasのstate管理
+  // CanvasEngineのstate管理
   isEndedOpeningAnimation: boolean;
   setIsEndedOpeningAnimation: () => void;
 
-  // GlobalCanvasのグラブ可能状態を管理するstate
+  // CanvasEngineのグラブ可能状態を管理するstate
   isGrabbable: boolean;
   setIsGrabbable: (isGrabbable: boolean) => void;
 };

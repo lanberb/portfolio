@@ -6,12 +6,12 @@ const DEVICE_PIXEL_RATIO = (getIsBrowser() ? window.devicePixelRatio || 1 : 1) *
 
 interface Return {
   el: HTMLCanvasElement | null;
-  canvasApi: CanvasRenderingContext2D | null;
+  context2d: CanvasRenderingContext2D | null;
   canvasRef: (element: HTMLCanvasElement | null) => void;
 }
 
 export const useCanvas = (): Return => {
-  const [canvasApi, setCanvasApi] = useState<CanvasRenderingContext2D | null>(null);
+  const [context2d, setContext2d] = useState<CanvasRenderingContext2D | null>(null);
   const [el, setEl] = useState<HTMLCanvasElement | null>(null);
 
   const setState = useCallback((element: HTMLCanvasElement | null) => {
@@ -22,15 +22,15 @@ export const useCanvas = (): Return => {
     element.height = element.clientHeight * DEVICE_PIXEL_RATIO;
 
     const ctx = element.getContext("2d");
-    ctx?.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO); // I ~hate~ Retina Display... :<
+    ctx?.scale(DEVICE_PIXEL_RATIO, DEVICE_PIXEL_RATIO);
 
-    setCanvasApi(ctx);
+    setContext2d(ctx);
     setEl(element);
   }, []);
 
   return {
     el,
-    canvasApi,
+    context2d,
     canvasRef: setState,
   };
 };

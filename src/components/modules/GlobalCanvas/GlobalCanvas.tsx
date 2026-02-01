@@ -1,10 +1,10 @@
 import type { FC } from "react";
-import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
 import { Canvas } from "@/components/unit/Canvas";
+import { useCanvasEngine } from "@/hooks/useCanvasEngine";
 import { useGlobalStore } from "@/state/global";
 
 export const GlobalCanvas: FC = () => {
-  const { canvasRef } = useGlobalCanvas();
+  const { canvasRef } = useCanvasEngine();
   const globalStore = useGlobalStore();
 
   return (

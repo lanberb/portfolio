@@ -1,12 +1,10 @@
 import styled from "@emotion/styled";
-import { type CSSProperties, type FC, type PropsWithChildren, useCallback, useEffect, useState } from "react";
-import type { RenderableImage } from "@/components/legacy-canvas/common/common";
-import { translateAnimation } from "@/components/legacy-canvas/top/animation";
-import { useGlobalCanvas } from "@/hooks/useGlobalCanvas";
-import { useTheme } from "@/hooks/useTheme";
+import { type CSSProperties, type FC, useCallback, useEffect, useState } from "react";
 import { MediaQuery } from "@/components/styles/media";
 import type { IconName } from "@/components/unit/Icon";
-import type { Position } from "@/util/canvas";
+import { useCanvasEngine } from "@/hooks/useCanvasEngine";
+import { useTheme } from "@/hooks/useTheme";
+import { getSurfaceColor } from "@/util/canvas";
 import { IconButton } from "../IconButton";
 
 const ITEM_SIZE = 64;
@@ -34,126 +32,88 @@ const Item = styled.li`
   }
 `;
 
-const List = styled.ul<{ hasBorder: boolean }>`
+const List = styled.ul`
   position: fixed;
   inset: 0;
   list-style: none;
   pointer-events: none;
   border-style: solid;
-  border-width: ${({ hasBorder }) => (hasBorder ? "16px" : "0")};
   border-color: var(${({ theme }) => theme.surface.primaryInversed});
   filter: url("#filter");
-
-  @media ${MediaQuery.sp} {
-    border-width: ${({ hasBorder }) => (hasBorder ? "8px" : "0")};
-  }
 `;
 
-interface Props {
-  hasBorder: boolean;
-  rowLineCount: number;
-  columnLineCount: number;
-  images: RenderableImage[];
-}
-
-export const GlobalCanvasNavigator: FC<PropsWithChildren<Props>> = ({
-  children,
-  hasBorder,
-  rowLineCount,
-  columnLineCount,
-  images,
-}) => {
-  const { isDragging, position, canvasApi, el, isInertiaAnimating, update } = useGlobalCanvas();
+export const GlobalCanvasNavigator: FC = () => {
   const themeState = useTheme();
+  const { animation, movement, el, resetPosition } = useCanvasEngine();
 
-  const [homeButtonPosition, setHomeButtonPosition] = useState<Position>({ x: 0, y: 0 });
   const [isHomeButtonVisible, setIsHomeButtonVisible] = useState(false);
 
+  const homeButtonPosition = (() => {
+    if (el == null) return;
+    const absX = el.clientWidth / 2 + movement.x - ITEM_SIZE / 2;
+    const absY = el.clientHeight / 2 + movement.y - ITEM_SIZE / 2;
+    const x = absX < 0 ? Math.max(-ITEM_SIZE / 2, absX) : Math.min(el.clientWidth - ITEM_SIZE, absX);
+    const y = absY < 0 ? Math.max(-ITEM_SIZE / 2, absY) : Math.min(el.clientHeight - ITEM_SIZE, absY);
+    return { x, y };
+  })();
+
   const handleOnPointerMove = useCallback(() => {
-    if (el == null || (isDragging === false && isInertiaAnimating === false)) {
-      return;
-    }
+    if (el == null) return;
     (() => {
-      const isVisible = Math.abs(position.x) > el.clientWidth || Math.abs(position.y) > el.clientHeight;
-      const absX = el.clientWidth / 2 + position.x - ITEM_SIZE / 2;
-      const absY = el.clientHeight / 2 + position.y - ITEM_SIZE / 2;
-
-      const x = absX < 0 ? Math.max(-ITEM_SIZE / 2, absX) : Math.min(el.clientWidth - ITEM_SIZE, absX);
-      const y = absY < 0 ? Math.max(-ITEM_SIZE / 2, absY) : Math.min(el.clientHeight - ITEM_SIZE, absY);
-
+      const isVisible = Math.abs(movement.x) > el.clientWidth || Math.abs(movement.y) > el.clientHeight;
       setIsHomeButtonVisible(isVisible);
-      setHomeButtonPosition({ x, y });
     })();
-  }, [isDragging, isInertiaAnimating, position, el]);
+  }, [el, movement]);
 
   const handleOnClickIconButton = useCallback(
     async (name: IconName) => {
       switch (name) {
         case "home": {
-          const targetPosition = { x: 0, y: 0 };
-          await translateAnimation(
-            canvasApi,
-            el,
-            themeState,
-            rowLineCount,
-            columnLineCount,
-            position,
-            targetPosition,
-            images,
+          if (themeState == null || animation == null) return;
+          animation.onNavigatorClick(
+            getSurfaceColor("backgroundGrid", themeState),
+            getSurfaceColor("primaryInversed", themeState),
+            movement.x,
+            movement.y,
+            0,
+            0,
+            () => {
+              resetPosition();
+              setIsHomeButtonVisible(false);
+            },
           );
-          update(targetPosition, 1);
-          setIsHomeButtonVisible(false);
           break;
         }
         default:
           break;
       }
     },
-    [position, el, canvasApi, themeState, rowLineCount, columnLineCount, images, update],
+    [themeState, animation, movement, resetPosition],
   );
-
-  const handleOnMouseup = useCallback(() => {
-    if (isInertiaAnimating === false) {
-      return;
-    }
-    let frameId: number;
-    const render = () => {
-      handleOnPointerMove();
-      frameId = requestAnimationFrame(render);
-    };
-    frameId = requestAnimationFrame(render);
-    return () => cancelAnimationFrame(frameId);
-  }, [handleOnPointerMove, isInertiaAnimating]);
 
   /**
    * マウスイベント登録
    */
   useEffect(() => {
-    document.body.addEventListener("pointerup", handleOnMouseup);
     document.body.addEventListener("pointermove", handleOnPointerMove);
     return () => {
       document.body.removeEventListener("pointermove", handleOnPointerMove);
-      document.body.removeEventListener("pointerup", handleOnMouseup);
     };
-  }, [handleOnPointerMove, handleOnMouseup]);
+  }, [handleOnPointerMove]);
 
   return (
-    <>
-      {children}
-
-      <List hasBorder={hasBorder}>
-        <Item
-          style={
-            {
-              "--scale": isHomeButtonVisible ? 1 : 0,
-              "--positionX": `${homeButtonPosition?.x}px`,
-              "--positionY": `${homeButtonPosition?.y}px`,
-            } as CSSProperties
-          }
-        >
-          <IconButton name="home" color="primaryInversed" onClick={() => handleOnClickIconButton("home")} />
-        </Item>
-      </List>
-    </>
+    <List>
+      <Item
+        style={
+          {
+            "--scale": isHomeButtonVisible ? 1 : 0,
+            "--positionX": `${homeButtonPosition?.x}px`,
+            "--positionY": `${homeButtonPosition?.y}px`,
+          } as CSSProperties
+        }
+      >
+        <IconButton name="home" color="primaryInversed" onClick={() => handleOnClickIconButton("home")} />
+      </Item>
+    </List>
   );
 };
