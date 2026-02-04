@@ -13,6 +13,10 @@ const createRender = <T extends unknown[]>(fn: (state: State, ...arg: T) => void
 
 export const createRenders = (context: CanvasRenderingContext2D) => {
   return {
+    clear: createRender(() => {
+      context.clearRect(0, 0, context.canvas.clientWidth, context.canvas.clientHeight);
+    }),
+
     opening: createRender((state, gridColor: string, textColor: string, onComplete: () => void) => {
       const elementWidth = context.canvas.clientWidth;
       const elementHeight = context.canvas.clientHeight;

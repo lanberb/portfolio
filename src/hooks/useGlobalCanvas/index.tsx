@@ -1,6 +1,6 @@
 import { createContext, type FC, type PropsWithChildren, useContext } from "react";
-import { useAnimation } from "./internals/useAnimation";
 import { useCanvas } from "./internals/useCanvas";
+import { useEngine } from "./internals/useEngine";
 import { usePointer } from "./internals/usePointer";
 
 type State = {
@@ -10,36 +10,35 @@ type State = {
 
   isDragging: ReturnType<typeof usePointer>["isDragging"];
   movement: ReturnType<typeof usePointer>["movement"];
-  resetPosition: ReturnType<typeof usePointer>["resetPosition"];
+  update: ReturnType<typeof usePointer>["update"];
 
-  animation: ReturnType<typeof useAnimation>;
+  engine: ReturnType<typeof useEngine>;
 };
 
-const CanvasEngineContext = createContext<State | null>(null);
+const GlobalCanvasContext = createContext<State | null>(null);
 
-export const CanvasEngineProvider: FC<PropsWithChildren> = ({ children }) => {
+export const GlobalCanvasProvider: FC<PropsWithChildren> = ({ children }) => {
   const canvas = useCanvas();
-  const animation = useAnimation(canvas.context2d);
+  const engine = useEngine(canvas.context2d);
   const pointer = usePointer(canvas.el);
 
   return (
-    <CanvasEngineContext.Provider
+    <GlobalCanvasContext.Provider
       value={{
         ...canvas,
         ...pointer,
-        animation,
+        engine,
       }}
     >
       {children}
-    </CanvasEngineContext.Provider>
+    </GlobalCanvasContext.Provider>
   );
 };
 
-export const useCanvasEngine = () => {
-  const context = useContext(CanvasEngineContext);
+export const useGlobalCanvas = () => {
+  const context = useContext(GlobalCanvasContext);
   if (context == null) {
     throw new Error("CanvasEngineContext is not found");
   }
-
   return context;
 };

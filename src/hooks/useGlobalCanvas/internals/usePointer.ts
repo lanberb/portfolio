@@ -6,7 +6,7 @@ type State = {
     x: number;
     y: number;
   };
-  resetPosition: () => void;
+  update: (x: number, y: number) => void;
 };
 
 export const usePointer = (el: HTMLElement | null): State => {
@@ -38,9 +38,9 @@ export const usePointer = (el: HTMLElement | null): State => {
     [isDragging],
   );
 
-  const resetPosition = useCallback(() => {
-    movement.x = 0;
-    movement.y = 0;
+  const update = useCallback((x: number, y: number) => {
+    movement.x = x;
+    movement.y = y;
   }, []);
 
   useEffect(() => {
@@ -60,6 +60,6 @@ export const usePointer = (el: HTMLElement | null): State => {
   return {
     isDragging,
     movement,
-    resetPosition,
+    update,
   };
 };

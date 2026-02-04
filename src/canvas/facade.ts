@@ -1,14 +1,17 @@
 import { createRenders } from "./render";
 import { createSetters } from "./setter";
 
-export const createFacade = (
-  context: CanvasRenderingContext2D,
-): ReturnType<typeof createSetters> & ReturnType<typeof createRenders> => {
+type Return = {
+  setter: ReturnType<typeof createSetters>;
+  render: ReturnType<typeof createRenders>;
+};
+
+export const createFacade = (context: CanvasRenderingContext2D): Return => {
   const setters = createSetters();
   const renders = createRenders(context);
 
   return {
-    ...setters,
-    ...renders,
+    setter: setters,
+    render: renders,
   };
 };

@@ -3,13 +3,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { GlobalCanvas } from "@/components/modules/GlobalCanvas";
-import { GlobalCanvasNavigator } from "@/components/modules/GlobalCanvasNavigator";
+import { ConnectedGlobalCanvasNavigator } from "@/components/modules/GlobalCanvasNavigator";
 import { GlobalFootprintDialog } from "@/components/modules/GlobalFootprintDialog";
 import { GlobalNavigation } from "@/components/modules/GlobalNavigation";
 import { Page as BlogPage } from "@/components/pages/blog";
 import { Page as TopPage } from "@/components/pages/top";
 import { createGlobalStyles } from "@/components/styles/globalStyles";
-import { CanvasEngineProvider } from "@/hooks/useCanvasEngine";
+import { GlobalCanvasProvider } from "@/hooks/useGlobalCanvas";
 import { I18nStateProvider } from "@/hooks/useI18n";
 import { ThemeStateProvider } from "@/hooks/useTheme";
 import { routes } from "@/util/routes";
@@ -25,10 +25,10 @@ function App() {
           <BrowserRouter>
             <I18nStateProvider>
               <ThemeStateProvider>
-                <CanvasEngineProvider>
+                <GlobalCanvasProvider>
                   <Global styles={createGlobalStyles} />
                   <GlobalCanvas />
-                  <GlobalCanvasNavigator />
+                  <ConnectedGlobalCanvasNavigator />
                   <GlobalNavigation />
                   <GlobalFootprintDialog />
 
@@ -36,7 +36,7 @@ function App() {
                     <Route path={routes.top} element={<TopPage />} />
                     <Route path={routes.blog} element={<BlogPage />} />
                   </Routes>
-                </CanvasEngineProvider>
+                </GlobalCanvasProvider>
               </ThemeStateProvider>
             </I18nStateProvider>
           </BrowserRouter>

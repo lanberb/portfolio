@@ -1,1 +1,1 @@
-export * from "./GlobalCanvasNavigator";
+export * from "./ConnectedGlobalCanvasNavigator";
